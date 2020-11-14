@@ -9,7 +9,7 @@ export class App extends React.Component<{}> {
 		return (
 			<div className="App">
 				<TabBar/>
-				<CookbookButton label={"Hi, I'm a cookbookButton!"}/>
+				<CookbookButton label={"Filter"}/>
 			</div>
 		);
 	}

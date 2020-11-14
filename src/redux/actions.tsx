@@ -1,5 +1,3 @@
-import { Tour } from "../resources/tours";
-
 export interface Action<T> {
 	type: string;
 	payload: T;
@@ -15,15 +13,4 @@ export interface ActionSetView {
 	view: string
 }
 
-/* TOURSTATE */
-export const ACTION_SET_STOP_INDEX = "setStopIndex";
-export interface ActionSetStopIndex {
-	stopIndex: number
-}
-export const ACTION_SET_TOUR = "setTour";
-export interface ActionSetTour {
-	tour: Tour
-}
-
 export interface ActionSetGeneralState extends ActionSetView, ActionSetPassword {};
-export interface ActionSetTourState extends ActionSetStopIndex, ActionSetTour {};

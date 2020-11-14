@@ -1,5 +1,3 @@
-import { Tour, TOURS } from "../resources/tours";
-
 export const LOGIN: string = 'login';
 export const TOUR_BOARD: string = 'tourBoard';
 export const TOUR_DETAILS: string = 'tourDetails';
@@ -15,23 +13,19 @@ export const initialGeneralState: GeneralState = {
 }
 
 export interface TourState {
-	stopIndex: number,
-	tour: Tour
+	stopIndex: number
 }
 
 export const INITIAL_STOP_INDEX: number = 0;
 
 export const initialTourState: TourState = {
-	stopIndex: INITIAL_STOP_INDEX,
-	tour: TOURS[0]
+	stopIndex: INITIAL_STOP_INDEX
 }
 
 export interface GlobalState {
-	generalState: GeneralState,
-	tourState: TourState
+	generalState: GeneralState
 };
 
 export const initialState: GlobalState = {
-	generalState: initialGeneralState,
-	tourState: initialTourState
+	generalState: initialGeneralState
 }

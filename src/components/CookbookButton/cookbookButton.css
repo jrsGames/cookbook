@@ -1,20 +1,21 @@
 .CookbookButton {
-	background-color: peachpuff;
+	background-color: firebrick;
 	height: 2.5rem;
 	width: 10rem;
-	color: sienna;
+	color: lightsteelblue;
 	text-transform: uppercase;
 	font-weight: 400;
 	vertical-align: middle;
-	display: table-cell;
-	border-radius: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	font-family: Candara;
 }
 
 .CookbookButton:hover {
 		font-weight: 600;
-		border-color: sienna;
-		border-width: 0.2rem;
+		border-color: lightsteelblue;
+		border-width: 0.1rem;
 		border-style: solid;
 		cursor: pointer;
 }

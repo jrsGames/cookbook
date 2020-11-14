@@ -9,7 +9,11 @@ export class App extends React.Component<{}> {
 		return (
 			<div className="App">
 				<TabBar/>
-				<CookbookButton label={"Filter"}/>
+				<div style={{'display': 'flex'}}>
+					<CookbookButton label={"Filter"}/>
+					<CookbookButton label={"Import"}/>
+					<CookbookButton label={"Export"}/>
+				</div>
 			</div>
 		);
 	}

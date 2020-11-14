@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TabBar } from './components/TabBar/tabBar';
+import { CookbookButton } from './components/CookbookButton/cookbookButton';
 
 export class App extends React.Component<{}> {
 	
@@ -8,6 +9,7 @@ export class App extends React.Component<{}> {
 		return (
 			<div className="App">
 				<TabBar/>
+				<CookbookButton label={"Hi, I'm a cookbookButton!"}/>
 			</div>
 		);
 	}

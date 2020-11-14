@@ -1,0 +1,29 @@
+.TourBoard-hide {
+	display: none
+}
+
+.TourBoard-show {
+	text-align: center;
+}
+
+.MuiButtonBase-root.ToDetailsButton {
+	margin-left: auto;
+}
+
+.TourCard {
+	display: inline-block;
+	width: 90vW;
+	max-width: 18rem;
+	margin: 0.5rem;
+	height: 7rem;
+}
+
+.ActionArea {
+	height: 100%
+}
+
+.MuiTypography-h5.Typography {
+	color: #f5f5f5;
+	text-transform: uppercase;
+	font-family: Lucida Sans Unicode;
+}

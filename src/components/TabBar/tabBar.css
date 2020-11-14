@@ -1,0 +1,23 @@
+.TabBar-hide {
+	display: none
+}
+
+.tabBar {
+	flex-grow: 1;
+	width: 100%;
+	background-color: #f5f5f5
+}
+
+.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.LabelTab {
+	color: #f5f5f5;
+	background-color: #3f51b5;
+}
+
+.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.BackTab {
+	color: #3f51b5;
+	min-width: 2rem;
+}
+
+.MuiTabs-scroller.MuiTabs-scrollable {
+	overflow: hidden;
+}

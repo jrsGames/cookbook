@@ -59,6 +59,7 @@ class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 						<Tab key='filter' className="LabelTab" label={"Filter"} {...generalTabProps(0)}/>
 						<Tab key='import' className="LabelTab" label={"Import"} {...generalTabProps(1)} />
 						<Tab key='export' className="LabelTab" label={"Export"} {...generalTabProps(2)} />
+						<Tab key='filler' className="LabelTab" disabled {...generalTabProps(3)} />
 					</Tabs>
 					{TAB_NAMES.map((tabName, index) => {
 						let content = <div/>;

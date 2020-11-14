@@ -9,23 +9,25 @@ export interface GeneralState {
 
 export const initialGeneralState: GeneralState = {
 	password: "12051970",
-	view: LOGIN
+	view: TOUR_DETAILS
 }
 
 export interface TourState {
-	stopIndex: number
+	stopIndex: number,
 }
 
 export const INITIAL_STOP_INDEX: number = 0;
 
 export const initialTourState: TourState = {
-	stopIndex: INITIAL_STOP_INDEX
+	stopIndex: INITIAL_STOP_INDEX,
 }
 
 export interface GlobalState {
-	generalState: GeneralState
+	generalState: GeneralState,
+	tourState: TourState
 };
 
 export const initialState: GlobalState = {
-	generalState: initialGeneralState
+	generalState: initialGeneralState,
+	tourState: initialTourState
 }

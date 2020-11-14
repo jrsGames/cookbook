@@ -3,12 +3,8 @@ import { AppBar, Tab, Tabs } from '@material-ui/core';
 import { TabPanel } from '../TabPanel/tabPanel';
 import './tabBar.css';
 import { connect } from 'react-redux';
-import { GlobalState, INITIAL_STOP_INDEX, TOUR_BOARD, TOUR_DETAILS } from '../../redux/initialState';
-import KeyboardBackspace from '@material-ui/icons/KeyboardBackspace';
+import { GlobalState } from '../../redux/initialState';
 import { Dispatch } from 'redux';
-import { setStopIndex } from '../../redux/action_creators/TourState';
-import { getView } from '../../redux/selectors';
-import { setView } from '../../redux/action_creators/GeneralState';
 
 function generalTabProps(index: number) {
   return {
@@ -17,24 +13,19 @@ function generalTabProps(index: number) {
   };
 }
 
-interface TabBarProps {
-	view: string,
-	goToTourBoard: () => void,
-	resetStopIndex: () => void
-}
+interface TabBarProps {}
 
 interface TabBarState {
 	tabIndex: number,
 }
 
-const ROUTE = 'Route';
-const HOEHENPROFIL = 'Hoehenprofil';
-const KARTE = 'Karte';
-const FAHRTZEIT = 'Fahrtzeit';
+const FILTER = 'Filter';
+const IMPORT = 'Import';
+const EXPORT = 'Export';
 
-const TAB_NAMES: string[] = [ROUTE, HOEHENPROFIL, KARTE, FAHRTZEIT];
+const TAB_NAMES: string[] = [FILTER, IMPORT, EXPORT];
 
-const INITIAL_TAB_INDEX = 2;
+const INITIAL_TAB_INDEX = 0;
 
 class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 
@@ -51,33 +42,10 @@ class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 			tabIndex: newTabIndex
 		});
 	};
-	
-	resetTabIndex = () => this.updateTabIndex(INITIAL_TAB_INDEX);
-	
-	getRootClassName = () => {
-		if(this.props.view === TOUR_DETAILS){
-			return 'TabBar-show';
-		}
-		return 'TabBar-hide'
-	}
-	
-	scrollUpTourLine = () => {
-		const tourLineArray = document.getElementsByClassName('TourLine');
-		if(tourLineArray && tourLineArray[0] && tourLineArray[0].scrollTop) {
-			tourLineArray[0].scrollTop = 0;
-		}
-	}
-	
-	goBack = () => {
-		this.props.goToTourBoard();
-		this.scrollUpTourLine();
-		this.resetTabIndex();
-		this.props.resetStopIndex();
-	}
-	
+		
 	render(){			
 		return (
-			<div className={this.getRootClassName()}>
+			<div className={'TabBar-show'}>
 				<AppBar position="static" color="default" className='tabBar'>
 					<Tabs
 						value={this.state.tabIndex}
@@ -88,32 +56,28 @@ class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 						scrollButtons="auto"
 						aria-label="scrollable auto tabs"
 					>
-						<Tab key='back' className="BackTab" icon={<KeyboardBackspace />} {...generalTabProps(0)} onClick={() => this.goBack()}/>
-						<Tab key={'tourName'} className="LabelTab" label={"1"} disabled {...generalTabProps(1)} />
-						{TAB_NAMES.map((tabName, index) => {
-							return <Tab key={index+2} label={tabName} {...generalTabProps(index+2)} />
-						})}
+						<Tab key='filter' className="LabelTab" label={"Filter"} {...generalTabProps(0)}/>
+						<Tab key='import' className="LabelTab" label={"Import"} {...generalTabProps(1)} />
+						<Tab key='export' className="LabelTab" label={"Export"} {...generalTabProps(2)} />
 					</Tabs>
 				</AppBar>
 				{TAB_NAMES.map((tabName, index) => {
-					let content = <div />;
+					let content = <div/>;
 					switch(tabName) {
+						case FILTER: {content = <div> {tabName} </div>; break;}
+						case IMPORT: {content = <div> {tabName} </div>; break;}
+						case EXPORT: {content = <div> {tabName} </div>; break;}
 						default: break;
 					}
-					return	<TabPanel key={index+2} value={this.state.tabIndex} index={index+2}> {content} </TabPanel>; 
+					return	<TabPanel key={index} value={this.state.tabIndex} index={index}> {content} </TabPanel>; 
 				})}
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state: GlobalState) => ({
-	view: getView(state),
-});
+const mapStateToProps = (state: GlobalState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-	resetStopIndex: () => dispatch(setStopIndex(INITIAL_STOP_INDEX)),
-	goToTourBoard: () => dispatch(setView(TOUR_BOARD)),
-})
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 export const TabBar = connect(mapStateToProps, mapDispatchToProps)(UnconnectedTabBar);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Tab, Tabs } from '@material-ui/core';
+import { Tab, Tabs } from '@material-ui/core';
 import { TabPanel } from '../TabPanel/tabPanel';
 import './tabBar.css';
 import { connect } from 'react-redux';
@@ -45,14 +45,14 @@ class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 		
 	render(){			
 		return (
-			<div className={'TabBar-show'}>
-				<AppBar position="static" color="default" className='tabBar'>
+			<div className={'TabBar-show'} style={{'display': 'flex'}}>
 					<Tabs
 						value={this.state.tabIndex}
 						onChange={(_event: React.ChangeEvent<{}>, index: number) => this.updateTabIndex(index)}
 						indicatorColor="primary"
 						textColor="primary"
 						variant="scrollable"
+						orientation="vertical"
 						scrollButtons="auto"
 						aria-label="scrollable auto tabs"
 					>
@@ -60,17 +60,16 @@ class UnconnectedTabBar extends React.Component<TabBarProps, TabBarState> {
 						<Tab key='import' className="LabelTab" label={"Import"} {...generalTabProps(1)} />
 						<Tab key='export' className="LabelTab" label={"Export"} {...generalTabProps(2)} />
 					</Tabs>
-				</AppBar>
-				{TAB_NAMES.map((tabName, index) => {
-					let content = <div/>;
-					switch(tabName) {
-						case FILTER: {content = <div> {tabName} </div>; break;}
-						case IMPORT: {content = <div> {tabName} </div>; break;}
-						case EXPORT: {content = <div> {tabName} </div>; break;}
-						default: break;
-					}
-					return	<TabPanel key={index} value={this.state.tabIndex} index={index}> {content} </TabPanel>; 
-				})}
+					{TAB_NAMES.map((tabName, index) => {
+						let content = <div/>;
+						switch(tabName) {
+							case FILTER: {content = <div> {tabName} </div>; break;}
+							case IMPORT: {content = <div> {tabName} </div>; break;}
+							case EXPORT: {content = <div> {tabName} </div>; break;}
+							default: break;
+						}
+						return	<TabPanel key={index} value={this.state.tabIndex} index={index}> {content} </TabPanel>; 
+					})}
 			</div>
 		);
 	}

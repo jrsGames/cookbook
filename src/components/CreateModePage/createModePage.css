@@ -1,0 +1,9 @@
+.CreateModePage--show {
+	display: flex;
+	justify-content: center;
+	margin-top: 15%;
+}
+
+.CreateModePage--hide {
+	display: none;
+}

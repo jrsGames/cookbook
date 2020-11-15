@@ -1,8 +1,16 @@
 import React from 'react';
 import './entryPage.css';
 import Button from '@material-ui/core/Button';
+import { ENTRY_VIEW, GlobalState } from '../../redux/initialState';
+import { getView } from '../../redux/selectors';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
-export class EntryPage extends React.Component<{}> {
+interface EntryPageProps {
+	view: string
+}
+
+class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 	
 	uploadFile: () => void = () => {
 		var x = document.getElementById("fileUpload");
@@ -11,9 +19,16 @@ export class EntryPage extends React.Component<{}> {
 		}
 	}
 	
+	getRootClassName = () => {
+		if(this.props.view === ENTRY_VIEW) {
+			return 'EntryPage--show';
+		}
+		return 'EntryPage--hide';
+	}
+	
 	render() {
 		return (
-			<div className="EntryPage">
+			<div className={this.getRootClassName()}>
 				<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
 					Import Cookbook
 				</Button>
@@ -22,3 +37,11 @@ export class EntryPage extends React.Component<{}> {
 		);
 	}
 }
+
+const mapStateToProps = (state: GlobalState) => ({
+	view: getView(state)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
+
+export const EntryPage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedEntryPage);

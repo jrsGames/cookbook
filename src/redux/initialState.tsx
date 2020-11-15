@@ -1,6 +1,6 @@
-export const LOGIN: string = 'login';
-export const TOUR_BOARD: string = 'tourBoard';
-export const TOUR_DETAILS: string = 'tourDetails';
+export const ENTRY_VIEW: string = 'entry';
+export const CREATE_VIEW: string = 'create';
+export const READ_VIEW: string = 'read';
 
 export interface GeneralState {
 	password: string,
@@ -9,7 +9,7 @@ export interface GeneralState {
 
 export const initialGeneralState: GeneralState = {
 	password: "12051970",
-	view: TOUR_DETAILS
+	view: ENTRY_VIEW
 }
 
 export interface TourState {

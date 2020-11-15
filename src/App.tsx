@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import { CookbookButton } from './components/CookbookButton/cookbookButton';
 import { UploadInput } from './components/UploadInput/uploadInput';
+import { EntryPage } from './components/EntryPage/entryPage';
 
 export class App extends React.Component<{}> {
 	
@@ -16,9 +16,7 @@ export class App extends React.Component<{}> {
 		return (
 			<div className="App">
 				<UploadInput/>
-				<CookbookButton label={"Filter"}/>
-				<CookbookButton label={"Import"} onClick={() => this.uploadFile()}/>
-				<CookbookButton label={"Export"}/>
+				<EntryPage/>
 			</div>
 		);
 	}

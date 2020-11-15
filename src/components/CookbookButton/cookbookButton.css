@@ -13,6 +13,7 @@
 	border-width: 0.1rem;
 	border-style: solid;
 	border-color: firebrick;
+	margin: 2rem;
 }
 
 .CookbookButton:hover {

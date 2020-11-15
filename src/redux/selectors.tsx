@@ -1,4 +1,4 @@
-import { GlobalState } from "./initialState"
+import { GlobalState, Cookbook } from "./initialState"
 
 export const getView: (state: GlobalState) => string =
 	(state) => state.generalState.view;
@@ -6,5 +6,5 @@ export const getView: (state: GlobalState) => string =
 export const getPassword: (state: GlobalState) => string =
 	(state) => state.generalState.password;
 	
-export const getStopIndex: (state: GlobalState) => number =
-	(state) => state.tourState.stopIndex;
+export const getCookbook: (state: GlobalState) => Cookbook | null =
+	(state) => state.bookState.cookbook || null;

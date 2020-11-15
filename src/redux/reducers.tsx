@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 import {
 	GeneralState,
-	TourState,
+	BookState,
 	initialGeneralState,
-	initialTourState
+	initialBookState
 } from './initialState';
 import {
 	Action,
 	ACTION_SET_VIEW,
 	ACTION_SET_PASSWORD,
 	ActionSetGeneralState,
-	ACTION_SET_STOP_INDEX,
-	ActionSetTourState,} from './actions';
+	ACTION_SET_COOKBOOK,
+	ActionSetBookState,} from './actions';
 
 /* GENERALSTATE */
 export function generalReducer(
@@ -32,14 +32,14 @@ export function generalReducer(
 }
 
 /* TOURSTATE */
-export function tourReducer(
-	state: TourState = initialTourState,
-	action: Action<ActionSetTourState>
+export function bookReducer(
+	state: BookState = initialBookState,
+	action: Action<ActionSetBookState>
 ) {
 	switch(action.type) {
-		case ACTION_SET_STOP_INDEX: return {
+		case ACTION_SET_COOKBOOK: return {
 			...state,
-			stopIndex: action.payload.stopIndex
+			cookbook: action.payload.cookbook
 		};
 		default: return state;
 	}	
@@ -47,5 +47,5 @@ export function tourReducer(
 
 export const reducers = combineReducers({
 	generalState: generalReducer,
-	tourState: tourReducer
+	bookState: bookReducer
 });

@@ -12,22 +12,32 @@ export const initialGeneralState: GeneralState = {
 	view: ENTRY_VIEW
 }
 
-export interface TourState {
-	stopIndex: number,
+export interface Ingredient {
+	amount: string,
+	name: string
 }
 
-export const INITIAL_STOP_INDEX: number = 0;
-
-export const initialTourState: TourState = {
-	stopIndex: INITIAL_STOP_INDEX,
+export interface Recipe {
+	ingredients: Ingredient[],
+	preparation: string,
+	note?: string
 }
+export interface Cookbook {
+	title: string,
+	recipes: Recipe[]
+}
+export interface BookState {
+	cookbook?: Cookbook,
+}
+
+export const initialBookState: BookState = {}
 
 export interface GlobalState {
 	generalState: GeneralState,
-	tourState: TourState
+	bookState: BookState
 };
 
 export const initialState: GlobalState = {
 	generalState: initialGeneralState,
-	tourState: initialTourState
+	bookState: initialBookState
 }

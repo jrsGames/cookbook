@@ -1,3 +1,5 @@
+import { Cookbook } from "./initialState";
+
 export interface Action<T> {
 	type: string;
 	payload: T;
@@ -13,11 +15,11 @@ export interface ActionSetView {
 	view: string
 }
 
-/* TOURSTATE */
-export const ACTION_SET_STOP_INDEX = "setStopIndex";
-export interface ActionSetStopIndex {
-	stopIndex: number
+/* BOOKSTATE */
+export const ACTION_SET_COOKBOOK = "setCookbook";
+export interface ActionSetCookbook {
+	cookbook: Cookbook
 }
 
 export interface ActionSetGeneralState extends ActionSetView, ActionSetPassword {};
-export interface ActionSetTourState extends ActionSetStopIndex {};
+export interface ActionSetBookState extends ActionSetCookbook {};

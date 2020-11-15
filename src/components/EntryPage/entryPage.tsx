@@ -1,13 +1,15 @@
 import React from 'react';
 import './entryPage.css';
 import Button from '@material-ui/core/Button';
-import { ENTRY_VIEW, GlobalState } from '../../redux/initialState';
+import { ENTRY_VIEW, GlobalState, CREATE_VIEW } from '../../redux/initialState';
 import { getView } from '../../redux/selectors';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { setView } from '../../redux/action_creators/GeneralState';
 
 interface EntryPageProps {
-	view: string
+	view: string,
+	enterCreateMode: () => void
 }
 
 class UnconnectedEntryPage extends React.Component<EntryPageProps> {
@@ -16,7 +18,7 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 		var x = document.getElementById("fileUpload");
 		if(x){
 			x.click();
-		}
+		}		
 	}
 	
 	getRootClassName = () => {
@@ -32,7 +34,7 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 				<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
 					Import Cookbook
 				</Button>
-				<Button className='CreateNewButton' variant="contained"> Create New Cookbook </Button>
+				<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterCreateMode()}> Create New Cookbook </Button>
 			</div>
 		);
 	}
@@ -42,6 +44,8 @@ const mapStateToProps = (state: GlobalState) => ({
 	view: getView(state)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	enterCreateMode: () => dispatch(setView(CREATE_VIEW))
+});
 
 export const EntryPage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedEntryPage);

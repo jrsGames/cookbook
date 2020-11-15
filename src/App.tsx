@@ -3,6 +3,7 @@ import './App.css';
 import { UploadInput } from './components/UploadInput/uploadInput';
 import { EntryPage } from './components/EntryPage/entryPage';
 import { CreateModePage } from './components/CreateModePage/createModePage';
+import { ReadModePage } from './components/ReadModePage/readModePage';
 
 export class App extends React.Component<{}> {
 	
@@ -19,6 +20,7 @@ export class App extends React.Component<{}> {
 				<UploadInput/>
 				<EntryPage/>
 				<CreateModePage/>
+				<ReadModePage/>
 			</div>
 		);
 	}

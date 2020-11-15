@@ -1,5 +1,20 @@
 .EntryPage {
 	display: flex;
 	justify-content: center;
-	margin-top: 15%
+	margin-top: 15%;
+}
+
+.MuiButton-contained.ImportButton {
+	margin: 2rem;
+	color: #fff;
+}
+
+.MuiButton-contained.CreateNewButton {
+	background-color: green;
+	color: #fff;
+	margin: 2rem;
+}
+
+.MuiButton-contained.CreateNewButton:hover {
+	background-color: #036f1a;
 }

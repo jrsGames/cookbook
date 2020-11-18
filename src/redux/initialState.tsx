@@ -1,6 +1,7 @@
 export const ENTRY_VIEW: string = 'entry';
 export const CREATE_VIEW: string = 'create';
 export const READ_VIEW: string = 'read';
+export const LOADING_VIEW: string = 'load';
 
 export interface GeneralState {
 	password: string,

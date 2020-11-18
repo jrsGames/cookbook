@@ -1,0 +1,9 @@
+.LoadingModePage--show {
+	display: flex;
+	justify-content: center;
+	margin-top: 15%;
+}
+
+.LoadingModePage--hide {
+	display: none;
+}

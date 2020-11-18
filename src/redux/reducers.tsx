@@ -11,7 +11,8 @@ import {
 	ACTION_SET_PASSWORD,
 	ActionSetGeneralState,
 	ACTION_SET_COOKBOOK,
-	ActionSetBookState,} from './actions';
+	ActionSetBookState,
+    ACTION_SET_COOKBOOK_STRING} from './actions';
 
 /* GENERALSTATE */
 export function generalReducer(
@@ -31,7 +32,7 @@ export function generalReducer(
 	}	
 }
 
-/* TOURSTATE */
+/* BOOKSTATE */
 export function bookReducer(
 	state: BookState = initialBookState,
 	action: Action<ActionSetBookState>
@@ -40,6 +41,10 @@ export function bookReducer(
 		case ACTION_SET_COOKBOOK: return {
 			...state,
 			cookbook: action.payload.cookbook
+		};
+		case ACTION_SET_COOKBOOK_STRING: return {
+			...state,
+			cookbookString: action.payload.cookbookString
 		};
 		default: return state;
 	}	

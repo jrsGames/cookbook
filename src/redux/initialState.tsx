@@ -28,6 +28,7 @@ export interface Cookbook {
 }
 export interface BookState {
 	cookbook?: Cookbook,
+	cookbookString?: string
 }
 
 export const initialBookState: BookState = {}

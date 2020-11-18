@@ -20,6 +20,10 @@ export const ACTION_SET_COOKBOOK = "setCookbook";
 export interface ActionSetCookbook {
 	cookbook: Cookbook
 }
+export const ACTION_SET_COOKBOOK_STRING = "setCookbookString";
+export interface ActionSetCookbookString {
+	cookbookString: string
+}
 
 export interface ActionSetGeneralState extends ActionSetView, ActionSetPassword {};
-export interface ActionSetBookState extends ActionSetCookbook {};
+export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString {};

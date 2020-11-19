@@ -3,12 +3,10 @@ export const CREATE_VIEW: string = 'create';
 export const READ_VIEW: string = 'read';
 
 export interface GeneralState {
-	password: string,
 	view: string
 }
 
 export const initialGeneralState: GeneralState = {
-	password: "12051970",
 	view: ENTRY_VIEW
 }
 

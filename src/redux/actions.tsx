@@ -6,10 +6,6 @@ export interface Action<T> {
 }
 
 /* GENERALSTATE */
-export const ACTION_SET_PASSWORD = "setPassword";
-export interface ActionSetPassword {
-	password: string
-}
 export const ACTION_SET_VIEW = "setView";
 export interface ActionSetView {
 	view: string
@@ -25,5 +21,5 @@ export interface ActionSetCookbookString {
 	cookbookString: string
 }
 
-export interface ActionSetGeneralState extends ActionSetView, ActionSetPassword {};
+export interface ActionSetGeneralState extends ActionSetView {};
 export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString {};

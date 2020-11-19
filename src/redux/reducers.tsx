@@ -8,7 +8,6 @@ import {
 import {
 	Action,
 	ACTION_SET_VIEW,
-	ACTION_SET_PASSWORD,
 	ActionSetGeneralState,
 	ACTION_SET_COOKBOOK,
 	ActionSetBookState,
@@ -23,10 +22,6 @@ export function generalReducer(
 		case ACTION_SET_VIEW: return {
 			...state,
 			view: action.payload.view || state.view
-		};
-		case ACTION_SET_PASSWORD: return {
-			...state,
-			password: action.payload.password || state.password
 		};
 		default: return state;
 	}	

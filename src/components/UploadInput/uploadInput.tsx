@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import { setCookbookString, setCookbook } from '../../redux/action_creators/BookState';
 import { isCookbook } from '../../helpers';
 
+export const EMPTY_COOKBOOK: Cookbook = {
+		title: "",
+		recipes: []
+};
+
 interface UploadInputProps {
 	enterReadMode: () => void;
 	setCookbook: (cookbook: string) => void;
@@ -42,16 +47,12 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 }
 
 const parseToCookbook: (input: string) => Cookbook = (input) => {
-	let emptyCookbook: Cookbook = {
-		title: "",
-		recipes: []
-	};
 	try {
 		JSON.parse(input);
 	} catch(e) {
 		console.log("The file content is not a valid JSON. It is:");
 		console.log(input);
-		return emptyCookbook;
+		return EMPTY_COOKBOOK;
 	}
 	const cookbook: any = JSON.parse(input);
 	if(isCookbook(cookbook)){
@@ -59,7 +60,7 @@ const parseToCookbook: (input: string) => Cookbook = (input) => {
 	}
 	console.log("The file content is not a valid Cookbook. It is:");
 	console.log(cookbook);
-	return emptyCookbook;
+	return EMPTY_COOKBOOK;
 }
 
 const mapStateToProps = (state: GlobalState) => ({});

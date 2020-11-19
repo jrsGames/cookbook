@@ -1,29 +1,24 @@
 import React from 'react';
 import './loadingModePage.css';
-import { GlobalState, LOADING_VIEW, Cookbook } from '../../redux/initialState';
-import { getView, getCookbookString } from '../../redux/selectors';
+import { GlobalState, Cookbook, READ_VIEW } from '../../redux/initialState';
+import { getCookbookString } from '../../redux/selectors';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { setCookbook } from '../../redux/action_creators/BookState';
+import { isCookbook } from '../../helpers';
+import { setView } from '../../redux/action_creators/GeneralState';
 
 interface LoadingModePageProps {
-	view: string,
 	getCookbookString: () => string,
-	setCookbook: (cookbook: Cookbook) => void
+	setCookbook: (cookbook: Cookbook) => void,
+	enterReadMode: () => void
 }
 
 class UnconnectedLoadingModePage extends React.Component<LoadingModePageProps> {
 	
-	getRootClassName = () => {
-		if(this.props.view === LOADING_VIEW) {
-			return 'LoadingModePage--show';
-		}
-		return 'LoadingModePage--hide';
-	}
-	
 	isJson = (input: string) => {
 		try {
-			const maybeJson = JSON.parse(input);
+			JSON.parse(input);
 		} catch(e) {
 			return false;
 		}
@@ -31,16 +26,21 @@ class UnconnectedLoadingModePage extends React.Component<LoadingModePageProps> {
 	}
 	
 	render() {
-		const input = this.props.getCookbookString();
-		if(this.props.view === LOADING_VIEW && input !== "") {
+		console.log("rendering lMP");
+		const input = this.props.getCookbookString(); //"{\"title\":\"Mein Kochbuch\",\"recipes\":[]}";
+		console.log(input);
 			if(this.isJson(input)) {
-				console.log("JSON!");
+				const cookbook = (JSON.parse(input)) as Cookbook;
+				if(isCookbook(cookbook)) {
+					this.props.setCookbook(cookbook);
+					this.props.enterReadMode();
+				}
 			} else {
-				console.log("NOT A JSON!")
+				console.log("The file you loaded is not a valid json.")
 			}
-		}
+		
 		return (
-			<div className={this.getRootClassName()}>
+			<div className='LoadingModePage--show'>
 				loading...
 			</div>
 		);
@@ -48,12 +48,12 @@ class UnconnectedLoadingModePage extends React.Component<LoadingModePageProps> {
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	view: getView(state),
 	getCookbookString: () => getCookbookString(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook))
+	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
+	enterReadMode: () => dispatch(setView(READ_VIEW))
 });
 
 export const LoadingModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedLoadingModePage);

@@ -13,25 +13,25 @@ interface AppProps {
 }
 
 class UnconnectedApp extends React.Component<AppProps> {
-	
+
 	uploadFile: () => void = () => {
 		var x = document.getElementById("fileUpload");
-		if(x){
+		if (x) {
 			x.click();
 		}
 	}
 
 	render() {
 		let content = <div />;
-		switch(this.props.getView()) {
-			case ENTRY_VIEW: {content = <EntryPage/>; break;}
-			case CREATE_VIEW: {content = <CreateModePage/>; break;}
-			case READ_VIEW: {content = <ReadModePage/>; break;}
+		switch (this.props.getView()) {
+			case ENTRY_VIEW: { content = <EntryPage />; break; }
+			case CREATE_VIEW: { content = <CreateModePage />; break; }
+			case READ_VIEW: { content = <ReadModePage />; break; }
 			default: break;
 		}
 		return (
 			<div className="App">
-				<UploadInput/>
+				<UploadInput />
 				{content}
 			</div>
 		);

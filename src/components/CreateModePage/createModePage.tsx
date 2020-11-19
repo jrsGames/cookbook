@@ -1,35 +1,23 @@
 import React from 'react';
 import './createModePage.css';
-import { GlobalState, CREATE_VIEW } from '../../redux/initialState';
-import { getView } from '../../redux/selectors';
+import { GlobalState } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
-interface CreateModePageProps {
-	view: string
-}
+interface CreateModePageProps {}
 
 class UnconnectedCreateModePage extends React.Component<CreateModePageProps> {
 	
-	getRootClassName = () => {
-		if(this.props.view === CREATE_VIEW) {
-			return 'CreateModePage--show';
-		}
-		return 'CreateModePage--hide';
-	}
-	
 	render() {
 		return (
-			<div className={this.getRootClassName()}>
+			<div className="CreateModePage">
 				In creation Mode
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state: GlobalState) => ({
-	view: getView(state)
-});
+const mapStateToProps = (state: GlobalState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({});
 

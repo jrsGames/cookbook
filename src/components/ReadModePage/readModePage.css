@@ -1,9 +1,5 @@
-.ReadModePage--show {
+.ReadModePage {
 	display: flex;
 	justify-content: center;
 	margin-top: 15%;
-}
-
-.ReadModePage--hide {
-	display: none;
 }

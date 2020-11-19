@@ -7,6 +7,7 @@ import { getCookbook } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { RecipeCard } from '../RecipeCard/recipeCard';
 
 interface ReadModePageProps {
 	getCookbook: () => Cookbook
@@ -28,12 +29,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps> {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				{cookbook.recipes.map((recipe, index) => {
-					return <div key={index}> {recipe.name} </div>
-				})}
-				<div className="CookbookContent">
-					{}
-				</div>				
+				<div className="RecipeList">
+					{cookbook.recipes.map((recipe, index) => {
+						return <RecipeCard key={index} recipe={recipe}/>
+					})}
+				</div>			
 			</div>
 		);
 	}

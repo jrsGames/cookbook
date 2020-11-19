@@ -1,0 +1,9 @@
+.RecipeCard{
+	width: 15rem;
+	height: 15rem;
+	margin: 2rem;
+}
+
+.MuiCardContent-root{
+	height: 7rem;
+}

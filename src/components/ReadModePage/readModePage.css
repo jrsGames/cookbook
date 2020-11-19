@@ -1,5 +1,6 @@
 .ReadModePage {}
 
-.TitleBar {
-	background-color: bisque;
+.RecipeList {
+	display: flex;
+	flex-wrap: wrap;
 }

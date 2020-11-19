@@ -1,12 +1,12 @@
 import React from 'react';
-import { GlobalState, LOADING_VIEW } from '../../redux/initialState';
+import { GlobalState, READ_VIEW } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { setView } from '../../redux/action_creators/GeneralState';
 import { connect } from 'react-redux';
-import { setCookbookString } from '../../redux/action_creators/BookState';
+import { setCookbookString, setCookbook } from '../../redux/action_creators/BookState';
 
 interface UploadInputProps {
-	enterLoadingMode: () => void;
+	enterReadMode: () => void;
 	setCookbookString: (cookbook: string) => void;
 }
 
@@ -28,7 +28,7 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 	
 	readCookbook: () => void = () => {
 		this.readJsonFile();
-		this.props.enterLoadingMode();
+		this.props.enterReadMode();
 	}
 	
 	render() {
@@ -43,8 +43,11 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 const mapStateToProps = (state: GlobalState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	enterLoadingMode: () => dispatch(setView(LOADING_VIEW)),
-	setCookbookString: (cookbook: string) => dispatch(setCookbookString(cookbook))
+	enterReadMode: () => dispatch(setView(READ_VIEW)),
+	setCookbookString: (cookbook: string) => {
+		dispatch(setCookbookString(cookbook));
+		dispatch(setCookbook(JSON.parse(cookbook)));
+	}
 });
 
 export const UploadInput = connect(mapStateToProps, mapDispatchToProps)(UnconnectedUploadInput);

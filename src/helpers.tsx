@@ -15,30 +15,18 @@ const isIngredient: (obj: any) => boolean = (obj) => {
 
 const isRecipe: (obj: any) => boolean = (obj) => {
 	const expectedKeys = ["ingredients", "preparation", "name"].sort();
-	const alternativeExpectedKeys = ["ingredients", "preparation", "name", "note"].sort();
 	const actualKeys = Object.keys(obj).sort();
-	if(actualKeys.length !== expectedKeys.length && actualKeys.length !== alternativeExpectedKeys.length) {
+	if(actualKeys.length < expectedKeys.length) {
 		return false;
 	}
-	if(actualKeys.length === expectedKeys.length) {
-		if(
-			actualKeys[0] !== expectedKeys[0] ||
-			actualKeys[1] !== expectedKeys[1] ||
-			actualKeys[2] !== expectedKeys[2]
-		) {
-			return false;
-		}
+	if(
+		actualKeys.indexOf(expectedKeys[0]) < 0 ||
+		actualKeys.indexOf(expectedKeys[1]) < 0 ||
+		actualKeys.indexOf(expectedKeys[2]) < 0
+	) {
+		return false;
 	}
-	if(actualKeys.length === alternativeExpectedKeys.length) {
-		if(
-			actualKeys[0] !== alternativeExpectedKeys[0] ||
-			actualKeys[1] !== alternativeExpectedKeys[1] ||
-			actualKeys[2] !== alternativeExpectedKeys[2] ||
-			actualKeys[3] !== alternativeExpectedKeys[3]
-		) {
-			return false;
-		}
-	}
+
 	if(!Array.isArray(obj.ingredients)) {
 		return false;
 	}

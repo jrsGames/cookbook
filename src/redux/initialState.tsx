@@ -17,6 +17,8 @@ export interface Ingredient {
 
 export interface Recipe {
 	name: string,
+	duration?: number,
+	labels: string[],
 	ingredients: Ingredient[],
 	preparation: string,
 	note?: string

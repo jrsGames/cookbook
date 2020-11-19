@@ -14,14 +14,18 @@ const isIngredient: (obj: any) => boolean = (obj) => {
 }
 
 const isRecipe: (obj: any) => boolean = (obj) => {
-	const expectedKeys = ["ingredients", "preparation"].sort();
-	const alternativeExpectedKeys = ["ingredients", "preparation", "note"].sort();
+	const expectedKeys = ["ingredients", "preparation", "name"].sort();
+	const alternativeExpectedKeys = ["ingredients", "preparation", "name", "note"].sort();
 	const actualKeys = Object.keys(obj).sort();
 	if(actualKeys.length !== expectedKeys.length && actualKeys.length !== alternativeExpectedKeys.length) {
 		return false;
 	}
 	if(actualKeys.length === expectedKeys.length) {
-		if(actualKeys[0] !== expectedKeys[0] || actualKeys[1] !== expectedKeys[1]) {
+		if(
+			actualKeys[0] !== expectedKeys[0] ||
+			actualKeys[1] !== expectedKeys[1] ||
+			actualKeys[2] !== expectedKeys[2]
+		) {
 			return false;
 		}
 	}
@@ -29,7 +33,8 @@ const isRecipe: (obj: any) => boolean = (obj) => {
 		if(
 			actualKeys[0] !== alternativeExpectedKeys[0] ||
 			actualKeys[1] !== alternativeExpectedKeys[1] ||
-			actualKeys[2] !== alternativeExpectedKeys[2]
+			actualKeys[2] !== alternativeExpectedKeys[2] ||
+			actualKeys[3] !== alternativeExpectedKeys[3]
 		) {
 			return false;
 		}
@@ -42,6 +47,9 @@ const isRecipe: (obj: any) => boolean = (obj) => {
 			return false;
 		}
 	});
+	if(typeof obj.name !== "string"){
+		return false;
+	}
 	if(typeof obj.preparation !== "string"){
 		return false;
 	}

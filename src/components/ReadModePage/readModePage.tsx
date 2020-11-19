@@ -13,9 +13,18 @@ interface ReadModePageProps {
 class UnconnectedReadModePage extends React.Component<ReadModePageProps> {
 	
 	render() {
+		const cookbook: Cookbook = this.props.getCookbook();
 		return (
 			<div className="ReadModePage">
-				{this.props.getCookbook().title}
+				<div className="TitleBar">
+					{cookbook.title}
+				</div>
+				{cookbook.recipes.map((recipe) => {
+					return <div> {recipe.name} </div>
+				})}
+				<div className="CookbookContent">
+					{}
+				</div>				
 			</div>
 		);
 	}

@@ -16,6 +16,7 @@ export interface Ingredient {
 }
 
 export interface Recipe {
+	name: string,
 	ingredients: Ingredient[],
 	preparation: string,
 	note?: string

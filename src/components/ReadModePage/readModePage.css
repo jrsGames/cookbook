@@ -1,5 +1,5 @@
-.ReadModePage {
-	display: flex;
-	justify-content: center;
-	margin-top: 15%;
+.ReadModePage {}
+
+.TitleBar {
+	background-color: bisque;
 }

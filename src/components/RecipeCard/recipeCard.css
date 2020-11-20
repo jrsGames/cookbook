@@ -13,7 +13,12 @@
 	height: 7rem;
 }
 
-.MuiCardHeader-content{
-	overflow-x: auto;
-	overflow-y: hidden;
+.MuiAvatar-root.MuiAvatar-circle.MuiAvatar-colorDefault {
+	color: #fafafa;
+	background-color: lightseagreen;
+}
+
+.MuiAvatar-root.MuiAvatar-circle.MuiAvatar-colorDefault.UnknownDuration {
+	color: #fafafa;
+	background-color: #bdbdbd;
 }

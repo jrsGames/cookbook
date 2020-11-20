@@ -4,10 +4,9 @@ import { GlobalState, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-
+import CallMadeIcon from '@material-ui/icons/CallMade';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface RecipeCardProps {
 	recipe: Recipe,
@@ -40,8 +39,9 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 						</Typography>
 					</CardContent>
 					<CardActions disableSpacing>
-						<IconButton aria-label="add to favorites"> <FavoriteIcon /> </IconButton>
-						<IconButton aria-label="share"> <ShareIcon /> </IconButton>
+						<IconButton className="DetailsButton" aria-label="see details"> <CallMadeIcon /> </IconButton>
+						<IconButton className="CopyButton" aria-label="copy" color="primary"> <FileCopyIcon /> </IconButton>
+						<IconButton className="DeleteButton" aria-label="delete" color="secondary"> <DeleteIcon /> </IconButton>
 					</CardActions>
 				</Card>			
 			</div>

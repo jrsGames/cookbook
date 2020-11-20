@@ -3,4 +3,8 @@
 .RecipeList {
 	display: flex;
 	flex-wrap: wrap;
+	overflow-y: auto;
+	height: calc(100vH - 6rem);
+	margin-left: calc((100vW - 60rem) / 2);
+	padding-top: 2rem;
 }

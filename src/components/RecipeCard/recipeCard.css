@@ -1,9 +1,19 @@
 .RecipeCard{
-	width: 15rem;
+	width: 16rem;
 	height: 15rem;
 	margin: 2rem;
+	margin-bottom: 5rem;
+}
+
+.RecipeCard--last {
+	padding-bottom: 8rem;
 }
 
 .MuiCardContent-root{
 	height: 7rem;
+}
+
+.MuiCardHeader-content{
+	overflow-x: auto;
+	overflow-y: hidden;
 }

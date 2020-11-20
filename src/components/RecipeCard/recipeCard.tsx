@@ -10,15 +10,20 @@ import ShareIcon from '@material-ui/icons/Share';
 
 
 interface RecipeCardProps {
-	recipe: Recipe
+	recipe: Recipe,
+	addSpaceBelow: boolean
 }
 
 class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 	
+	getRootClassName = () => {
+		return this.props.addSpaceBelow ? "RecipeCard RecipeCard--last" : "RecipeCard";
+	}
+	
 	render() {
 		const recipe: Recipe = this.props.recipe;
 		return (
-			<div className="RecipeCard">
+			<div className={this.getRootClassName()}>
 				<Card>
 					<CardHeader
 						avatar={<Avatar aria-label="recipe"> R </Avatar>}

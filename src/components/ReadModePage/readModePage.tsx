@@ -29,11 +29,15 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps> {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<div className="RecipeList">
-					{cookbook.recipes.map((recipe, index) => {
-						return <RecipeCard key={index} recipe={recipe}/>
-					})}
-				</div>			
+				<div className="RecipeListWrapper">
+					<div className="RecipeList">
+						{cookbook.recipes.map((recipe, index) => {
+							const isLast = index === cookbook.recipes.length - 1;
+							return <RecipeCard key={index} recipe={recipe} addSpaceBelow={isLast}/>
+						})}
+						<div className="SomeSpace"/>
+					</div>
+				</div>	
 			</div>
 		);
 	}

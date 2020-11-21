@@ -32,6 +32,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
+	copyRecipe(index: number){
+		const newCookbook: Cookbook = this.state.cookbook;
+		newCookbook.recipes.splice(index + 1, 0, newCookbook.recipes[index]);
+		this.setState({
+			cookbook: newCookbook
+		});
+	}
+	
 	deleteRecipe(index: number){
 		const newCookbook: Cookbook = this.state.cookbook;
 		newCookbook.recipes.splice(index, 1);
@@ -61,7 +69,9 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									key={index}
 									recipe={recipe}
 									addSpaceBelow={isLast}
-									onDeleteClick={() => this.deleteRecipe(index)}/>
+									onCopyClick={() => this.copyRecipe(index)}
+									onDeleteClick={() => this.deleteRecipe(index)}
+								/>;
 					})}
 				</div>	
 			</div>

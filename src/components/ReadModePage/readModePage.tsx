@@ -14,7 +14,8 @@ interface ReadModePageProps {
 }
 
 interface ReadModePageState {
-	cookbook: Cookbook
+	cookbook: Cookbook,
+	toBeSwapped: number | null
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -22,7 +23,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	constructor(props: ReadModePageProps){
 		super(props);
 		this.state = {
-			cookbook: props.getCookbook()
+			cookbook: props.getCookbook(),
+			toBeSwapped: null
 		}
 	}
 	
@@ -33,15 +35,32 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	copyRecipe(index: number){
-		const newCookbook: Cookbook = this.state.cookbook;
+		const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
 		newCookbook.recipes.splice(index + 1, 0, newCookbook.recipes[index]);
 		this.setState({
 			cookbook: newCookbook
 		});
 	}
 	
+	swapRecipe(index: number){
+		if(this.state.toBeSwapped !== null) {
+			const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
+			const temp = newCookbook.recipes[this.state.toBeSwapped];
+			newCookbook.recipes[this.state.toBeSwapped] = newCookbook.recipes[index];
+			newCookbook.recipes[index] = temp;
+			this.setState({
+				cookbook: newCookbook,
+				toBeSwapped: null
+			});
+		} else {
+			this.setState({
+				toBeSwapped: index
+			});
+		}
+	}
+	
 	deleteRecipe(index: number){
-		const newCookbook: Cookbook = this.state.cookbook;
+		const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
 		newCookbook.recipes.splice(index, 1);
 		this.setState({
 			cookbook: newCookbook
@@ -70,6 +89,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									recipe={recipe}
 									addSpaceBelow={isLast}
 									onCopyClick={() => this.copyRecipe(index)}
+									onSwapClick={() => this.swapRecipe(index)}
 									onDeleteClick={() => this.deleteRecipe(index)}
 								/>;
 					})}

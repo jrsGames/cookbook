@@ -6,12 +6,14 @@ import { connect } from 'react-redux';
 import { Card, CardContent, CardActions, IconButton, Typography, Chip } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 interface RecipeCardProps {
 	recipe: Recipe,
 	addSpaceBelow: boolean,
 	onCopyClick: () => void,
+	onSwapClick: () => void,
 	onDeleteClick: () => void
 }
 
@@ -57,6 +59,13 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 							onClick={() => this.props.onCopyClick()}
 						>
 							<FileCopyIcon />
+						</IconButton>
+						<IconButton
+							className="SwapButton"
+							aria-label="swap"
+							onClick={() => this.props.onSwapClick()}
+						>
+							<SwapHorizontalCircleIcon />
 						</IconButton>
 						<IconButton
 							className="DeleteButton"

@@ -20,9 +20,15 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 	}
 	
 	getImageSource = () => {
-		return this.props.recipe.image ?
-			require('../../resources/' + this.props.recipe.image) :
-			require('../../resources/defaultPic.jpg');
+		const image = this.props.recipe.image;
+		if(image) {
+			try {
+				return require('../../resources/' + image);
+			} catch (e) {
+				console.log("Picture \"" + image + "\" for recipe \"" + this.props.recipe.name + "\" not found.");
+			}
+		}
+		return require('../../resources/defaultPic.jpg');
 	}
 	
 	render() {
@@ -31,7 +37,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 			<div className={this.getRootClassName()}>
 				<Card>
 					<div className="RecipeImageWrapper">
-						<img className="RecipeImage" src={this.getImageSource()} alt="Picture not found" />
+						<img className="RecipeImage" src={this.getImageSource()} alt="Loading" />
 					</div>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="h2">

@@ -3,7 +3,7 @@ import './recipeCard.css';
 import { GlobalState, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography } from '@material-ui/core';
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Chip } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -34,14 +34,14 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 					/>
 					<CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
 					<CardContent>
-						<Typography variant="body2" color="textSecondary" component="p">
-							space for labels
-						</Typography>
+						{recipe.labels.map((label) => {
+							return <Chip label={label}/>;
+						})}
 					</CardContent>
 					<CardActions disableSpacing>
 						<IconButton className="DetailsButton" aria-label="see details"> <CallMadeIcon /> </IconButton>
-						<IconButton className="CopyButton" aria-label="copy" color="primary"> <FileCopyIcon /> </IconButton>
-						<IconButton className="DeleteButton" aria-label="delete" color="secondary"> <DeleteIcon /> </IconButton>
+						<IconButton className="CopyButton" aria-label="copy"> <FileCopyIcon /> </IconButton>
+						<IconButton className="DeleteButton" aria-label="delete"> <DeleteIcon /> </IconButton>
 					</CardActions>
 				</Card>			
 			</div>

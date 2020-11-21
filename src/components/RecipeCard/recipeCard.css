@@ -1,8 +1,6 @@
 .RecipeCard{
-	width: 16rem;
-	height: 15rem;
+	width: 17rem;
 	margin: 2rem;
-	margin-bottom: 5rem;
 }
 
 .RecipeCard--last {
@@ -25,4 +23,16 @@
 
 .MuiTypography-gutterBottom {
 	text-align: left;
+}
+
+.RecipeImage {
+	max-width: 100%;
+	max-height: 30rem;
+	box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12);
+}
+
+.RecipeImageWrapper{
+	width: 17rem;
+	height: 6rem;
+	overflow: hidden;
 }

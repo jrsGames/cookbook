@@ -3,7 +3,7 @@ import './recipeCard.css';
 import { GlobalState, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography, Chip } from '@material-ui/core';
+import { Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Avatar, IconButton, Typography, Chip } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,21 +19,16 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 		return this.props.addSpaceBelow ? "RecipeCard RecipeCard--last" : "RecipeCard";
 	}
 	
-	getAvatarClassName = (recipe: Recipe) => {
-		return recipe.duration ? "" : "UnknownDuration";
-	}
-	
 	render() {
 		const recipe: Recipe = this.props.recipe;
 		return (
 			<div className={this.getRootClassName()}>
 				<Card>
-					<CardHeader
-						avatar={<Avatar className={this.getAvatarClassName(recipe)} aria-label="recipe"> {recipe.duration || "?"} </Avatar>}
-						title={recipe.name}
-					/>
 					<CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
 					<CardContent>
+						<Typography gutterBottom variant="h5" component="h2">
+							{recipe.name}
+						</Typography>
 						{recipe.labels.map((label) => {
 							return <Chip label={label}/>;
 						})}

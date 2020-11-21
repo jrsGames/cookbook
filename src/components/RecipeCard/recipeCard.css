@@ -23,14 +23,6 @@
 	background-color: #bdbdbd;
 }
 
-/*.MuiButtonBase-root.MuiIconButton-root.DetailsButton {
-	color: orange;
+.MuiTypography-gutterBottom {
+	text-align: left;
 }
-
-.MuiButtonBase-root.MuiIconButton-root.CopyButton {
-	color: dodgerblue;
-}
-
-.MuiButtonBase-root.MuiIconButton-root.DeleteButton {
-	color: tomato;
-}*/

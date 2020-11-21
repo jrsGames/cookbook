@@ -10,7 +10,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 interface RecipeCardProps {
 	recipe: Recipe,
-	addSpaceBelow: boolean
+	addSpaceBelow: boolean,
+	onDeleteClick: () => void
 }
 
 class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
@@ -50,7 +51,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 					<CardActions disableSpacing>
 						<IconButton className="DetailsButton" aria-label="see details"> <CallMadeIcon /> </IconButton>
 						<IconButton className="CopyButton" aria-label="copy"> <FileCopyIcon /> </IconButton>
-						<IconButton className="DeleteButton" aria-label="delete"> <DeleteIcon /> </IconButton>
+						<IconButton className="DeleteButton" aria-label="delete" onClick={() => this.props.onDeleteClick()}> <DeleteIcon /> </IconButton>
 					</CardActions>
 				</Card>			
 			</div>

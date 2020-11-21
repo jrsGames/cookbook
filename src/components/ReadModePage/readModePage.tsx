@@ -1,6 +1,6 @@
 import React from 'react';
 import './readModePage.css';
-import { GlobalState, Cookbook } from '../../redux/initialState';
+import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
@@ -32,6 +32,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
+	deleteRecipe(index: number){
+		const newCookbook: Cookbook = this.state.cookbook;
+		newCookbook.recipes.splice(index, 1);
+		this.setState({
+			cookbook: newCookbook
+		});
+	}
+	
 	render() {
 		const cookbook: Cookbook = this.state.cookbook;
 		return (
@@ -49,7 +57,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 				<div className="RecipeList">
 					{cookbook.recipes.map((recipe, index) => {
 						const isLast = index === cookbook.recipes.length - 1;
-						return <RecipeCard key={index} recipe={recipe} addSpaceBelow={isLast}/>
+						return <RecipeCard
+									key={index}
+									recipe={recipe}
+									addSpaceBelow={isLast}
+									onDeleteClick={() => this.deleteRecipe(index)}/>
 					})}
 				</div>	
 			</div>

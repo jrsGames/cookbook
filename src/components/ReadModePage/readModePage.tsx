@@ -13,10 +13,27 @@ interface ReadModePageProps {
 	getCookbook: () => Cookbook
 }
 
-class UnconnectedReadModePage extends React.Component<ReadModePageProps> {
+interface ReadModePageState {
+	cookbook: Cookbook
+}
+
+class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
+	
+	constructor(props: ReadModePageProps){
+		super(props);
+		this.state = {
+			cookbook: props.getCookbook()
+		}
+	}
+	
+	componentDidUpdate(prevProps: ReadModePageProps) {
+		if(prevProps.getCookbook() !== this.props.getCookbook()) {
+			this.setState({cookbook: this.props.getCookbook()});
+		}
+	}
 	
 	render() {
-		const cookbook: Cookbook = this.props.getCookbook();
+		const cookbook: Cookbook = this.state.cookbook;
 		return (
 			<div className="ReadModePage">
 				<AppBar position="static">

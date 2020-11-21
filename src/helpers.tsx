@@ -14,7 +14,7 @@ const isIngredient: (obj: any) => boolean = (obj) => {
 }
 
 const isRecipe: (obj: any) => boolean = (obj) => {
-	const expectedKeys = ["ingredients", "preparation", "name"].sort();
+	const expectedKeys = ["ingredients", "preparation", "name", "labels"].sort();
 	const actualKeys = Object.keys(obj).sort();
 	if(actualKeys.length < expectedKeys.length) {
 		return false;
@@ -22,11 +22,20 @@ const isRecipe: (obj: any) => boolean = (obj) => {
 	if(
 		actualKeys.indexOf(expectedKeys[0]) < 0 ||
 		actualKeys.indexOf(expectedKeys[1]) < 0 ||
-		actualKeys.indexOf(expectedKeys[2]) < 0
+		actualKeys.indexOf(expectedKeys[2]) < 0 ||
+		actualKeys.indexOf(expectedKeys[3]) < 0
 	) {
 		return false;
 	}
 
+	if(!Array.isArray(obj.labels)) {
+		return false;
+	}
+	obj.labels.forEach((label: any) => {
+		if(typeof label !== "string") {
+			return false;
+		}
+	});
 	if(!Array.isArray(obj.ingredients)) {
 		return false;
 	}
@@ -41,7 +50,7 @@ const isRecipe: (obj: any) => boolean = (obj) => {
 	if(typeof obj.preparation !== "string"){
 		return false;
 	}
-	if(obj.note && typeof obj.note !== "string"){
+	if(typeof obj.note !== "string"){
 		return false;
 	}
 	return true;

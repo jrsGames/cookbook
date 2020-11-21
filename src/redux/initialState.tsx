@@ -21,7 +21,8 @@ export interface Recipe {
 	labels: string[],
 	ingredients: Ingredient[],
 	preparation: string,
-	note?: string
+	note?: string,
+	image?: string
 }
 export interface Cookbook {
 	title: string,

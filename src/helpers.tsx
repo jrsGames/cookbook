@@ -50,9 +50,6 @@ const isRecipe: (obj: any) => boolean = (obj) => {
 	if(typeof obj.preparation !== "string"){
 		return false;
 	}
-	if(typeof obj.note !== "string"){
-		return false;
-	}
 	return true;
 }
 

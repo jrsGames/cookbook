@@ -45,7 +45,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 	getLabels = () => {
 		if(this.props.recipe) {
 			return this.props.recipe.labels.map((label, index) => {
-				return <Chip className="Label" key={index} label={label}/>;
+				return <Chip className="Label" key={index} label={label} onDelete={() => {}}/>;
 			})
 		 } else {
 			return [];

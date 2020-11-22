@@ -15,6 +15,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TextField from '@material-ui/core/TextField';
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -32,15 +33,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 	}
 	
 	getPreparation = () => {
-		if(this.props.recipe) {
+		if(this.props.recipe && this.props.recipe.preparation) {
 			return this.props.recipe.preparation;
 		} else {
-			return "";
+			return "Zubereitung hinzufuegen";
 		}
 	}
 	
 	getNotes = () => {
-		if(this.props.recipe) {
+		if(this.props.recipe  && this.props.recipe.note) {
 			return this.props.recipe.note;
 		} else {
 			return "";
@@ -83,7 +84,14 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 								<Typography> Notizen </Typography>
 							</AccordionSummary>
 							<AccordionDetails>
-								<Typography> {this.getNotes()} </Typography>
+								<TextField
+									id="outlined-multiline-static"
+									placeholder="Notizen hinzufuegen"
+									multiline
+									rows={4}
+									defaultValue={this.getNotes()}
+									variant="outlined"
+								/>
 							</AccordionDetails>
 						</Accordion>
 					</DialogContent>

@@ -2,3 +2,7 @@
 	width: 80%;
 	max-width: unset;
 }
+
+.RecipeDetailsDialog .MuiFormControl-root {
+	width: 100%;
+}

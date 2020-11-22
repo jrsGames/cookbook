@@ -1,6 +1,6 @@
 import React from 'react';
 import './readModePage.css';
-import { GlobalState, Cookbook } from '../../redux/initialState';
+import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
@@ -8,6 +8,7 @@ import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { RecipeCard } from '../RecipeCard/recipeCard';
+import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 
 interface ReadModePageProps {
 	getCookbook: () => Cookbook
@@ -15,7 +16,8 @@ interface ReadModePageProps {
 
 interface ReadModePageState {
 	cookbook: Cookbook,
-	toBeSwapped: number | null
+	toBeSwapped: number | null,
+	openRecipe: Recipe | null
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -24,7 +26,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		super(props);
 		this.state = {
 			cookbook: props.getCookbook(),
-			toBeSwapped: null
+			toBeSwapped: null,
+			openRecipe: null
 		}
 	}
 	
@@ -32,6 +35,10 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		if(prevProps.getCookbook() !== this.props.getCookbook()) {
 			this.setState({cookbook: this.props.getCookbook()});
 		}
+	}
+	
+	openRecipe = (index: number) => {
+		this.setState({ openRecipe: this.state.cookbook.recipes[index]});
 	}
 	
 	copyRecipe(index: number){
@@ -67,6 +74,10 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		});
 	}
 	
+	closeDetailsDialog = () => {
+		this.setState({ openRecipe: null});
+	}
+	
 	render() {
 		const cookbook: Cookbook = this.state.cookbook;
 		return (
@@ -88,13 +99,15 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									key={index}
 									recipe={recipe}
 									addSpaceBelow={isLast}
+									onOpenClick={() => this.openRecipe(index)}
 									onCopyClick={() => this.copyRecipe(index)}
 									onSwapClick={() => this.swapRecipe(index)}
 									swapping={this.state.toBeSwapped === index}
 									onDeleteClick={() => this.deleteRecipe(index)}
 								/>;
 					})}
-				</div>	
+				</div>
+				<RecipeDetails recipe={this.state.openRecipe} closeDialog={() => this.closeDetailsDialog()}/>
 			</div>
 		);
 	}

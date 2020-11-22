@@ -27,6 +27,7 @@ import Zoom from '@material-ui/core/Zoom';
 interface RecipeCardProps {
 	recipe: Recipe,
 	addSpaceBelow: boolean,
+	onOpenClick: () => void
 	onCopyClick: () => void,
 	onSwapClick: () => void,
 	swapping: boolean,
@@ -34,7 +35,7 @@ interface RecipeCardProps {
 }
 
 interface RecipeCardState {
-	dialogOpen: boolean
+	deleteDialogOpen: boolean
 }
 
 class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardState> {
@@ -42,7 +43,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 	constructor(props: RecipeCardProps){
 		super(props);
 		this.state={
-			dialogOpen: false
+			deleteDialogOpen: false
 		}
 	}
 	
@@ -67,16 +68,16 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 	}
 	
 	onDeleteClick = () => {
-		this.setState({ dialogOpen: true });
+		this.setState({ deleteDialogOpen: true });
 	}
 	
-	closeDialog = () => {
-		this.setState({ dialogOpen: false });
+	closeDeleteDialog = () => {
+		this.setState({ deleteDialogOpen: false });
 	}
 	
 	deleteRecipe = () => {
 		this.props.onDeleteClick();
-		this.closeDialog();
+		this.closeDeleteDialog();
 	}
 	
 	render() {
@@ -97,7 +98,9 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 					</CardContent>
 					<CardActions disableSpacing>
 						<Tooltip title="Open" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton DetailsButton"> <CallMadeIcon /> </IconButton>
+							<IconButton className="ActionButton DetailsButton" onClick={() => this.props.onOpenClick()}>
+								<CallMadeIcon />
+							</IconButton>
 						</Tooltip>
 						<Tooltip title="Copy" TransitionComponent={Zoom}>
 							<IconButton className="ActionButton CopyButton" onClick={() => this.props.onCopyClick()}>
@@ -116,7 +119,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						</Tooltip>
 					</CardActions>
 				</Card>
-				<Dialog open={this.state.dialogOpen} onClose={() => this.closeDialog()}>
+				<Dialog open={this.state.deleteDialogOpen} onClose={() => this.closeDeleteDialog()}>
 					<DialogTitle>{"Willst du das Rezept \"" + recipe.name + "\" wirklich entfernen?"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
@@ -125,7 +128,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={() => this.deleteRecipe()} color="primary"> Ja </Button>
-						<Button onClick={() => this.closeDialog()} color="primary"> Nein </Button>
+						<Button onClick={() => this.closeDeleteDialog()} color="primary"> Nein </Button>
 					</DialogActions>
 				</Dialog>
 			</div>

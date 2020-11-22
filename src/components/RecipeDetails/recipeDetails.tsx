@@ -41,8 +41,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 	}
 	
 	getNotes = () => {
-		if(this.props.recipe  && this.props.recipe.note) {
-			return this.props.recipe.note;
+		if(this.props.recipe  && this.props.recipe.notes) {
+			return this.props.recipe.notes;
 		} else {
 			return "";
 		}

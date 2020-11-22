@@ -8,7 +8,8 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	Button
+	Button,
+	Chip
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -40,6 +41,16 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 		}
 	}
 	
+	getLabels = () => {
+		if(this.props.recipe) {
+			return this.props.recipe.labels.map((label, index) => {
+				return <Chip className="Label" key={index} label={label}/>;
+			})
+		 } else {
+			return [];
+		}
+	}
+
 	getNotes = () => {
 		if(this.props.recipe  && this.props.recipe.notes) {
 			return this.props.recipe.notes;
@@ -83,7 +94,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 								<Typography> Labels </Typography>
 							</AccordionSummary>
 							<AccordionDetails>
-								<Typography> Labels einfuegen </Typography>
+								{this.getLabels()}
 							</AccordionDetails>
 						</Accordion>
 						<Accordion>

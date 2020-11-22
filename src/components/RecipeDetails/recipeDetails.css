@@ -6,3 +6,7 @@
 .RecipeDetailsDialog .MuiFormControl-root {
 	width: 100%;
 }
+
+.Label.MuiChip-root {
+	margin-right: 0.5rem;
+}

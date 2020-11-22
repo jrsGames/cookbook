@@ -4,7 +4,7 @@ import { GlobalState, Ingredient } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { TextField } from '@material-ui/core';
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 interface IngredientsTableProps {
 	ingredients: Ingredient[]
@@ -28,12 +28,20 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									defaultValue={ingredient.amount}
 									variant="outlined"
 								/>
-								<TextField
-									className="IngredientsTextField NameTextField"
-									id="outlined-multiline-static"
-									rows={4}
-									defaultValue={ingredient.name}
-									variant="outlined"
+								<Autocomplete
+									freeSolo
+									options={["Eier", "Butter"]}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											className="IngredientsTextField NameTextField"
+											id="outlined-multiline-static"
+											rows={4}
+											value={ingredient.name}
+											variant="outlined"
+											InputProps={{ ...params.InputProps, type: 'search' }}
+										/>
+									)}
 								/>
 							</div>;
 				})}

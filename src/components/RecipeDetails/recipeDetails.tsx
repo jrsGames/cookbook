@@ -79,7 +79,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								<Typography> Zutaten </Typography>
 							</AccordionSummary>
-							<AccordionDetails>
+							<AccordionDetails className="IngredientsDetails">
 								<IngredientsTable ingredients={this.getIngredients()}/>
 							</AccordionDetails>
 						</Accordion>

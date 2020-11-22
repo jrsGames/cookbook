@@ -1,0 +1,16 @@
+.Ingredient {
+	display: flex;
+}
+
+.MuiFormControl-root.MuiTextField-root.IngredientsTextField {
+	margin: 0.3rem;
+}
+
+.AmountTextField .MuiOutlinedInput-input {
+	padding: 0.5rem;
+	text-align: right;
+}
+
+.NameTextField .MuiOutlinedInput-input {
+	padding: 0.5rem;
+}

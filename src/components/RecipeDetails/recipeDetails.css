@@ -14,3 +14,9 @@
 .IngredientsDetails {
 	justify-content: center;
 }
+
+.Multiline .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+	font-size: small;
+	width: unset;
+	height: unset;
+}

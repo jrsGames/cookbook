@@ -87,7 +87,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								<Typography> Zubereitung </Typography>
 							</AccordionSummary>
-							<AccordionDetails>
+							<AccordionDetails className="Multiline">
 								<TextField
 									id="outlined-multiline-static"
 									placeholder="Zubereitung hinzufuegen"
@@ -110,7 +110,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								<Typography> Notizen </Typography>
 							</AccordionSummary>
-							<AccordionDetails>
+							<AccordionDetails className="Multiline">
 								<TextField
 									id="outlined-multiline-static"
 									placeholder="Notizen hinzufuegen"

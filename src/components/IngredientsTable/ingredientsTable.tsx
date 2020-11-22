@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { INGREDIENTS } from '../../ingredients';
 
 interface IngredientsTableProps {
 	ingredients: Ingredient[]
@@ -32,7 +33,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									className="IngredientsTextField NameTextField"
 									freeSolo
 									value={ingredient.name}
-									options={["Eier", "Butter"]}
+									options={INGREDIENTS}
 									renderInput={(params) => (
 										<TextField
 											{...params}

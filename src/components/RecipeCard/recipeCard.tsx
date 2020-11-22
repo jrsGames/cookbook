@@ -15,12 +15,14 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	Button
+	Button,
+	Tooltip
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Zoom from '@material-ui/core/Zoom';
 
 interface RecipeCardProps {
 	recipe: Recipe,
@@ -94,16 +96,24 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						})}
 					</CardContent>
 					<CardActions disableSpacing>
-						<IconButton className="ActionButton DetailsButton"> <CallMadeIcon /> </IconButton>
-						<IconButton className="ActionButton CopyButton" onClick={() => this.props.onCopyClick()}>
-							<FileCopyIcon />
-						</IconButton>
-						<IconButton className={this.getSwapButtonClassName()} onClick={() => this.props.onSwapClick()}>
-							<SwapHorizontalCircleIcon />
-						</IconButton>
-						<IconButton className="ActionButton DeleteButton" onClick={() => this.onDeleteClick()}>
-							<DeleteIcon />
-						</IconButton>
+						<Tooltip title="Open" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton DetailsButton"> <CallMadeIcon /> </IconButton>
+						</Tooltip>
+						<Tooltip title="Copy" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton CopyButton" onClick={() => this.props.onCopyClick()}>
+								<FileCopyIcon />
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="Swap" TransitionComponent={Zoom}>
+							<IconButton className={this.getSwapButtonClassName()} onClick={() => this.props.onSwapClick()}>
+								<SwapHorizontalCircleIcon />
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="Delete" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton DeleteButton" onClick={() => this.onDeleteClick()}>
+								<DeleteIcon />
+							</IconButton>
+						</Tooltip>
 					</CardActions>
 				</Card>
 				<Dialog open={this.state.dialogOpen} onClose={() => this.closeDialog()}>

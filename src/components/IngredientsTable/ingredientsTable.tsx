@@ -29,7 +29,9 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									variant="outlined"
 								/>
 								<Autocomplete
+									className="IngredientsTextField NameTextField"
 									freeSolo
+									value={ingredient.name}
 									options={["Eier", "Butter"]}
 									renderInput={(params) => (
 										<TextField
@@ -37,7 +39,6 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 											className="IngredientsTextField NameTextField"
 											id="outlined-multiline-static"
 											rows={4}
-											value={ingredient.name}
 											variant="outlined"
 											InputProps={{ ...params.InputProps, type: 'search' }}
 										/>

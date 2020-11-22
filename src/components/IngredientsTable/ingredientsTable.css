@@ -14,3 +14,16 @@
 .NameTextField .MuiOutlinedInput-input {
 	padding: 0.5rem;
 }
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiAutocomplete-inputRoot.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedEnd.MuiOutlinedInput-adornedEnd {
+	width: 12rem;
+	height: 2rem;
+	font-size: small;
+	align-content: center;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+	width: 12rem;
+	height: 2rem;
+	font-size: small;
+}

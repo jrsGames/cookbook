@@ -68,7 +68,14 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 								<Typography> Zubereitung </Typography>
 							</AccordionSummary>
 							<AccordionDetails>
-								<Typography> {this.getPreparation()} </Typography>
+								<TextField
+									id="outlined-multiline-static"
+									placeholder="Zubereitung hinzufuegen"
+									multiline
+									rows={4}
+									defaultValue={this.getPreparation()}
+									variant="outlined"
+								/>
 							</AccordionDetails>
 						</Accordion>
 						<Accordion>

@@ -97,22 +97,22 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						})}
 					</CardContent>
 					<CardActions disableSpacing>
-						<Tooltip title="Open" TransitionComponent={Zoom}>
+						<Tooltip title="Details" TransitionComponent={Zoom}>
 							<IconButton className="ActionButton DetailsButton" onClick={() => this.props.onOpenClick()}>
 								<CallMadeIcon />
 							</IconButton>
 						</Tooltip>
-						<Tooltip title="Copy" TransitionComponent={Zoom}>
+						<Tooltip title="Kopieren" TransitionComponent={Zoom}>
 							<IconButton className="ActionButton CopyButton" onClick={() => this.props.onCopyClick()}>
 								<FileCopyIcon />
 							</IconButton>
 						</Tooltip>
-						<Tooltip title="Swap" TransitionComponent={Zoom}>
+						<Tooltip title="Verschieben" TransitionComponent={Zoom}>
 							<IconButton className={this.getSwapButtonClassName()} onClick={() => this.props.onSwapClick()}>
 								<SwapHorizontalCircleIcon />
 							</IconButton>
 						</Tooltip>
-						<Tooltip title="Delete" TransitionComponent={Zoom}>
+						<Tooltip title="Entfernen" TransitionComponent={Zoom}>
 							<IconButton className="ActionButton DeleteButton" onClick={() => this.onDeleteClick()}>
 								<DeleteIcon />
 							</IconButton>

@@ -17,6 +17,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
+import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -52,10 +53,18 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 	}
 
 	getNotes = () => {
-		if(this.props.recipe  && this.props.recipe.notes) {
+		if(this.props.recipe && this.props.recipe.notes) {
 			return this.props.recipe.notes;
 		} else {
 			return "";
+		}
+	}
+	
+	getIngredients = () => {
+		if(this.props.recipe){
+			return this.props.recipe.ingredients;
+		} else {
+			return [];
 		}
 	}
 
@@ -71,7 +80,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
 								<Typography> Zutaten </Typography>
 							</AccordionSummary>
 							<AccordionDetails>
-								<Typography> ToDo: Zutaten einfuegen </Typography>
+								<IngredientsTable ingredients={this.getIngredients()}/>
 							</AccordionDetails>
 						</Accordion>
 						<Accordion>

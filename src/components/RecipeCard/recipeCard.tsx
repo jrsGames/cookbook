@@ -92,9 +92,11 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						<Typography gutterBottom variant="h5" component="h2">
 							{recipe.name}
 						</Typography>
-						{recipe.labels.map((label, index) => {
-							return <Chip key={index} label={label}/>;
-						})}
+						<div className="Labels">
+							{recipe.labels.map((label, index) => {
+								return <Chip className="CardLabel" key={index} label={label}/>;
+							})}
+						</div>
 					</CardContent>
 					<CardActions disableSpacing>
 						<Tooltip title="Details" TransitionComponent={Zoom}>

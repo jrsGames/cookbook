@@ -9,6 +9,7 @@
 
 .MuiCardContent-root{
 	height: 7rem;
+	text-align: left;
 }
 
 .MuiTypography-gutterBottom {
@@ -33,4 +34,15 @@
 	width: 17rem;
 	height: 6rem;
 	overflow: hidden;
+}
+
+.CardLabel.MuiChip-root {
+	margin-top: 0.3rem;
+	margin-right: 0.3rem;
+	font-size: 11px;
+}
+
+.Labels {
+	overflow-y: auto;
+	height: 6rem;
 }

@@ -14,6 +14,7 @@ interface RecipeCardProps {
 	addSpaceBelow: boolean,
 	onCopyClick: () => void,
 	onSwapClick: () => void,
+	swapping: boolean,
 	onDeleteClick: () => void
 }
 
@@ -21,6 +22,10 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 	
 	getRootClassName = () => {
 		return this.props.addSpaceBelow ? "RecipeCard RecipeCard--last" : "RecipeCard";
+	}
+	
+	getSwapButtonClassName = () => {
+		return this.props.swapping ? "ActionButton SwapButton-focussed" : "ActionButton SwapButton"
 	}
 	
 	getImageSource = () => {
@@ -52,26 +57,14 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps> {
 						})}
 					</CardContent>
 					<CardActions disableSpacing>
-						<IconButton className="DetailsButton" aria-label="see details"> <CallMadeIcon /> </IconButton>
-						<IconButton
-							className="CopyButton"
-							aria-label="copy"
-							onClick={() => this.props.onCopyClick()}
-						>
+						<IconButton className="ActionButton DetailsButton"> <CallMadeIcon /> </IconButton>
+						<IconButton className="ActionButton CopyButton" onClick={() => this.props.onCopyClick()}>
 							<FileCopyIcon />
 						</IconButton>
-						<IconButton
-							className="SwapButton"
-							aria-label="swap"
-							onClick={() => this.props.onSwapClick()}
-						>
+						<IconButton className={this.getSwapButtonClassName()} onClick={() => this.props.onSwapClick()}>
 							<SwapHorizontalCircleIcon />
 						</IconButton>
-						<IconButton
-							className="DeleteButton"
-							aria-label="delete"
-							onClick={() => this.props.onDeleteClick()}
-						>
+						<IconButton className="ActionButton DeleteButton" onClick={() => this.props.onDeleteClick()}>
 							<DeleteIcon />
 						</IconButton>
 					</CardActions>

@@ -11,18 +11,16 @@
 	height: 7rem;
 }
 
-.MuiAvatar-root.MuiAvatar-circle.MuiAvatar-colorDefault {
-	color: #fafafa;
-	background-color: lightseagreen;
-}
-
-.MuiAvatar-root.MuiAvatar-circle.MuiAvatar-colorDefault.UnknownDuration {
-	color: #fafafa;
-	background-color: #bdbdbd;
-}
-
 .MuiTypography-gutterBottom {
 	text-align: left;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.ActionButton:hover {
+	color: #3f51b5;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.ActionButton.SwapButton-focussed {
+	color: #f50057;
 }
 
 .RecipeImage {

@@ -1,6 +1,6 @@
 import React from 'react';
 import './readModePage.css';
-import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
+import { GlobalState, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
@@ -90,6 +90,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									addSpaceBelow={isLast}
 									onCopyClick={() => this.copyRecipe(index)}
 									onSwapClick={() => this.swapRecipe(index)}
+									swapping={this.state.toBeSwapped === index}
 									onDeleteClick={() => this.deleteRecipe(index)}
 								/>;
 					})}

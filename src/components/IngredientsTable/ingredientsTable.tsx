@@ -20,8 +20,8 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 		const ingredients: Ingredient[] = this.props.ingredients;
 		return (
 			<div className="IngredientsTable">
-				{ingredients.map((ingredient) => {
-					return <div className="Ingredient">
+				{ingredients.map((ingredient, index) => {
+					return <div className="Ingredient" key={index}>
 								<TextField
 									className="IngredientsTextField AmountTextField"
 									id="outlined-multiline-static"

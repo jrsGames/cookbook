@@ -24,45 +24,70 @@ interface RecipeDetailsProps {
 	recipe: Recipe | null
 }
 
-class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps> {
+interface RecipeDetailsState {
+	recipe: Recipe | null
+}
+
+class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
+	
+	constructor(props: RecipeDetailsProps){
+		super(props);
+		this.state={
+			recipe: props.recipe
+		}
+	}
+	
+	componentDidUpdate(oldProps: RecipeDetailsProps) {
+		if(oldProps.recipe !== this.props.recipe) {
+			this.setState({recipe: this.props.recipe});
+		}
+	}
 
 	getDialogTitle = () => {
-		if(this.props.recipe) {
-			return this.props.recipe.name;
+		if(this.state.recipe) {
+			return this.state.recipe.name;
 		} else {
 			return "";
 		}
 	}
 	
 	getPreparation = () => {
-		if(this.props.recipe && this.props.recipe.preparation) {
-			return this.props.recipe.preparation;
+		if(this.state.recipe && this.state.recipe.preparation) {
+			return this.state.recipe.preparation;
 		} else {
 			return "Zubereitung hinzufuegen";
 		}
 	}
 	
 	getLabels = () => {
-		if(this.props.recipe) {
-			return this.props.recipe.labels.map((label, index) => {
-				return <Chip className="Label" key={index} label={label} onDelete={() => {}}/>;
+		if(this.state.recipe) {
+			return this.state.recipe.labels.map((label, index) => {
+				return <Chip className="Label" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
 			})
 		 } else {
 			return [];
 		}
 	}
+	
+	deleteLabel = (index: number) => {
+		const newRecipe: Recipe = Object.assign({}, this.state.recipe);
+		newRecipe.labels.splice(index, 1);
+		this.setState({
+			recipe: newRecipe
+		});
+	}
 
 	getNotes = () => {
-		if(this.props.recipe && this.props.recipe.notes) {
-			return this.props.recipe.notes;
+		if(this.state.recipe && this.state.recipe.notes) {
+			return this.state.recipe.notes;
 		} else {
 			return "";
 		}
 	}
 	
 	getIngredients = () => {
-		if(this.props.recipe){
-			return this.props.recipe.ingredients;
+		if(this.state.recipe){
+			return this.state.recipe.ingredients;
 		} else {
 			return [];
 		}

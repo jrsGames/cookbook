@@ -94,7 +94,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						</Typography>
 						<div className="Labels">
 							{recipe.labels.map((label, index) => {
-								return <Chip className="CardLabel" key={index} label={label}/>;
+								return <Chip className="CardLabel" color="primary" key={index} label={label}/>;
 							})}
 						</div>
 					</CardContent>

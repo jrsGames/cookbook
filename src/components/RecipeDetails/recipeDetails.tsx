@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -64,10 +65,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		if(this.state.recipe) {
 			const labels: string[] = this.state.recipe.labels;
 			chips = chips.concat(labels.map((label, index) => {
-				return <Chip className="Label" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
+				return <Chip className="Label" color="primary" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
 			}));
 			chips.push(
-				<Chip className="Label" key={labels.length} label="Neues Label"/>
+				<Chip className="Label" key={labels.length} label="Neues Label" icon={<AddCircleIcon />}/>
 			);
 		 }
 		return chips;

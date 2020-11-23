@@ -11,9 +11,6 @@ import {
 	Button,
 	Chip,
 	FormControl,
-	Input,
-	InputLabel,
-	InputAdornment,
 	IconButton
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
@@ -24,7 +21,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CheckIcon from '@material-ui/icons/Check';
+import CheckIcon from '@material-ui/icons/CheckCircle';
+import ClearIcon from '@material-ui/icons/Clear';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { LABELS } from '../../labels';
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -119,18 +119,18 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	closeAddLabelDialog = () => {
-		this.setState({ addLabelDialogOpen: false });
+		this.setState({ addLabelDialogOpen: false, newLabel: null });
 	}
 	
-	setNewLabel = (label: string) => {
-		this.setState({ newLabel: label })
+	setNewLabel = (label: string | null) => {
+		this.setState({ newLabel: label });
 	}
 	
 	addLabel = () => {
 		if(this.state.recipe && this.state.newLabel) {
 			const newRecipe: Recipe = Object.assign({}, this.state.recipe);
 			newRecipe.labels.push(this.state.newLabel);
-			this.setState({ recipe: newRecipe });
+			this.setState({ recipe: newRecipe, addLabelDialogOpen: false });
 		}
 	};
 
@@ -195,17 +195,22 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
 					<DialogContent>
-						<FormControl>
-								<InputLabel>Neues Label</InputLabel>
-								<Input
-									type='text'
-									onChange={(event) => this.setNewLabel(event.target.value)}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton onClick={() => this.addLabel()}> <CheckIcon /> </IconButton>
-										</InputAdornment>
-									}
+						<FormControl className="AddLabelForm">
+								<Autocomplete
+									freeSolo
+									options={LABELS}
+									onChange={(_event, value) => this.setNewLabel(value)}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											variant="outlined"
+											onChange={(event) => this.setNewLabel(event.target.value)}
+											InputProps={{ ...params.InputProps, type: 'search' }}
+										/>
+									)}
 								/>
+								<IconButton onClick={() => this.addLabel()}> <CheckIcon/> </IconButton>
+								<IconButton onClick={() => this.closeAddLabelDialog()}> <ClearIcon/> </IconButton>
 						</FormControl>
 					</DialogContent>
 				</Dialog>

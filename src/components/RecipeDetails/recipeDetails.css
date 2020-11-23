@@ -26,3 +26,8 @@
 .MuiAccordionDetails-root.Chips {
 	display: inline-block;
 }
+
+.MuiFormControl-root.AddLabelForm {
+	display: flex;
+	flex-direction: row;
+}

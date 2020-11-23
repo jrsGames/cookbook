@@ -1,0 +1,21 @@
+export const LABELS = [
+	"vegan",
+	"vegetarisch",
+	"glutenfrei",
+	"Vorspeise",
+	"Hauptgang",
+	"Nachspeise",
+	"Snack",
+	"suess",
+	"salzig",
+	"einfach",
+	"schnell",
+	"Weihnachten",
+	"Party",
+	"Suppe",
+	"Eintopf",
+	"Gebaeck",
+	"italienisch",
+	"asiatisch",
+	"traditionell"
+].sort()

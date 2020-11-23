@@ -9,7 +9,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	Button,
-	Chip
+	Chip,
+	FormControl,
+	Input,
+	InputLabel,
+	InputAdornment,
+	IconButton
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -19,6 +24,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import CheckIcon from '@material-ui/icons/Check';
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -26,7 +32,9 @@ interface RecipeDetailsProps {
 }
 
 interface RecipeDetailsState {
-	recipe: Recipe | null
+	recipe: Recipe | null,
+	addLabelDialogOpen: boolean,
+	newLabel: string | null
 }
 
 class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
@@ -34,7 +42,9 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	constructor(props: RecipeDetailsProps){
 		super(props);
 		this.state={
-			recipe: props.recipe
+			recipe: props.recipe,
+			addLabelDialogOpen: false,
+			newLabel: null
 		}
 	}
 	
@@ -68,7 +78,13 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 				return <Chip className="Label" color="primary" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
 			}));
 			chips.push(
-				<Chip className="Label" key={labels.length} label="Neues Label" icon={<AddCircleIcon />}/>
+				<Chip
+					className="Label"
+					key={labels.length}
+					label="Neues Label"
+					icon={<AddCircleIcon />}
+					onClick={() => this.openAddLabelDialog()}
+				/>
 			);
 		 }
 		return chips;
@@ -97,6 +113,26 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 			return [];
 		}
 	}
+	
+	openAddLabelDialog = () => {
+		this.setState({ addLabelDialogOpen: true });
+	}
+	
+	closeAddLabelDialog = () => {
+		this.setState({ addLabelDialogOpen: false });
+	}
+	
+	setNewLabel = (label: string) => {
+		this.setState({ newLabel: label })
+	}
+	
+	addLabel = () => {
+		if(this.state.recipe && this.state.newLabel) {
+			const newRecipe: Recipe = Object.assign({}, this.state.recipe);
+			newRecipe.labels.push(this.state.newLabel);
+			this.setState({ recipe: newRecipe });
+		}
+	};
 
 	render() {
 		const recipe: Recipe | null = this.props.recipe;
@@ -156,6 +192,22 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						<Button color="primary" onClick={() => this.props.closeDialog()}> Bearbeiten </Button>
 						<Button color="primary" onClick={() => this.props.closeDialog()}> Schliessen </Button>
 					</DialogActions>
+				</Dialog>
+				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
+					<DialogContent>
+						<FormControl>
+								<InputLabel>Neues Label</InputLabel>
+								<Input
+									type='text'
+									onChange={(event) => this.setNewLabel(event.target.value)}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton onClick={() => this.addLabel()}> <CheckIcon /> </IconButton>
+										</InputAdornment>
+									}
+								/>
+						</FormControl>
+					</DialogContent>
 				</Dialog>
 			</div>
 		);

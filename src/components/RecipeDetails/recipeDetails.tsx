@@ -60,13 +60,17 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	getLabels = () => {
+		let chips: JSX.Element[] = [];
 		if(this.state.recipe) {
-			return this.state.recipe.labels.map((label, index) => {
+			const labels: string[] = this.state.recipe.labels;
+			chips = chips.concat(labels.map((label, index) => {
 				return <Chip className="Label" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
-			})
-		 } else {
-			return [];
-		}
+			}));
+			chips.push(
+				<Chip className="Label" key={labels.length} label="Neues Label"/>
+			);
+		 }
+		return chips;
 	}
 	
 	deleteLabel = (index: number) => {
@@ -127,7 +131,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 								<Typography> Labels </Typography>
 							</AccordionSummary>
-							<AccordionDetails>
+							<AccordionDetails className="Chips">
 								{this.getLabels()}
 							</AccordionDetails>
 						</Accordion>

@@ -8,7 +8,9 @@
 }
 
 .Label.MuiChip-root {
-	margin-right: 0.5rem;
+	margin-top: 0.3rem;
+	margin-right: 0.3rem;
+	font-size: small;
 }
 
 .IngredientsDetails {
@@ -19,4 +21,8 @@
 	font-size: small;
 	width: unset;
 	height: unset;
+}
+
+.MuiAccordionDetails-root.Chips {
+	display: inline-block;
 }

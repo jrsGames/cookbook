@@ -3,16 +3,17 @@ import './ingredientsTable.css';
 import { GlobalState, Ingredient } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { TextField } from '@material-ui/core';
+import { TextField, IconButton } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { INGREDIENTS } from '../../ingredients';
+import ClearIcon from '@material-ui/icons/Clear';
 
 interface IngredientsTableProps {
-	ingredients: Ingredient[]
+	ingredients: Ingredient[],
+	onDelete: (ingredientIndex: number) => void
 }
 
-interface IngredientsTableState {
-}
+interface IngredientsTableState {}
 
 class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps, IngredientsTableState> {
 	
@@ -26,7 +27,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									className="IngredientsTextField AmountTextField"
 									id="outlined-multiline-static"
 									rows={4}
-									defaultValue={ingredient.amount}
+									value={ingredient.amount}
 									variant="outlined"
 								/>
 								<Autocomplete
@@ -45,6 +46,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 										/>
 									)}
 								/>
+								<IconButton onClick={() => this.props.onDelete(index)} color="primary"> <ClearIcon/> </IconButton>
 							</div>;
 				})}
 			</div>

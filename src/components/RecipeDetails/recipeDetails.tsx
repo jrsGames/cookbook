@@ -154,6 +154,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
+	deleteIngredient = (index: number) => {
+		if(this.state.recipe) {
+			const newRecipe: Recipe = this.state.recipe;
+			newRecipe.ingredients = JSON.parse(JSON.stringify(this.state.recipe.ingredients));
+			newRecipe.ingredients.splice(index, 1);
+			this.setState({recipe: newRecipe});
+		}
+	}
+	
 	dialogOpen = () => {
 		const { recipe } = this.state;
 		return  recipe !== null && Array.isArray(recipe.labels);
@@ -175,7 +184,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 								<Typography> Zutaten </Typography>
 							</AccordionSummary>
 							<AccordionDetails className="IngredientsDetails">
-								<IngredientsTable ingredients={this.getIngredients()}/>
+								<IngredientsTable
+									ingredients={this.getIngredients()}
+									onDelete={(index: number) => this.deleteIngredient(index)}
+								/>
 							</AccordionDetails>
 						</Accordion>
 						<Accordion>

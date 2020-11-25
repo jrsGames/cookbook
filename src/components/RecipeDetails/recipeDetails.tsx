@@ -21,7 +21,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CheckIcon from '@material-ui/icons/CheckCircle';
+import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { LABELS } from '../../labels';
@@ -206,6 +206,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					</DialogActions>
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
+					<DialogTitle> Neues Label </DialogTitle>
 					<DialogContent>
 						<FormControl className="AddLabelForm">
 								<Autocomplete
@@ -221,10 +222,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 										/>
 									)}
 								/>
-								<IconButton onClick={() => this.addLabel()}> <CheckIcon/> </IconButton>
-								<IconButton onClick={() => this.closeAddLabelDialog()}> <ClearIcon/> </IconButton>
 						</FormControl>
 					</DialogContent>
+					<DialogActions>
+						<IconButton onClick={() => this.addLabel()} color="primary"> <CheckIcon/> </IconButton>
+						<IconButton onClick={() => this.closeAddLabelDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</DialogActions>
 				</Dialog>
 			</div>
 		);

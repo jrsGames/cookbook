@@ -90,15 +90,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		 }
 		return chips;
 	}
-	
-	deleteLabel = (index: number) => {
-		if(this.state.recipe && this.state.recipe.labels) {
-			const newRecipe: Recipe = this.state.recipe;
-			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
-			newRecipe.labels.splice(index, 1);
-			this.setState({recipe: newRecipe});
-		}
-	}
 
 	getNotes = () => {
 		if(this.state.recipe && this.state.recipe.notes) {
@@ -137,6 +128,32 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	};
 	
+		
+	deleteLabel = (index: number) => {
+		if(this.state.recipe && this.state.recipe.labels) {
+			const newRecipe: Recipe = this.state.recipe;
+			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
+			newRecipe.labels.splice(index, 1);
+			this.setState({recipe: newRecipe});
+		}
+	}
+	
+	setPreparation = (text: string) => {
+		if(this.state.recipe) {
+			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+			newRecipe.preparation = text;
+			this.setState({recipe: newRecipe});
+		}
+	}
+	
+	setNotes = (text: string) => {
+		if(this.state.recipe) {
+			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+			newRecipe.notes = text;
+			this.setState({recipe: newRecipe});
+		}
+	}
+	
 	dialogOpen = () => {
 		const { recipe } = this.state;
 		return  recipe !== null && Array.isArray(recipe.labels);
@@ -173,6 +190,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 									rows={4}
 									defaultValue={this.getPreparation()}
 									variant="outlined"
+									onChange={(event) => this.setPreparation(event.target.value)}
 								/>
 							</AccordionDetails>
 						</Accordion>
@@ -196,6 +214,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 									rows={4}
 									defaultValue={this.getNotes()}
 									variant="outlined"
+									onChange={(event) => this.setNotes(event.target.value)}
 								/>
 							</AccordionDetails>
 						</Accordion>

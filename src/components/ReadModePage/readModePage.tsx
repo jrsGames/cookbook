@@ -38,11 +38,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	openRecipe = (index: number) => {
-		this.setState({ openRecipe: this.state.cookbook.recipes[index]});
+		this.setState({ openRecipe: JSON.parse(JSON.stringify(this.state.cookbook.recipes[index]))});
 	}
 	
 	copyRecipe(index: number){
-		const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
+		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		newCookbook.recipes.splice(index + 1, 0, newCookbook.recipes[index]);
 		this.setState({
 			cookbook: newCookbook
@@ -51,7 +51,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	
 	swapRecipe(index: number){
 		if(this.state.toBeSwapped !== null) {
-			const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
+			const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 			const temp = newCookbook.recipes[this.state.toBeSwapped];
 			newCookbook.recipes[this.state.toBeSwapped] = newCookbook.recipes[index];
 			newCookbook.recipes[index] = temp;
@@ -67,7 +67,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	deleteRecipe(index: number){
-		const newCookbook: Cookbook = Object.assign({}, this.state.cookbook);
+		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		newCookbook.recipes.splice(index, 1);
 		this.setState({
 			cookbook: newCookbook
@@ -79,7 +79,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	render() {
-		const cookbook: Cookbook = this.state.cookbook;
+		const cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
+		
 		return (
 			<div className="ReadModePage">
 				<AppBar position="static">
@@ -107,7 +108,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 								/>;
 					})}
 				</div>
-				<RecipeDetails recipe={this.state.openRecipe} closeDialog={() => this.closeDetailsDialog()}/>
+				<RecipeDetails recipe={JSON.parse(JSON.stringify(this.state.openRecipe))} closeDialog={() => this.closeDetailsDialog()}/>
 			</div>
 		);
 	}

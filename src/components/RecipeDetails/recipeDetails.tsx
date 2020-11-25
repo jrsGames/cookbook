@@ -26,6 +26,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { LABELS } from '../../labels';
 
+
 interface RecipeDetailsProps {
 	closeDialog: () => void,
 	recipe: Recipe | null
@@ -72,8 +73,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	
 	getLabels = () => {
 		let chips: JSX.Element[] = [];
-		if(this.state.recipe) {
-			const labels: string[] = this.state.recipe.labels;
+		if(this.state.recipe && this.state.recipe.labels) {
+			const labels: string[] = JSON.parse(JSON.stringify(this.state.recipe.labels));
 			chips = chips.concat(labels.map((label, index) => {
 				return <Chip className="Label" color="primary" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
 			}));
@@ -91,11 +92,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	deleteLabel = (index: number) => {
-		const newRecipe: Recipe = Object.assign({}, this.state.recipe);
-		newRecipe.labels.splice(index, 1);
-		this.setState({
-			recipe: newRecipe
-		});
+		if(this.state.recipe && this.state.recipe.labels) {
+			const newRecipe: Recipe = this.state.recipe;
+			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
+			newRecipe.labels.splice(index, 1);
+			this.setState({recipe: newRecipe});
+		}
 	}
 
 	getNotes = () => {
@@ -107,7 +109,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	getIngredients = () => {
-		if(this.state.recipe){
+		if(this.state.recipe && this.state.recipe.ingredients){
 			return this.state.recipe.ingredients;
 		} else {
 			return [];
@@ -127,18 +129,28 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	addLabel = () => {
-		if(this.state.recipe && this.state.newLabel) {
-			const newRecipe: Recipe = Object.assign({}, this.state.recipe);
+		if(this.state.recipe && this.state.recipe.labels && this.state.newLabel) {
+			const newRecipe: Recipe = this.state.recipe;
+			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
 			newRecipe.labels.push(this.state.newLabel);
 			this.setState({ recipe: newRecipe, addLabelDialogOpen: false });
 		}
 	};
+	
+	dialogOpen = () => {
+		const { recipe } = this.state;
+		return  recipe !== null && Array.isArray(recipe.labels);
+	}
+	
+	closeDialog = () => {
+		this.setState({ recipe: null });
+		this.props.closeDialog();
+	}
 
 	render() {
-		const recipe: Recipe | null = this.props.recipe;
 		return (
 			<div className="RecipeDetails">
-				<Dialog className="RecipeDetailsDialog" open={recipe !== null} onClose={() => this.props.closeDialog()}>
+				<Dialog className="RecipeDetailsDialog" open={this.dialogOpen()} onClose={() => this.closeDialog()}>
 					<DialogTitle>{this.getDialogTitle()}</DialogTitle>
 					<DialogContent>
 						<Accordion>
@@ -189,8 +201,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						</Accordion>
 					</DialogContent>
 					<DialogActions>
-						<Button color="primary" onClick={() => this.props.closeDialog()}> Bearbeiten </Button>
-						<Button color="primary" onClick={() => this.props.closeDialog()}> Schliessen </Button>
+						<Button color="primary" onClick={() => this.closeDialog()}> Bearbeiten </Button>
+						<Button color="primary" onClick={() => this.closeDialog()}> Schliessen </Button>
 					</DialogActions>
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>

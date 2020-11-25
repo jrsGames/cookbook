@@ -1,6 +1,6 @@
 import React from 'react';
 import './recipeDetails.css';
-import { GlobalState, Recipe } from '../../redux/initialState';
+import { GlobalState, Recipe, Ingredient } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -26,6 +26,10 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { LABELS } from '../../labels';
 
+const EMPTY_INGREDIENT: Ingredient = {
+	amount: "",
+	name: ""
+}
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -154,6 +158,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
+	addIngredient = () => {
+		if(this.state.recipe) {
+			const newRecipe: Recipe = this.state.recipe;
+			newRecipe.ingredients = JSON.parse(JSON.stringify(this.state.recipe.ingredients));
+			newRecipe.ingredients.push(EMPTY_INGREDIENT);
+			this.setState({recipe: newRecipe});
+		}
+	}
+	
 	deleteIngredient = (index: number) => {
 		if(this.state.recipe) {
 			const newRecipe: Recipe = this.state.recipe;
@@ -187,6 +200,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 								<IngredientsTable
 									ingredients={this.getIngredients()}
 									onDelete={(index: number) => this.deleteIngredient(index)}
+									onAdd={() => this.addIngredient()}
 								/>
 							</AccordionDetails>
 						</Accordion>

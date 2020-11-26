@@ -213,7 +213,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 									id="outlined-multiline-static"
 									placeholder="Zubereitung hinzufuegen"
 									multiline
-									rows={4}
 									defaultValue={this.getPreparation()}
 									variant="outlined"
 									onChange={(event) => this.setPreparation(event.target.value)}

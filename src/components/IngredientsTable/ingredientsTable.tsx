@@ -12,7 +12,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 interface IngredientsTableProps {
 	ingredients: Ingredient[],
 	onAdd: () => void,
-	onDelete: (ingredientIndex: number) => void
+	onDelete: (ingredientIndex: number) => void,
+	editable: boolean
 }
 
 interface IngredientsTableState {}
@@ -31,12 +32,14 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									rows={4}
 									value={ingredient.amount}
 									variant="outlined"
+									disabled={!this.props.editable}
 								/>
 								<Autocomplete
 									className="IngredientsTextField NameTextField"
 									freeSolo
 									value={ingredient.name}
 									options={INGREDIENTS}
+									disabled={!this.props.editable}
 									renderInput={(params) => (
 										<TextField
 											{...params}
@@ -48,16 +51,27 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 										/>
 									)}
 								/>
-								<IconButton onClick={() => this.props.onDelete(index)} color="primary"> <ClearIcon/> </IconButton>
+								{this.props.editable ?
+								<IconButton
+									onClick={() => this.props.onDelete(index)}
+									color="primary"
+								>
+									<ClearIcon/>
+								</IconButton> :
+								null
+								}
 							</div>;
 				})}
+				{this.props.editable ?
 				<Chip
 					className="AddIngredient"
 					key={this.props.ingredients.length}
 					label="Neue Zutat"
 					icon={<AddCircleIcon />}
 					onClick={() => this.props.onAdd()}
-				/>
+				/> :
+				null
+				}
 			</div>
 		);
 	}

@@ -218,6 +218,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 									ingredients={this.getIngredients()}
 									onDelete={(index: number) => this.deleteIngredient(index)}
 									onAdd={() => this.addIngredient()}
+									editable={this.state.inEditMode}
 								/>
 							</AccordionDetails>
 						</Accordion>

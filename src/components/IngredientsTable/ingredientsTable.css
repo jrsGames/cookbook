@@ -27,3 +27,8 @@
 	height: 2rem;
 	font-size: small;
 }
+
+.IngredientsTextField .MuiInputBase-root.Mui-disabled {
+	color: black;
+	font-style: italic;
+}

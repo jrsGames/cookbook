@@ -28,6 +28,7 @@ import { LABELS } from '../../labels';
 import EditIcon from '@material-ui/icons/Edit';
 import Zoom from '@material-ui/core/Zoom';
 
+
 const EMPTY_INGREDIENT: Ingredient = {
 	amount: "",
 	name: ""
@@ -41,7 +42,8 @@ interface RecipeDetailsProps {
 interface RecipeDetailsState {
 	recipe: Recipe | null,
 	addLabelDialogOpen: boolean,
-	newLabel: string | null
+	newLabel: string | null,
+	inEditMode: boolean
 }
 
 class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
@@ -51,7 +53,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.state={
 			recipe: props.recipe,
 			addLabelDialogOpen: false,
-			newLabel: null
+			newLabel: null,
+			inEditMode: false
 		}
 	}
 	
@@ -187,6 +190,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ recipe: null });
 		this.props.closeDialog();
 	}
+	
+	changeMode = () => {
+		this.setState({ inEditMode: !this.state.inEditMode })
+	}
 
 	render() {
 		return (
@@ -248,7 +255,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					</DialogContent>
 					<DialogActions>
 						<Tooltip title="Bearbeiten" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton EditButton" onClick={() => this.closeDialog()}>
+							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
 								<EditIcon />
 							</IconButton>
 						</Tooltip>

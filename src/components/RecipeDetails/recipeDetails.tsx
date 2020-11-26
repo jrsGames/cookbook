@@ -248,7 +248,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 									id="outlined-multiline-static"
 									placeholder="Notizen hinzufuegen"
 									multiline
-									rows={4}
 									defaultValue={this.getNotes()}
 									variant="outlined"
 									disabled={!this.state.inEditMode}

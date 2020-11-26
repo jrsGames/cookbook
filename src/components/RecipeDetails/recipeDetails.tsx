@@ -8,10 +8,10 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	Button,
 	Chip,
 	FormControl,
-	IconButton
+	IconButton,
+	Tooltip
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -25,6 +25,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { LABELS } from '../../labels';
+import EditIcon from '@material-ui/icons/Edit';
+import Zoom from '@material-ui/core/Zoom';
 
 const EMPTY_INGREDIENT: Ingredient = {
 	amount: "",
@@ -245,8 +247,16 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						</Accordion>
 					</DialogContent>
 					<DialogActions>
-						<Button color="primary" onClick={() => this.closeDialog()}> Bearbeiten </Button>
-						<Button color="primary" onClick={() => this.closeDialog()}> Schliessen </Button>
+						<Tooltip title="Bearbeiten" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton EditButton" onClick={() => this.closeDialog()}>
+								<EditIcon />
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="Schliessen" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton CloseButton" onClick={() => this.closeDialog()}>
+								<ClearIcon />
+							</IconButton>
+						</Tooltip>
 					</DialogActions>
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>

@@ -46,3 +46,8 @@
 	overflow-y: auto;
 	height: 6rem;
 }
+
+.RecipeDetailsTextField .MuiInputBase-root.Mui-disabled {
+	color: black;
+	font-style: italic;
+}

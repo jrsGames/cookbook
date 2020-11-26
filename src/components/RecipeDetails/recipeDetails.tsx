@@ -219,11 +219,13 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 							</AccordionSummary>
 							<AccordionDetails className="Multiline">
 								<TextField
+									className="RecipeDetailsTextField"
 									id="outlined-multiline-static"
 									placeholder="Zubereitung hinzufuegen"
 									multiline
 									defaultValue={this.getPreparation()}
 									variant="outlined"
+									disabled={!this.state.inEditMode}
 									onChange={(event) => this.setPreparation(event.target.value)}
 								/>
 							</AccordionDetails>
@@ -242,12 +244,14 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 							</AccordionSummary>
 							<AccordionDetails className="Multiline">
 								<TextField
+									className="RecipeDetailsTextField"
 									id="outlined-multiline-static"
 									placeholder="Notizen hinzufuegen"
 									multiline
 									rows={4}
 									defaultValue={this.getNotes()}
 									variant="outlined"
+									disabled={!this.state.inEditMode}
 									onChange={(event) => this.setNotes(event.target.value)}
 								/>
 							</AccordionDetails>

@@ -26,6 +26,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { LABELS } from '../../labels';
 import EditIcon from '@material-ui/icons/Edit';
+import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
 
 
@@ -266,9 +267,9 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						</Accordion>
 					</DialogContent>
 					<DialogActions>
-						<Tooltip title="Bearbeiten" TransitionComponent={Zoom}>
+						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
 							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
-								<EditIcon />
+								{this.state.inEditMode ? <DoneIcon /> : <EditIcon />}
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="Schliessen" TransitionComponent={Zoom}>

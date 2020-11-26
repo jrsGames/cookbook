@@ -85,17 +85,25 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		if(this.state.recipe && this.state.recipe.labels) {
 			const labels: string[] = JSON.parse(JSON.stringify(this.state.recipe.labels));
 			chips = chips.concat(labels.map((label, index) => {
-				return <Chip className="Label" color="primary" key={index} label={label} onDelete={() => this.deleteLabel(index)}/>;
+				return <Chip
+							className="Label"
+							color="primary"
+							key={index}
+							label={label}
+							onDelete={this.state.inEditMode ? () => this.deleteLabel(index) : undefined}
+						/>;
 			}));
-			chips.push(
-				<Chip
-					className="Label"
-					key={labels.length}
-					label="Neues Label"
-					icon={<AddCircleIcon />}
-					onClick={() => this.openAddLabelDialog()}
-				/>
-			);
+			if(this.state.inEditMode) {
+				chips.push(
+					<Chip
+						className="Label"
+						key={labels.length}
+						label="Neues Label"
+						icon={<AddCircleIcon />}
+						onClick={() => this.openAddLabelDialog()}
+					/>
+				);
+			}
 		 }
 		return chips;
 	}

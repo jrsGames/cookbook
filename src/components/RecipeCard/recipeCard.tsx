@@ -80,6 +80,12 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 		this.closeDeleteDialog();
 	}
 	
+	getTitleClassName = (title: string) => {
+		return title.length > 17 ? title.length > 21 ? "RecipeTitle-tiny" : "RecipeTitle-small" : "RecipeTitle";
+	}
+
+	trimTitle = (title: string) => title.length > 25 ? title.substr(0,24) + "..." : title;
+	
 	render() {
 		const recipe: Recipe = this.props.recipe;
 		return (
@@ -89,9 +95,11 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						<img className="RecipeImage" src={this.getImageSource()} alt="Loading" />
 					</div>
 					<CardContent>
-						<Typography gutterBottom variant="h5" component="h2">
-							{recipe.name}
-						</Typography>
+						<Tooltip title={recipe.name} TransitionComponent={Zoom} placement="top">
+							<Typography className={this.getTitleClassName(recipe.name)} gutterBottom variant="h5" component="h2">
+								{this.trimTitle(recipe.name)}
+							</Typography>
+						</Tooltip>
 						<div className="Labels">
 							{recipe.labels.map((label, index) => {
 								return <Chip className="CardLabel" color="primary" key={index} label={label}/>;

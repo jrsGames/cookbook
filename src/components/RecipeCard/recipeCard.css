@@ -47,7 +47,15 @@
 	height: 6rem;
 }
 
-.RecipeDetailsTextField .MuiInputBase-root.Mui-disabled {
+.RecipeDetailsTextField.MuiInputBase-root.Mui-disabled {
 	color: black;
 	font-style: italic;
+}
+
+.RecipeTitle-small.MuiTypography-h5 {
+	font-size: 1.2rem;
+}
+
+.RecipeTitle-tiny.MuiTypography-h5 {
+	font-size: 1rem;
 }

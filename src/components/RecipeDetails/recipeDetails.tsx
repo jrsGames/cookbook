@@ -37,7 +37,9 @@ const EMPTY_INGREDIENT: Ingredient = {
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
-	recipe: Recipe | null
+	recipe: Recipe | null,
+	index: number,
+	setRecipe: (recipe: Recipe) => void
 }
 
 interface RecipeDetailsState {
@@ -65,9 +67,23 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 
+	setRecipeName = (newName: string) => {
+		if(this.state.recipe) {
+			const newRecipe = JSON.parse(JSON.stringify(this.state.recipe));
+			newRecipe.name = newName;
+			this.setState({ recipe: newRecipe });
+		}
+	}
+
 	getDialogTitle = () => {
 		if(this.state.recipe) {
-			return this.state.recipe.name;
+			return this.state.inEditMode ?
+					<TextField
+						value={this.state.recipe.name}
+						variant="outlined"
+						onChange={(event) => this.setRecipeName(event.target.value)}
+					/> :
+					this.state.recipe.name;
 		} else {
 			return "";
 		}
@@ -201,8 +217,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	changeMode = () => {
-		this.setState({ inEditMode: !this.state.inEditMode })
+		if(this.state.inEditMode && this.state.recipe) {
+			this.props.setRecipe(this.state.recipe);
+		}
+		this.setState({ inEditMode: !this.state.inEditMode });
 	}
+
 
 	render() {
 		return (

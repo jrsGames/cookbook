@@ -9,15 +9,17 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
+import { setCookbook } from '../../redux/action_creators/BookState';
 
 interface ReadModePageProps {
-	getCookbook: () => Cookbook
+	getCookbook: () => Cookbook,
+	setCookbook: (cookbook: Cookbook) => void
 }
 
 interface ReadModePageState {
 	cookbook: Cookbook,
 	toBeSwapped: number | null,
-	openRecipe: Recipe | null
+	openRecipeIndex: number
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -27,7 +29,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.state = {
 			cookbook: props.getCookbook(),
 			toBeSwapped: null,
-			openRecipe: null
+			openRecipeIndex: -1
 		}
 	}
 	
@@ -38,7 +40,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	openRecipe = (index: number) => {
-		this.setState({ openRecipe: JSON.parse(JSON.stringify(this.state.cookbook.recipes[index]))});
+		this.setState({ openRecipeIndex: index });
 	}
 	
 	copyRecipe(index: number){
@@ -75,7 +77,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	closeDetailsDialog = () => {
-		this.setState({ openRecipe: null});
+		this.setState({ openRecipeIndex: -1});
+	}
+	
+	updateCookbookWithRecipe = (recipe: Recipe) => {
+		const newCookbook = this.props.getCookbook();
+		if(newCookbook) {
+			newCookbook.recipes = JSON.parse(JSON.stringify(newCookbook.recipes));
+			newCookbook.recipes[this.state.openRecipeIndex] = recipe;
+			this.props.setCookbook(newCookbook);	
+		}
 	}
 	
 	render() {
@@ -108,7 +119,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 								/>;
 					})}
 				</div>
-				<RecipeDetails recipe={JSON.parse(JSON.stringify(this.state.openRecipe))} closeDialog={() => this.closeDetailsDialog()}/>
+				<RecipeDetails
+					recipe={
+						this.state.openRecipeIndex > -1 ?
+						JSON.parse(JSON.stringify(this.state.cookbook.recipes[this.state.openRecipeIndex])) :
+						null
+					}
+					index={this.state.openRecipeIndex}
+					closeDialog={() => this.closeDetailsDialog()}
+					setRecipe={(recipe: Recipe) => this.updateCookbookWithRecipe(recipe)}
+					/>
 			</div>
 		);
 	}
@@ -118,6 +138,8 @@ const mapStateToProps = (state: GlobalState) => ({
 	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook))
+});
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

@@ -49,6 +49,7 @@ interface RecipeDetailsProps {
 interface RecipeDetailsState {
 	recipe: Recipe | null,
 	addLabelDialogOpen: boolean,
+	setDurationDialogOpen: boolean,
 	newLabel: string | null,
 	inEditMode: boolean
 }
@@ -60,6 +61,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.state={
 			recipe: props.recipe,
 			addLabelDialogOpen: false,
+			setDurationDialogOpen: false,
 			newLabel: null,
 			inEditMode: false
 		}
@@ -171,6 +173,16 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ addLabelDialogOpen: false, newLabel: null });
 	}
 	
+	openSetDurationDialog = () => {
+		if(this.state.inEditMode) {
+			this.setState({ setDurationDialogOpen: true });
+		}
+	}
+	
+	closeSetDurationDialog = () => {
+		this.setState({ setDurationDialogOpen: false });
+	}
+	
 	setNewLabel = (label: string | null) => {
 		this.setState({ newLabel: label });
 	}
@@ -255,8 +267,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						{this.getDialogTitle()}
 						<Chip
 							className="Duration"
+							color="secondary"
+							icon={this.state.inEditMode ? <IconButton size="small"> <EditIcon /> </IconButton> : undefined}
 							label={this.getDurationLabel()}
-							onClick={() => this.openChangeDurationDialog()}
+							onClick={() => this.openSetDurationDialog()}
 						/>
 						<div className="ActionButtons">
 							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
@@ -329,6 +343,30 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						</Accordion>
 					</DialogContent>
 					<DialogActions />
+				</Dialog>
+				<Dialog className="SetDurationDialog" open={this.state.setDurationDialogOpen} onClose={() => this.closeSetDurationDialog()}>
+					<DialogTitle> Dauer </DialogTitle>
+					<DialogContent>
+						<FormControl className="SetDurationForm">
+								<Autocomplete
+									freeSolo
+									options={LABELS}
+									onChange={(_event, value) => this.setNewLabel(value)}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											variant="outlined"
+											onChange={(event) => this.setNewLabel(event.target.value)}
+											InputProps={{ ...params.InputProps, type: 'search' }}
+										/>
+									)}
+								/>
+						</FormControl>
+					</DialogContent>
+					<DialogActions>
+						<IconButton onClick={() => this.addLabel()} color="primary"> <CheckIcon/> </IconButton>
+						<IconButton onClick={() => this.closeAddLabelDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</DialogActions>
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
 					<DialogTitle> Neues Label </DialogTitle>

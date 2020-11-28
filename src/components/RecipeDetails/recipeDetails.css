@@ -3,9 +3,7 @@
 	max-width: unset;
 }
 
-.RecipeDetailsDialog .MuiFormControl-root {
-	width: 100%;
-}
+.RecipeDetailsDialog .MuiFormControl-root {}
 
 .Label.MuiChip-root {
 	margin-top: 0.3rem;
@@ -46,8 +44,6 @@
 	font-weight: 600;
 }
 
-.Duration.MuiChip-clickable {
+.Duration.MuiChip-root {
 	margin: 0 1rem;
-	background-color: orange;
-	color: white;
 }

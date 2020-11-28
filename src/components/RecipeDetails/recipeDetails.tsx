@@ -145,6 +145,24 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
+	getDurationLabel = () => {
+		if(this.state.recipe && this.state.recipe.duration){
+			const time: number = this.state.recipe.duration;
+			if(time < 60) {
+				return time.toString() + " Min";
+			}
+			if(time < 1440) {
+				const hours = Math.floor(time/60);
+				const minutes = time-60*hours;
+				return hours.toString() + " Std " + minutes.toString() + " Min";
+			}
+			const days = Math.floor(time/1440);
+			const hours = Math.floor(time-1440*days);
+			const minutes = time-1440*days-60*hours;
+			return days.toString() + " T " + hours.toString() + " Std " + minutes.toString() + " Min";
+		}
+	}
+	
 	openAddLabelDialog = () => {
 		this.setState({ addLabelDialogOpen: true });
 	}
@@ -166,7 +184,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	};
 	
-		
 	deleteLabel = (index: number) => {
 		if(this.state.recipe && this.state.recipe.labels) {
 			const newRecipe: Recipe = this.state.recipe;
@@ -220,6 +237,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.props.closeDialog();
 	}
 	
+	openChangeDurationDialog = () => {}
+	
 	changeMode = () => {
 		if(this.state.inEditMode && this.state.recipe) {
 			this.props.updateRecipe(this.state.recipe.id || "", this.state.recipe);
@@ -234,6 +253,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 				<Dialog className="RecipeDetailsDialog" open={this.dialogOpen()} onClose={() => this.closeDialog()}>
 					<DialogTitle className="RecipeTitle">
 						{this.getDialogTitle()}
+						<Chip
+							className="Duration"
+							label={this.getDurationLabel()}
+							onClick={() => this.openChangeDurationDialog()}
+						/>
 						<div className="ActionButtons">
 							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
 								<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>

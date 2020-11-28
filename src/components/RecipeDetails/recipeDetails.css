@@ -45,3 +45,9 @@
 .RecipeTitle .MuiTypography-root.MuiTypography-h6 {
 	font-weight: 600;
 }
+
+.Duration.MuiChip-clickable {
+	margin: 0 1rem;
+	background-color: orange;
+	color: white;
+}

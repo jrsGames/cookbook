@@ -1,4 +1,4 @@
-import { Cookbook } from "./initialState";
+import { Cookbook, Recipe } from "./initialState";
 
 export interface Action<T> {
 	type: string;
@@ -28,13 +28,22 @@ export const ACTION_COPY_RECIPE = "copyRecipe";
 export interface ActionCopyRecipe {
 	recipeId: string
 }
-
 export const ACTION_SWAP_RECIPES = "swapRecipes";
 export interface ActionSwapRecipes {
 	firstRecipeId: string,
 	secondRecipeId: string
 }
+export const ACTION_UPDATE_RECIPE = "updateRecipe";
+export interface ActionUpdateRecipe {
+	id: string,
+	newRecipe: Recipe
+}
 
 export interface ActionSetGeneralState extends ActionSetView {};
 export interface ActionSetBookState extends
-	ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe, ActionCopyRecipe, ActionSwapRecipes{};
+	ActionSetCookbook,
+	ActionSetCookbookString,
+	ActionDeleteRecipe,
+	ActionCopyRecipe,
+	ActionSwapRecipes,
+	ActionUpdateRecipe {};

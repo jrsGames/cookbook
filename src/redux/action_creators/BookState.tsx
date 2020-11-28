@@ -1,5 +1,12 @@
-import { ACTION_SET_COOKBOOK, ACTION_SET_COOKBOOK_STRING, ACTION_DELETE_RECIPE, ACTION_COPY_RECIPE, ACTION_SWAP_RECIPES } from "../actions";
-import { Cookbook } from "../initialState";
+import {
+	ACTION_SET_COOKBOOK,
+	ACTION_SET_COOKBOOK_STRING,
+	ACTION_DELETE_RECIPE,
+	ACTION_COPY_RECIPE,
+	ACTION_SWAP_RECIPES,
+	ACTION_UPDATE_RECIPE
+} from "../actions";
+import { Cookbook, Recipe } from "../initialState";
 
 export const setCookbook = (cookbook: Cookbook) => ({
 	type: ACTION_SET_COOKBOOK, payload: {cookbook}
@@ -20,3 +27,6 @@ export const copyRecipe = (recipeId: string) => ({
 export const swapRecipes = (firstRecipeId: string, secondRecipeId: string) => ({
 	type: ACTION_SWAP_RECIPES, payload: {firstRecipeId, secondRecipeId}
 });
+export const updateRecipe = (id: string, newRecipe: Recipe) => ({
+	type: ACTION_UPDATE_RECIPE, payload: {id, newRecipe}
+})

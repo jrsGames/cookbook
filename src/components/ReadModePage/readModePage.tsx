@@ -138,7 +138,6 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 					}
 					index={this.state.openRecipeIndex}
 					closeDialog={() => this.closeDetailsDialog()}
-					setRecipe={(recipe: Recipe) => this.updateCookbookWithRecipe(recipe)}
 					/>
 			</div>
 		);

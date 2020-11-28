@@ -1,6 +1,6 @@
 import React from 'react';
 import './recipeDetails.css';
-import { GlobalState, Recipe, Ingredient } from '../../redux/initialState';
+import { GlobalState, Recipe, Ingredient, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -28,6 +28,9 @@ import { LABELS } from '../../labels';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
+import { getCookbook } from '../../redux/selectors';
+import { updateRecipe } from '../../redux/action_creators/BookState';
+import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
@@ -39,7 +42,8 @@ interface RecipeDetailsProps {
 	closeDialog: () => void,
 	recipe: Recipe | null,
 	index: number,
-	setRecipe: (recipe: Recipe) => void
+	getCookbook: () => Cookbook,
+	updateRecipe: (id: string, newRecipe: Recipe) => void
 }
 
 interface RecipeDetailsState {
@@ -218,7 +222,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	
 	changeMode = () => {
 		if(this.state.inEditMode && this.state.recipe) {
-			this.props.setRecipe(this.state.recipe);
+			this.props.updateRecipe(this.state.recipe.id || "", this.state.recipe);
 		}
 		this.setState({ inEditMode: !this.state.inEditMode });
 	}
@@ -328,8 +332,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 }
 
-const mapStateToProps = (state: GlobalState) => ({});
+const mapStateToProps = (state: GlobalState) => ({
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	updateRecipe: (id: string, newRecipe: Recipe) => dispatch(updateRecipe(id, newRecipe))
+});
 
 export const RecipeDetails = connect(mapStateToProps, mapDispatchToProps)(UnconnectedRecipeDetails);

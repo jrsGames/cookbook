@@ -9,7 +9,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook, deleteRecipe, copyRecipe } from '../../redux/action_creators/BookState';
+import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
 	recipes.findIndex((recipe) => recipe.id && recipe.id === id);
@@ -18,7 +18,8 @@ interface ReadModePageProps {
 	getCookbook: () => Cookbook,
 	setCookbook: (cookbook: Cookbook) => void,
 	deleteRecipe: (id: string) => void,
-	copyRecipe: (recipeId: string, newRecipeId: string) => void
+	copyRecipe: (recipeId: string, newRecipeId: string) => void,
+	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void
 }
 
 interface ReadModePageState {
@@ -65,12 +66,15 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		if(this.state.toBeSwapped !== null) {
 			const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 			const temp = newCookbook.recipes[this.state.toBeSwapped];
+			const firstRecipeId = temp.id || "";
+			const secondRecipeId = newCookbook.recipes[index].id || "";
 			newCookbook.recipes[this.state.toBeSwapped] = newCookbook.recipes[index];
 			newCookbook.recipes[index] = temp;
 			this.setState({
 				cookbook: newCookbook,
 				toBeSwapped: null
 			});
+			this.props.swapRecipes(firstRecipeId, secondRecipeId)
 		} else {
 			this.setState({
 				toBeSwapped: index
@@ -163,7 +167,8 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
-	copyRecipe: (recipeId: string, newRecipeId: string) => dispatch(copyRecipe(recipeId, newRecipeId))
+	copyRecipe: (recipeId: string, newRecipeId: string) => dispatch(copyRecipe(recipeId, newRecipeId)),
+	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId))
 });
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

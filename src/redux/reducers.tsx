@@ -15,7 +15,8 @@ import {
 	ActionSetBookState,
 	ACTION_SET_COOKBOOK_STRING,
 	ACTION_DELETE_RECIPE,
-	ACTION_COPY_RECIPE} from './actions';
+	ACTION_COPY_RECIPE,
+	ACTION_SWAP_RECIPES} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 
 
@@ -62,6 +63,18 @@ export function bookReducer(
 			const copiedRecipe: Recipe = JSON.parse(JSON.stringify(newCookbook.recipes[recipeIndex]));
 			copiedRecipe.id = action.payload.newRecipeId;
 			newCookbook.recipes.splice(recipeIndex + 1, 0, copiedRecipe);
+			return {
+				...state,
+				cookbook: newCookbook
+			};
+		}
+		case ACTION_SWAP_RECIPES: {
+			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));
+			const firstRecipeIndex = getRecipeIndexById(newCookbook.recipes, action.payload.firstRecipeId);
+			const secondRecipeIndex = getRecipeIndexById(newCookbook.recipes, action.payload.secondRecipeId);
+			const temp = newCookbook.recipes[firstRecipeIndex];
+			newCookbook.recipes[firstRecipeIndex] = newCookbook.recipes[secondRecipeIndex];
+			newCookbook.recipes[secondRecipeIndex] = temp;
 			return {
 				...state,
 				cookbook: newCookbook

@@ -30,5 +30,12 @@ export interface ActionCopyRecipe {
 	newRecipeId: string
 }
 
+export const ACTION_SWAP_RECIPES = "swapRecipes";
+export interface ActionSwapRecipes {
+	firstRecipeId: string,
+	secondRecipeId: string
+}
+
 export interface ActionSetGeneralState extends ActionSetView {};
-export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe, ActionCopyRecipe {};
+export interface ActionSetBookState extends
+	ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe, ActionCopyRecipe, ActionSwapRecipes{};

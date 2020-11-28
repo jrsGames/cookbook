@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlobalState, READ_VIEW, Cookbook } from '../../redux/initialState';
+import { GlobalState, READ_VIEW, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { setView } from '../../redux/action_creators/GeneralState';
 import { connect } from 'react-redux';
@@ -46,6 +46,12 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 	}
 }
 
+const setId = (recipe: Recipe) => {
+	if(!recipe.id) {
+		recipe.id = Math.floor(Math.random() * 1000000).toString();
+	}
+}
+
 const parseToCookbook: (input: string) => Cookbook = (input) => {
 	try {
 		JSON.parse(input);
@@ -54,12 +60,16 @@ const parseToCookbook: (input: string) => Cookbook = (input) => {
 		console.log(input);
 		return EMPTY_COOKBOOK;
 	}
-	const cookbook: any = JSON.parse(input);
-	if(isCookbook(cookbook)){
-		return (cookbook) as Cookbook;
+	const content: any = JSON.parse(input);
+	if(isCookbook(content)){
+		const cookbook = (content) as Cookbook;
+		cookbook.recipes.forEach((recipe) => {
+			setId(recipe);
+		});
+		return cookbook;
 	}
 	console.log("The file content is not a valid Cookbook. It is:");
-	console.log(cookbook);
+	console.log(content);
 	return EMPTY_COOKBOOK;
 }
 
@@ -68,8 +78,9 @@ const mapStateToProps = (state: GlobalState) => ({});
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	enterReadMode: () => dispatch(setView(READ_VIEW)),
 	setCookbook: (cookbook: string) => {
-		dispatch(setCookbookString(cookbook));
-		dispatch(setCookbook(parseToCookbook(cookbook)));
+		const parsedCookbook = parseToCookbook(cookbook);
+		dispatch(setCookbookString(JSON.stringify(parsedCookbook)));
+		dispatch(setCookbook(parsedCookbook));
 	}
 });
 

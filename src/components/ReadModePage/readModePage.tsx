@@ -52,26 +52,15 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	copyRecipe(index: number){
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		const recipeIdToBeCopied = newCookbook.recipes[index].id || "";
-		const copiedRecipe: Recipe = JSON.parse(JSON.stringify(newCookbook.recipes[index]));
-		const newId = generateId();
-		copiedRecipe.id = newId;
-		newCookbook.recipes.splice(index + 1, 0, copiedRecipe);
-		this.setState({
-			cookbook: newCookbook
-		});
-		this.props.copyRecipe(recipeIdToBeCopied, newId);
+		this.props.copyRecipe(recipeIdToBeCopied, generateId());
 	}
 	
 	swapRecipe(index: number){
 		if(this.state.toBeSwapped !== null) {
 			const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
-			const temp = newCookbook.recipes[this.state.toBeSwapped];
-			const firstRecipeId = temp.id || "";
+			const firstRecipeId = newCookbook.recipes[this.state.toBeSwapped].id || "";
 			const secondRecipeId = newCookbook.recipes[index].id || "";
-			newCookbook.recipes[this.state.toBeSwapped] = newCookbook.recipes[index];
-			newCookbook.recipes[index] = temp;
 			this.setState({
-				cookbook: newCookbook,
 				toBeSwapped: null
 			});
 			this.props.swapRecipes(firstRecipeId, secondRecipeId)
@@ -85,10 +74,6 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	deleteRecipe(index: number){
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		const id = newCookbook.recipes[index].id || "";
-		newCookbook.recipes.splice(index, 1);
-		this.setState({
-			cookbook: newCookbook
-		});
 		this.props.deleteRecipe(id);
 	}
 	

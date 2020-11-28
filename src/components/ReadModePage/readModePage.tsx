@@ -4,12 +4,12 @@ import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
-import { EMPTY_COOKBOOK, setId } from '../UploadInput/uploadInput';
+import { EMPTY_COOKBOOK, generateId } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook, deleteRecipe } from '../../redux/action_creators/BookState';
+import { setCookbook, deleteRecipe, copyRecipe } from '../../redux/action_creators/BookState';
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
 	recipes.findIndex((recipe) => recipe.id && recipe.id === id);
@@ -17,7 +17,8 @@ export const getRecipeIndexById = (recipes: Recipe[], id: string) =>
 interface ReadModePageProps {
 	getCookbook: () => Cookbook,
 	setCookbook: (cookbook: Cookbook) => void,
-	deleteRecipe: (id: string) => void
+	deleteRecipe: (id: string) => void,
+	copyRecipe: (recipeId: string, newRecipeId: string) => void
 }
 
 interface ReadModePageState {
@@ -51,15 +52,13 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		const recipeIdToBeCopied = newCookbook.recipes[index].id || "";
 		const copiedRecipe: Recipe = JSON.parse(JSON.stringify(newCookbook.recipes[index]));
-		setId(copiedRecipe);
+		const newId = generateId();
+		copiedRecipe.id = newId;
 		newCookbook.recipes.splice(index + 1, 0, copiedRecipe);
 		this.setState({
 			cookbook: newCookbook
 		});
-		const newGlobalCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
-		const globalRecipeIndex = getRecipeIndexById(newGlobalCookbook.recipes, recipeIdToBeCopied);
-		newGlobalCookbook.recipes.splice(globalRecipeIndex + 1, 0, copiedRecipe);
-		this.props.setCookbook(newGlobalCookbook);
+		this.props.copyRecipe(recipeIdToBeCopied, newId);
 	}
 	
 	swapRecipe(index: number){
@@ -163,7 +162,8 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
-	deleteRecipe: (id: string) => dispatch(deleteRecipe(id))
+	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
+	copyRecipe: (recipeId: string, newRecipeId: string) => dispatch(copyRecipe(recipeId, newRecipeId))
 });
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

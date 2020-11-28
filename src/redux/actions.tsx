@@ -24,6 +24,11 @@ export const ACTION_DELETE_RECIPE = "deleteRecipe";
 export interface ActionDeleteRecipe {
 	recipeId: string
 }
+export const ACTION_COPY_RECIPE = "copyRecipe";
+export interface ActionCopyRecipe {
+	recipeId: string,
+	newRecipeId: string
+}
 
 export interface ActionSetGeneralState extends ActionSetView {};
-export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe {};
+export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe, ActionCopyRecipe {};

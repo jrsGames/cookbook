@@ -46,7 +46,7 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 	}
 }
 
-const setId = (recipe: Recipe) => {
+export const setId = (recipe: Recipe) => {
 	if(!recipe.id) {
 		recipe.id = Math.floor(Math.random() * 1000000).toString();
 	}

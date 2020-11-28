@@ -40,6 +40,10 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
+	getRecipeIndexById = (recipes: Recipe[], id: string) => {
+		return recipes.findIndex((recipe) => recipe.id && recipe.id === id)
+	}
+	
 	openRecipe = (index: number) => {
 		this.setState({ openRecipeIndex: index });
 	}
@@ -71,10 +75,15 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	
 	deleteRecipe(index: number){
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
+		const id = newCookbook.recipes[index].id || "";
 		newCookbook.recipes.splice(index, 1);
 		this.setState({
 			cookbook: newCookbook
 		});
+		const newGlobalCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
+		const globalRecipeIndex = this.getRecipeIndexById(newGlobalCookbook.recipes, id);
+		newGlobalCookbook.recipes.splice(globalRecipeIndex, 1);
+		this.props.setCookbook(newGlobalCookbook);
 	}
 	
 	closeDetailsDialog = () => {

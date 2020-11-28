@@ -13,8 +13,8 @@ export const deleteRecipe = (recipeId: string) => ({
 	type: ACTION_DELETE_RECIPE, payload: {recipeId}
 });
 
-export const copyRecipe = (recipeId: string, newRecipeId: string) => ({
-	type: ACTION_COPY_RECIPE, payload: {recipeId, newRecipeId}
+export const copyRecipe = (recipeId: string) => ({
+	type: ACTION_COPY_RECIPE, payload: {recipeId}
 });
 
 export const swapRecipes = (firstRecipeId: string, secondRecipeId: string) => ({

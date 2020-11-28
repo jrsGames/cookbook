@@ -18,6 +18,7 @@ import {
 	ACTION_COPY_RECIPE,
 	ACTION_SWAP_RECIPES} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
+import { generateId } from '../components/UploadInput/uploadInput';
 
 
 /* GENERALSTATE */
@@ -61,7 +62,7 @@ export function bookReducer(
 			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));
 			const recipeIndex = getRecipeIndexById(newCookbook.recipes, action.payload.recipeId);
 			const copiedRecipe: Recipe = JSON.parse(JSON.stringify(newCookbook.recipes[recipeIndex]));
-			copiedRecipe.id = action.payload.newRecipeId;
+			copiedRecipe.id = generateId();
 			newCookbook.recipes.splice(recipeIndex + 1, 0, copiedRecipe);
 			return {
 				...state,

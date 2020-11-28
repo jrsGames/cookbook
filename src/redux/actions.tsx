@@ -26,8 +26,7 @@ export interface ActionDeleteRecipe {
 }
 export const ACTION_COPY_RECIPE = "copyRecipe";
 export interface ActionCopyRecipe {
-	recipeId: string,
-	newRecipeId: string
+	recipeId: string
 }
 
 export const ACTION_SWAP_RECIPES = "swapRecipes";

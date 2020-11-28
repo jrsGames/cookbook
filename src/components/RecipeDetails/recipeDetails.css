@@ -3,7 +3,9 @@
 	max-width: unset;
 }
 
-.RecipeDetailsDialog .MuiFormControl-root {}
+.RecipeDetailsTextField.MuiFormControl-root {
+	width: 100%;
+}
 
 .Label.MuiChip-root {
 	margin-top: 0.3rem;

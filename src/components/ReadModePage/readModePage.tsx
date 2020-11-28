@@ -11,6 +11,7 @@ import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook } from '../../redux/action_creators/BookState';
 
+
 interface ReadModePageProps {
 	getCookbook: () => Cookbook,
 	setCookbook: (cookbook: Cookbook) => void
@@ -89,6 +90,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
+	exportCookbook = () => {
+		let content = JSON.stringify(this.props.getCookbook());
+		let link = document.createElement("a");
+		const dataURI = "data:text/json;base64," + btoa(content);
+		link.setAttribute("href", dataURI);
+		link.setAttribute("download", "kochbuch.json");
+		document.body.appendChild(link); // Firefox
+		link.click();
+	}
+	
 	render() {
 		const cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		
@@ -96,8 +107,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			<div className="ReadModePage">
 				<AppBar position="static">
 					<Toolbar>
-						<IconButton edge="start" color="inherit" aria-label="menu">
-							<MenuIcon />
+						<IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
+							<MenuIcon/>
 						</IconButton>
 						<Typography variant="h6">
 							{cookbook.title}

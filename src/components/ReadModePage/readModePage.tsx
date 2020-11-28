@@ -9,12 +9,15 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook } from '../../redux/action_creators/BookState';
+import { setCookbook, deleteRecipe } from '../../redux/action_creators/BookState';
 
+export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
+	recipes.findIndex((recipe) => recipe.id && recipe.id === id);
 
 interface ReadModePageProps {
 	getCookbook: () => Cookbook,
-	setCookbook: (cookbook: Cookbook) => void
+	setCookbook: (cookbook: Cookbook) => void,
+	deleteRecipe: (id: string) => void
 }
 
 interface ReadModePageState {
@@ -40,10 +43,6 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
-	getRecipeIndexById = (recipes: Recipe[], id: string) => {
-		return recipes.findIndex((recipe) => recipe.id && recipe.id === id)
-	}
-	
 	openRecipe = (index: number) => {
 		this.setState({ openRecipeIndex: index });
 	}
@@ -58,7 +57,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			cookbook: newCookbook
 		});
 		const newGlobalCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
-		const globalRecipeIndex = this.getRecipeIndexById(newGlobalCookbook.recipes, recipeIdToBeCopied);
+		const globalRecipeIndex = getRecipeIndexById(newGlobalCookbook.recipes, recipeIdToBeCopied);
 		newGlobalCookbook.recipes.splice(globalRecipeIndex + 1, 0, copiedRecipe);
 		this.props.setCookbook(newGlobalCookbook);
 	}
@@ -87,10 +86,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.setState({
 			cookbook: newCookbook
 		});
-		const newGlobalCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
-		const globalRecipeIndex = this.getRecipeIndexById(newGlobalCookbook.recipes, id);
-		newGlobalCookbook.recipes.splice(globalRecipeIndex, 1);
-		this.props.setCookbook(newGlobalCookbook);
+		this.props.deleteRecipe(id);
 	}
 	
 	closeDetailsDialog = () => {
@@ -166,7 +162,8 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook))
+	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
+	deleteRecipe: (id: string) => dispatch(deleteRecipe(id))
 });
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

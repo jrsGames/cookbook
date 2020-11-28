@@ -3,7 +3,8 @@ import {
 	GeneralState,
 	BookState,
 	initialGeneralState,
-	initialBookState
+	initialBookState,
+	Cookbook
 } from './initialState';
 import {
 	Action,
@@ -11,7 +12,9 @@ import {
 	ActionSetGeneralState,
 	ACTION_SET_COOKBOOK,
 	ActionSetBookState,
-    ACTION_SET_COOKBOOK_STRING} from './actions';
+	ACTION_SET_COOKBOOK_STRING,
+	ACTION_DELETE_RECIPE} from './actions';
+import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 
 /* GENERALSTATE */
 export function generalReducer(
@@ -41,6 +44,15 @@ export function bookReducer(
 			...state,
 			cookbookString: action.payload.cookbookString
 		};
+		case ACTION_DELETE_RECIPE: {
+			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));
+			const recipeIndex = getRecipeIndexById(newCookbook.recipes, action.payload.recipeId);
+			newCookbook.recipes.splice(recipeIndex, 1);
+			return {
+				...state,
+				cookbook: newCookbook
+			};
+		}
 		default: return state;
 	}	
 }

@@ -20,6 +20,10 @@ export const ACTION_SET_COOKBOOK_STRING = "setCookbookString";
 export interface ActionSetCookbookString {
 	cookbookString: string
 }
+export const ACTION_DELETE_RECIPE = "deleteRecipe";
+export interface ActionDeleteRecipe {
+	recipeId: string
+}
 
 export interface ActionSetGeneralState extends ActionSetView {};
-export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString {};
+export interface ActionSetBookState extends ActionSetCookbook, ActionSetCookbookString, ActionDeleteRecipe {};

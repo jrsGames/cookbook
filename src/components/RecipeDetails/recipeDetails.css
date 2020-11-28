@@ -40,3 +40,7 @@
 .ActionButtons {
 	float: right;
 }
+
+.RecipeTitle .MuiTypography-root.MuiTypography-h6 {
+	font-weight: 600;
+}

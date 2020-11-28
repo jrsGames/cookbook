@@ -232,7 +232,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		return (
 			<div className="RecipeDetails">
 				<Dialog className="RecipeDetailsDialog" open={this.dialogOpen()} onClose={() => this.closeDialog()}>
-					<DialogTitle>
+					<DialogTitle className="RecipeTitle">
 						{this.getDialogTitle()}
 						<div className="ActionButtons">
 							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>

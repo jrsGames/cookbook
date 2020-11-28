@@ -36,3 +36,7 @@
 .RecipeDetailsTextField .MuiInputBase-root.Mui-disabled{
 	color: inherit;
 }
+
+.ActionButtons {
+	float: right;
+}

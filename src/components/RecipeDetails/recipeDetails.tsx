@@ -232,7 +232,21 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		return (
 			<div className="RecipeDetails">
 				<Dialog className="RecipeDetailsDialog" open={this.dialogOpen()} onClose={() => this.closeDialog()}>
-					<DialogTitle>{this.getDialogTitle()}</DialogTitle>
+					<DialogTitle>
+						{this.getDialogTitle()}
+						<div className="ActionButtons">
+							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
+								<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
+									{this.state.inEditMode ? <DoneIcon /> : <EditIcon />}
+								</IconButton>
+							</Tooltip>
+							<Tooltip title="Schliessen" TransitionComponent={Zoom}>
+								<IconButton className="ActionButton CloseButton" onClick={() => this.closeDialog()}>
+									<ClearIcon />
+								</IconButton>
+							</Tooltip>
+						</div>
+					</DialogTitle>
 					<DialogContent>
 						<Accordion>
 							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -290,18 +304,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 							</AccordionDetails>
 						</Accordion>
 					</DialogContent>
-					<DialogActions>
-						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
-							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
-								{this.state.inEditMode ? <DoneIcon /> : <EditIcon />}
-							</IconButton>
-						</Tooltip>
-						<Tooltip title="Schliessen" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton CloseButton" onClick={() => this.closeDialog()}>
-								<ClearIcon />
-							</IconButton>
-						</Tooltip>
-					</DialogActions>
+					<DialogActions />
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
 					<DialogTitle> Neues Label </DialogTitle>

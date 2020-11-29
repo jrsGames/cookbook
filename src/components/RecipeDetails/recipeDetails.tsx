@@ -76,14 +76,14 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 			addLabelDialogOpen: false,
 			setDurationDialogOpen: false,
 			newLabel: null,
-			currentDuration: this.parseDuration(props.recipe ? props.recipe.duration || 0 : 0),
+			currentDuration: this.parseDuration(0),
 			inEditMode: false
 		}
 	}
 	
 	componentDidUpdate(oldProps: RecipeDetailsProps) {
 		if(oldProps.recipe !== this.props.recipe) {
-			this.setState({recipe: this.props.recipe, currentDuration: this.parseDuration(this.props.recipe?.duration || 0) });
+			this.setState({recipe: this.props.recipe });
 		}
 	}
 
@@ -91,14 +91,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		const days = Math.floor(duration/1440);
 		const hours = Math.floor((duration-1440*days)/60);
 		const minutes = duration-1440*days-60*hours;
-		console.log(days, hours, minutes);
 		return { days, hours, minutes }
 	}
+	
+	parseCurrentDuration = (currentDuration: Duration) =>
+		currentDuration.days*1440 + currentDuration.hours*60 + currentDuration.minutes;
 	
 	updateCurrentDuration = (timeUnit: DurationEnum, value: string) => {
 		const duration: Duration =  JSON.parse(JSON.stringify(this.state.currentDuration));
 		duration[timeUnit] = Number(value);
-		console.log(duration);
 		this.setState({ currentDuration: duration });
 	}
 	
@@ -177,7 +178,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	getDurationLabel = () => {
-		const {days, hours, minutes} = this.parseDuration(this.props.recipe?.duration || 0);
+		const {days, hours, minutes} = this.parseDuration(this.state.recipe?.duration || 0);
 		const daysLabel = days.toString() + " T ";
 		const hoursLabel = hours.toString() + " Std ";
 		const minutesLabel = minutes.toString() + " Min";
@@ -249,6 +250,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
+	setDuration = () => {
+		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+		newRecipe.duration = this.parseCurrentDuration(this.state.currentDuration);
+		this.setState({ recipe: newRecipe, currentDuration: this.parseDuration(0), setDurationDialogOpen: false })
+	}
+	
 	addIngredient = () => {
 		if(this.state.recipe) {
 			const newRecipe: Recipe = this.state.recipe;
@@ -276,9 +283,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ recipe: null, inEditMode: false });
 		this.props.closeDialog();
 	}
-	
-	openChangeDurationDialog = () => {}
-	
+		
 	changeMode = () => {
 		if(this.state.inEditMode && this.state.recipe) {
 			this.props.updateRecipe(this.state.recipe.id || "", this.state.recipe);
@@ -373,7 +378,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					<DialogActions />
 				</Dialog>
 				<Dialog className="SetDurationDialog" open={this.state.setDurationDialogOpen} onClose={() => this.closeSetDurationDialog()}>
-					<DialogTitle> Dauer </DialogTitle>
+					<DialogTitle> Zubereitungszeit setzen </DialogTitle>
 					<DialogContent>
 						<FormControl className="SetDurationForm">
 							<TextField
@@ -381,7 +386,9 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 								label="Tage"
 								type="number"
 								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 1, min: 0, max: 30, placeholder: this.state.currentDuration.days.toString() }}
+								inputProps={{ step: 1, min: 0, max: 30,
+									placeholder: this.parseDuration(this.state.recipe?.duration || 0).days.toString()
+								}}
 								onChange={(event) => this.updateCurrentDuration(DurationEnum.DAYS, event.target.value)}
 							/>
 							<TextField
@@ -389,7 +396,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 								label="Stunden"
 								type="number"
 								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 1, min: 0, max: 23, placeholder: this.state.currentDuration.hours.toString() }}
+								inputProps={{ step: 1, min: 0, max: 23,
+									placeholder: this.parseDuration(this.state.recipe?.duration || 0).hours.toString() }}
 								onChange={(event) => this.updateCurrentDuration(DurationEnum.HOURS, event.target.value)}
 							/>
 							<TextField
@@ -397,14 +405,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 								label="Minuten"
 								type="number"
 								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 5, min: 0, max: 55, placeholder: this.state.currentDuration.minutes.toString() }}
+								inputProps={{ step: 5, min: 0, max: 55,
+									placeholder: this.parseDuration(this.state.recipe?.duration || 0).minutes.toString() }}
 								onChange={(event) => this.updateCurrentDuration(DurationEnum.MINUTES, event.target.value)}
 							/>
 						</FormControl>
 					</DialogContent>
 					<DialogActions>
-						<IconButton onClick={() => this.addLabel()} color="primary"> <CheckIcon/> </IconButton>
-						<IconButton onClick={() => this.closeAddLabelDialog()} color="primary"> <ClearIcon/> </IconButton>
+						<IconButton onClick={() => this.setDuration()} color="primary"> <CheckIcon/> </IconButton>
+						<IconButton onClick={() => this.closeSetDurationDialog()} color="primary"> <ClearIcon/> </IconButton>
 					</DialogActions>
 				</Dialog>
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>

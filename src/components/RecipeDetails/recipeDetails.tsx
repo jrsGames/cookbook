@@ -28,7 +28,6 @@ interface RecipeDetailsState {
 	recipe: Recipe | null,
 	labelDialogOpen: boolean,
 	durationDialogOpen: boolean,
-	inEditMode: boolean
 }
 
 class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
@@ -38,8 +37,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.state={
 			recipe: props.recipe,
 			labelDialogOpen: false,
-			durationDialogOpen: false,
-			inEditMode: false
+			durationDialogOpen: false
 		}
 	}
 	
@@ -65,10 +63,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ labelDialogOpen: false });
 	}
 	
-	openDurationDialog = (inEditMode: boolean) => {
-		if(inEditMode) {
-			this.setState({ durationDialogOpen: true });
-		}
+	openDurationDialog = () => {
+		this.setState({ durationDialogOpen: true });
 	}
 	
 	closeDurationDialog = () => {
@@ -139,7 +135,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	closeDialog = () => {
-		this.setState({ recipe: null, inEditMode: false });
+		this.setState({ recipe: null });
 		this.props.closeDialog();
 	}
 
@@ -151,7 +147,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					open={this.dialogOpen()}
 					onClose={this.closeDialog}
 					recipe={this.state.recipe}
-					onClickDuration={(inEditMode: boolean) => this.openDurationDialog(inEditMode)}
+					onClickDuration={() => this.openDurationDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
 					updateGlobalRecipe={(id: string, recipe: Recipe) => this.props.updateRecipe(id, recipe)}
 					setRecipeName={(name: string) => this.setRecipeName(name)}

@@ -29,7 +29,7 @@ interface RecipeDetailsDialogProps {
 	open: boolean,
 	onClose: () => void,
 	recipe: Recipe | null,
-	onClickDuration: (inEditMode: boolean) => void,
+	onClickDuration: () => void,
 	onClickNewLabelChip: () => void,
 	updateGlobalRecipe: (id: string, recipe: Recipe) => void,
 	setRecipeName: (name: string) => void,
@@ -151,6 +151,12 @@ export class RecipeDetailsDialog extends React.Component<RecipeDetailsDialogProp
 		}
 		this.setState({ inEditMode: !this.state.inEditMode });
 	}
+	
+	onClickDuration = () => {
+		if(this.state.inEditMode) {
+			this.props.onClickDuration();
+		}
+	}
 
 
 	render() {
@@ -163,7 +169,7 @@ export class RecipeDetailsDialog extends React.Component<RecipeDetailsDialogProp
 						color="secondary"
 						icon={this.state.inEditMode ? <IconButton size="small"> <EditIcon /> </IconButton> : undefined}
 						label={this.getDurationLabel()}
-						onClick={() => this.props.onClickDuration(this.state.inEditMode)}
+						onClick={() => this.onClickDuration()}
 					/>
 					<div className="ActionButtons">
 						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>

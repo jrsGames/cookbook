@@ -21,7 +21,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
-import { Recipe, GlobalState, Ingredient } from '../../redux/initialState';
+import { Recipe, Ingredient } from '../../redux/initialState';
 import { parseDuration } from '../DurationDialog/durationDialog';
 import { connect } from 'react-redux';
 import { updateRecipe } from '../../redux/action_creators/BookState';
@@ -74,17 +74,15 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						onChange={(event) => this.setRecipeName(event.target.value)}
 					/> :
 					this.props.recipe.name;
-		} else {
-			return "";
 		}
+		return "";
 	}
 
 	getPreparation = () => {
 		if(this.props.recipe && this.props.recipe.preparation) {
 			return this.props.recipe.preparation;
-		} else {
-			return "Zubereitung hinzufuegen";
 		}
+		return "Zubereitung hinzufuegen";
 	}
 	
 	getLabelChips = () => {
@@ -118,17 +116,15 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	getNotes = () => {
 		if(this.props.recipe && this.props.recipe.notes) {
 			return this.props.recipe.notes;
-		} else {
-			return "";
 		}
+		return "";
 	}
 	
 	getIngredients = () => {
 		if(this.props.recipe && this.props.recipe.ingredients){
 			return this.props.recipe.ingredients;
-		} else {
-			return [];
 		}
+		return [];
 	}
 	
 	getDurationLabel = () => {
@@ -293,10 +289,8 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 }
 
-const mapStateToProps = (state: GlobalState) => ({});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	updateGlobalRecipe: (id: string, newRecipe: Recipe) => dispatch(updateRecipe(id, newRecipe))
 });
 
-export const RecipeDetailsDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedRecipeDetailsDialog);
+export const RecipeDetailsDialog = connect(() => ({}), mapDispatchToProps)(UnconnectedRecipeDetailsDialog);

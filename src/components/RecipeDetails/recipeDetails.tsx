@@ -4,31 +4,16 @@ import { GlobalState, Recipe, Ingredient, Cookbook } from '../../redux/initialSt
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import {
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	Chip,
-	IconButton,
-	Tooltip
+	Chip
 } from '@material-ui/core';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
-import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ClearIcon from '@material-ui/icons/Clear';
-import EditIcon from '@material-ui/icons/Edit';
-import DoneIcon from '@material-ui/icons/Done';
-import Zoom from '@material-ui/core/Zoom';
 import { getCookbook } from '../../redux/selectors';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { DurationDialog, parseDuration } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
+import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
@@ -168,8 +153,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ labelDialogOpen: false });
 	}
 	
-	openDurationDialog = () => {
-		if(this.state.inEditMode) {
+	openDurationDialog = (inEditMode: boolean) => {
+		if(inEditMode) {
 			this.setState({ durationDialogOpen: true });
 		}
 	}
@@ -257,88 +242,20 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	render() {
 		return (
 			<div className="RecipeDetails">
-				<Dialog className="RecipeDetailsDialog" open={this.dialogOpen()} onClose={() => this.closeDialog()}>
-					<DialogTitle className="RecipeTitle">
-						{this.getDialogTitle()}
-						<Chip
-							className="Duration"
-							color="secondary"
-							icon={this.state.inEditMode ? <IconButton size="small"> <EditIcon /> </IconButton> : undefined}
-							label={this.getDurationLabel()}
-							onClick={() => this.openDurationDialog()}
-						/>
-						<div className="ActionButtons">
-							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
-								<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
-									{this.state.inEditMode ? <DoneIcon /> : <EditIcon />}
-								</IconButton>
-							</Tooltip>
-							<Tooltip title="Schliessen" TransitionComponent={Zoom}>
-								<IconButton className="ActionButton CloseButton" onClick={() => this.closeDialog()}>
-									<ClearIcon />
-								</IconButton>
-							</Tooltip>
-						</div>
-					</DialogTitle>
-					<DialogContent>
-						<Accordion>
-							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								<Typography> Zutaten </Typography>
-							</AccordionSummary>
-							<AccordionDetails className="IngredientsDetails">
-								<IngredientsTable
-									ingredients={this.getIngredients()}
-									onDelete={(index: number) => this.deleteIngredient(index)}
-									onAdd={() => this.addIngredient()}
-									editable={this.state.inEditMode}
-								/>
-							</AccordionDetails>
-						</Accordion>
-						<Accordion>
-							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								<Typography> Zubereitung </Typography>
-							</AccordionSummary>
-							<AccordionDetails className="Multiline">
-								<TextField
-									className="RecipeDetailsTextField"
-									id="outlined-multiline-static"
-									placeholder="Zubereitung hinzufuegen"
-									multiline
-									defaultValue={this.getPreparation()}
-									variant="outlined"
-									disabled={!this.state.inEditMode}
-									onChange={(event) => this.setPreparation(event.target.value)}
-								/>
-							</AccordionDetails>
-						</Accordion>
-						<Accordion>
-							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								<Typography> Labels </Typography>
-							</AccordionSummary>
-							<AccordionDetails className="Chips">
-								{this.getLabels()}
-							</AccordionDetails>
-						</Accordion>
-						<Accordion>
-							<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-								<Typography> Notizen </Typography>
-							</AccordionSummary>
-							<AccordionDetails className="Multiline">
-								<TextField
-									className="RecipeDetailsTextField"
-									id="outlined-multiline-static"
-									placeholder="Notizen hinzufuegen"
-									multiline
-									defaultValue={this.getNotes()}
-									variant="outlined"
-									disabled={!this.state.inEditMode}
-									onChange={(event) => this.setNotes(event.target.value)}
-								/>
-							</AccordionDetails>
-						</Accordion>
-					</DialogContent>
-					<DialogActions />
-				</Dialog>
+				<RecipeDetailsDialog
+					open={this.dialogOpen()}
+					onClose={this.closeDialog}
+					recipe={this.state.recipe}
+					onClickDuration={(inEditMode: boolean) => this.openDurationDialog(inEditMode)}
+					onClickNewLabelChip={() => this.openLabelDialog()}
+					updateGlobalRecipe={(id: string, recipe: Recipe) => this.props.updateRecipe(id, recipe)}
+					setRecipeName={(name: string) => this.setRecipeName(name)}
+					onClickOldLabelChip={(index: number) => this.deleteLabel(index)}
+					addIngredient={() => this.addIngredient()}
+					deleteIngredient={(index: number) => this.deleteIngredient(index)}
+					setPreparation={(text: string) => this.setPreparation(text)}
+					setNotes={(text: string) => this.setNotes(text)}
+				/>
 				<DurationDialog
 					open={this.state.durationDialogOpen}
 					closeDialog={() => this.closeDurationDialog()}

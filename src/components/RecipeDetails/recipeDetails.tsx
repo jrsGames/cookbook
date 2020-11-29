@@ -4,7 +4,6 @@ import { GlobalState, Recipe, Ingredient, Cookbook } from '../../redux/initialSt
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
-import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
@@ -20,8 +19,7 @@ interface RecipeDetailsProps {
 	closeDialog: () => void,
 	recipe: Recipe | null,
 	index: number,
-	getCookbook: () => Cookbook,
-	updateRecipe: (id: string, newRecipe: Recipe) => void
+	getCookbook: () => Cookbook
 }
 
 interface RecipeDetailsState {
@@ -149,7 +147,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					recipe={this.state.recipe}
 					onClickDuration={() => this.openDurationDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
-					updateGlobalRecipe={(id: string, recipe: Recipe) => this.props.updateRecipe(id, recipe)}
 					setRecipeName={(name: string) => this.setRecipeName(name)}
 					onClickOldLabelChip={(index: number) => this.deleteLabel(index)}
 					addIngredient={() => this.addIngredient()}
@@ -177,8 +174,6 @@ const mapStateToProps = (state: GlobalState) => ({
 	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-	updateRecipe: (id: string, newRecipe: Recipe) => dispatch(updateRecipe(id, newRecipe))
-});
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 export const RecipeDetails = connect(mapStateToProps, mapDispatchToProps)(UnconnectedRecipeDetails);

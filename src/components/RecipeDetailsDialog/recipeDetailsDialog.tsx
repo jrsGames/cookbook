@@ -21,8 +21,11 @@ import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
-import { Recipe } from '../../redux/initialState';
+import { Recipe, GlobalState } from '../../redux/initialState';
 import { parseDuration } from '../DurationDialog/durationDialog';
+import { connect } from 'react-redux';
+import { updateRecipe } from '../../redux/action_creators/BookState';
+import { Dispatch } from 'redux';
 
 
 interface RecipeDetailsDialogProps {
@@ -46,7 +49,7 @@ interface RecipeDetailsDialogState {
 }
 
 
-export class RecipeDetailsDialog extends React.Component<RecipeDetailsDialogProps, RecipeDetailsDialogState> {
+class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialogProps, RecipeDetailsDialogState> {
 	
 	constructor(props: RecipeDetailsDialogProps){
 		super(props);
@@ -246,3 +249,11 @@ export class RecipeDetailsDialog extends React.Component<RecipeDetailsDialogProp
 		);
 	}
 }
+
+const mapStateToProps = (state: GlobalState) => ({});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	updateGlobalRecipe: (id: string, newRecipe: Recipe) => dispatch(updateRecipe(id, newRecipe))
+});
+
+export const RecipeDetailsDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedRecipeDetailsDialog);

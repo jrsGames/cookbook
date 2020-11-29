@@ -9,7 +9,6 @@ import {
 	DialogContent,
 	DialogTitle,
 	Chip,
-	FormControl,
 	IconButton,
 	Tooltip
 } from '@material-ui/core';
@@ -21,10 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { LABELS } from '../../labels';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
@@ -32,6 +28,7 @@ import { getCookbook } from '../../redux/selectors';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { DurationDialog, parseDuration } from '../DurationDialog/durationDialog';
+import { LabelDialog } from '../LabelDialog/labelDialog';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
@@ -187,11 +184,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ newLabel: label });
 	}
 	
-	addLabel = () => {
-		if(this.state.recipe && this.state.recipe.labels && this.state.newLabel) {
+	addLabel = (label: string) => {
+		if(this.state.recipe && this.state.recipe.labels) {
 			const newRecipe: Recipe = this.state.recipe;
 			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
-			newRecipe.labels.push(this.state.newLabel);
+			newRecipe.labels.push(label);
 			this.setState({ recipe: newRecipe, addLabelDialogOpen: false });
 		}
 	};
@@ -354,30 +351,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					recipe={this.state.recipe}
 					setDuration={(dur: number) => this.setDuration(dur)}
 				 />
-				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
-					<DialogTitle> Neues Label </DialogTitle>
-					<DialogContent>
-						<FormControl className="AddLabelForm">
-								<Autocomplete
-									freeSolo
-									options={LABELS}
-									onChange={(_event, value) => this.setNewLabel(value)}
-									renderInput={(params) => (
-										<TextField
-											{...params}
-											variant="outlined"
-											onChange={(event) => this.setNewLabel(event.target.value)}
-											InputProps={{ ...params.InputProps, type: 'search' }}
-										/>
-									)}
-								/>
-						</FormControl>
-					</DialogContent>
-					<DialogActions>
-						<IconButton onClick={() => this.addLabel()} color="primary"> <CheckIcon/> </IconButton>
-						<IconButton onClick={() => this.closeAddLabelDialog()} color="primary"> <ClearIcon/> </IconButton>
-					</DialogActions>
-				</Dialog>
+				<LabelDialog
+					open={this.state.addLabelDialogOpen}
+					closeDialog={() => this.closeAddLabelDialog()}
+					addLabel={(label: string) => this.addLabel(label)}
+				/>
 			</div>
 		);
 	}

@@ -31,6 +31,7 @@ import Zoom from '@material-ui/core/Zoom';
 import { getCookbook } from '../../redux/selectors';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
+import { DurationDialog } from '../DurationDialog/durationDialog';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
@@ -250,9 +251,9 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
-	setDuration = () => {
+	setDuration = (duration: number) => {
 		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
-		newRecipe.duration = this.parseCurrentDuration(this.state.currentDuration);
+		newRecipe.duration = duration;
 		this.setState({ recipe: newRecipe, currentDuration: this.parseDuration(0), setDurationDialogOpen: false })
 	}
 	
@@ -377,45 +378,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					</DialogContent>
 					<DialogActions />
 				</Dialog>
-				<Dialog className="SetDurationDialog" open={this.state.setDurationDialogOpen} onClose={() => this.closeSetDurationDialog()}>
-					<DialogTitle> Zubereitungszeit setzen </DialogTitle>
-					<DialogContent>
-						<FormControl className="SetDurationForm">
-							<TextField
-								className="DurationInput"
-								label="Tage"
-								type="number"
-								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 1, min: 0, max: 30,
-									placeholder: this.parseDuration(this.state.recipe?.duration || 0).days.toString()
-								}}
-								onChange={(event) => this.updateCurrentDuration(DurationEnum.DAYS, event.target.value)}
-							/>
-							<TextField
-								className="DurationInput"
-								label="Stunden"
-								type="number"
-								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 1, min: 0, max: 23,
-									placeholder: this.parseDuration(this.state.recipe?.duration || 0).hours.toString() }}
-								onChange={(event) => this.updateCurrentDuration(DurationEnum.HOURS, event.target.value)}
-							/>
-							<TextField
-								className="DurationInput"
-								label="Minuten"
-								type="number"
-								InputLabelProps={{ shrink: true }}
-								inputProps={{ step: 5, min: 0, max: 55,
-									placeholder: this.parseDuration(this.state.recipe?.duration || 0).minutes.toString() }}
-								onChange={(event) => this.updateCurrentDuration(DurationEnum.MINUTES, event.target.value)}
-							/>
-						</FormControl>
-					</DialogContent>
-					<DialogActions>
-						<IconButton onClick={() => this.setDuration()} color="primary"> <CheckIcon/> </IconButton>
-						<IconButton onClick={() => this.closeSetDurationDialog()} color="primary"> <ClearIcon/> </IconButton>
-					</DialogActions>
-				</Dialog>
+				<DurationDialog
+					open={this.state.setDurationDialogOpen}
+					closeDialog={() => this.closeSetDurationDialog()}
+					recipe={this.state.recipe}
+					setDuration={(dur: number) => this.setDuration(dur)}
+				 />
 				<Dialog className="AddLabelDialog" open={this.state.addLabelDialogOpen} onClose={() => this.closeAddLabelDialog()}>
 					<DialogTitle> Neues Label </DialogTitle>
 					<DialogContent>

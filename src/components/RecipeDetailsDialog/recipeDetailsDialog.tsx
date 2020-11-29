@@ -21,26 +21,24 @@ import DoneIcon from '@material-ui/icons/Done';
 import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
-import { Recipe, GlobalState } from '../../redux/initialState';
+import { Recipe, GlobalState, Ingredient } from '../../redux/initialState';
 import { parseDuration } from '../DurationDialog/durationDialog';
 import { connect } from 'react-redux';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { Dispatch } from 'redux';
 
 
+const EMPTY_INGREDIENT: Ingredient = {
+	amount: "",
+	name: ""
+}
+
 interface RecipeDetailsDialogProps {
-	open: boolean,
 	onClose: () => void,
 	recipe: Recipe | null,
 	onClickDuration: () => void,
 	onClickNewLabelChip: () => void,
 	updateGlobalRecipe: (id: string, recipe: Recipe) => void,
-	setRecipeName: (name: string) => void,
-	onClickOldLabelChip: (index: number) => void,
-	addIngredient: () => void,
-	deleteIngredient: (index: number) => void,
-	setPreparation: (text: string) => void,
-	setNotes: (text: string) => void,
 	setRecipe: (recipe: Recipe) => void
 }
 
@@ -55,14 +53,15 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	constructor(props: RecipeDetailsDialogProps){
 		super(props);
 		this.state={
-			open: props.open,
+			open: false,
 			inEditMode: false
 		}
 	}
 	
 	componentDidUpdate(oldProps: RecipeDetailsDialogProps) {
-		if(oldProps.open !== this.props.open) {
-			this.setState({ open: this.props.open });
+		const { recipe } = this.props;
+		if(oldProps.recipe !== recipe) {
+			this.setState({ open: recipe !== null && Array.isArray(recipe.labels) });
 		}
 	}
 	
@@ -72,7 +71,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					<TextField
 						value={this.props.recipe.name}
 						variant="outlined"
-						onChange={(event) => this.props.setRecipeName(event.target.value)}
+						onChange={(event) => this.setRecipeName(event.target.value)}
 					/> :
 					this.props.recipe.name;
 		} else {
@@ -98,7 +97,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 							color="primary"
 							key={index}
 							label={label}
-							onDelete={this.state.inEditMode ? () => this.props.onClickOldLabelChip(index) : undefined}
+							onDelete={this.state.inEditMode ? () => this.deleteLabel(index) : undefined}
 						/>;
 			}));
 			if(this.state.inEditMode) {
@@ -137,16 +136,61 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		const daysLabel = days.toString() + " T ";
 		const hoursLabel = hours.toString() + " Std ";
 		const minutesLabel = minutes.toString() + " Min";
-		if(days) {
-			return daysLabel + hoursLabel + minutesLabel;
-		}
-		if(hours) {
-			return hoursLabel + minutesLabel;
-		}
-		if(minutes) {
-			return minutesLabel;
-		}
+		if(days) { return daysLabel + hoursLabel + minutesLabel; }
+		if(hours) { return hoursLabel + minutesLabel; }
+		if(minutes) { return minutesLabel; }
 		return "Dauer angeben";
+	}
+	
+	setRecipeName = (newName: string) => {
+		if(this.props.recipe) {
+			const newRecipe = JSON.parse(JSON.stringify(this.props.recipe));
+			newRecipe.name = newName;
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
+	setPreparation = (text: string) => {
+		if(this.props.recipe) {
+			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.props.recipe));
+			newRecipe.preparation = text;
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
+	setNotes = (text: string) => {
+		if(this.props.recipe) {
+			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.props.recipe));
+			newRecipe.notes = text;
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
+	addIngredient = () => {
+		if(this.props.recipe) {
+			const newRecipe: Recipe = this.props.recipe;
+			newRecipe.ingredients = JSON.parse(JSON.stringify(this.props.recipe.ingredients));
+			newRecipe.ingredients.push(EMPTY_INGREDIENT);
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
+	deleteIngredient = (index: number) => {
+		if(this.props.recipe) {
+			const newRecipe: Recipe = this.props.recipe;
+			newRecipe.ingredients = JSON.parse(JSON.stringify(this.props.recipe.ingredients));
+			newRecipe.ingredients.splice(index, 1);
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
+	deleteLabel = (index: number) => {
+		if(this.props.recipe && this.props.recipe.labels) {
+			const newRecipe: Recipe = this.props.recipe;
+			newRecipe.labels = JSON.parse(JSON.stringify(this.props.recipe.labels));
+			newRecipe.labels.splice(index, 1);
+			this.props.setRecipe(newRecipe);
+		}
 	}
 	
 	changeMode = () => {
@@ -157,9 +201,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	onClickDuration = () => {
-		if(this.state.inEditMode) {
-			this.props.onClickDuration();
-		}
+		if(this.state.inEditMode) { this.props.onClickDuration(); }
 	}
 
 
@@ -196,8 +238,8 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						<AccordionDetails className="IngredientsDetails">
 							<IngredientsTable
 								ingredients={this.getIngredients()}
-								onDelete={(index: number) => this.props.deleteIngredient(index)}
-								onAdd={() => this.props.addIngredient()}
+								onDelete={(index: number) => this.deleteIngredient(index)}
+								onAdd={() => this.addIngredient()}
 								editable={this.state.inEditMode}
 							/>
 						</AccordionDetails>
@@ -215,7 +257,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 								defaultValue={this.getPreparation()}
 								variant="outlined"
 								disabled={!this.state.inEditMode}
-								onChange={(event) => this.props.setPreparation(event.target.value)}
+								onChange={(event) => this.setPreparation(event.target.value)}
 							/>
 						</AccordionDetails>
 					</Accordion>
@@ -240,7 +282,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 								defaultValue={this.getNotes()}
 								variant="outlined"
 								disabled={!this.state.inEditMode}
-								onChange={(event) => this.props.setNotes(event.target.value)}
+								onChange={(event) => this.setNotes(event.target.value)}
 							/>
 						</AccordionDetails>
 					</Accordion>

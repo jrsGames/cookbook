@@ -1,6 +1,6 @@
 import React from 'react';
 import './recipeDetails.css';
-import { GlobalState, Recipe, Ingredient, Cookbook } from '../../redux/initialState';
+import { GlobalState, Recipe, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
@@ -9,11 +9,6 @@ import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
 import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
 
-
-const EMPTY_INGREDIENT: Ingredient = {
-	amount: "",
-	name: ""
-}
 
 interface RecipeDetailsProps {
 	closeDialog: () => void,
@@ -45,29 +40,13 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	}
 	
-	setRecipeName = (newName: string) => {
-		if(this.state.recipe) {
-			const newRecipe = JSON.parse(JSON.stringify(this.state.recipe));
-			newRecipe.name = newName;
-			this.setState({ recipe: newRecipe });
-		}
-	}
+	openLabelDialog = () => { this.setState({ labelDialogOpen: true }); }
 	
-	openLabelDialog = () => {
-		this.setState({ labelDialogOpen: true });
-	}
+	closeLabelDialog = () => { this.setState({ labelDialogOpen: false }); }
 	
-	closeLabelDialog = () => {
-		this.setState({ labelDialogOpen: false });
-	}
+	openDurationDialog = () => { this.setState({ durationDialogOpen: true }); }
 	
-	openDurationDialog = () => {
-		this.setState({ durationDialogOpen: true });
-	}
-	
-	closeDurationDialog = () => {
-		this.setState({ durationDialogOpen: false });
-	}
+	closeDurationDialog = () => { this.setState({ durationDialogOpen: false }); }
 	
 	addLabel = (label: string) => {
 		if(this.state.recipe && this.state.recipe.labels) {
@@ -78,58 +57,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		}
 	};
 	
-	deleteLabel = (index: number) => {
-		if(this.state.recipe && this.state.recipe.labels) {
-			const newRecipe: Recipe = this.state.recipe;
-			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
-			newRecipe.labels.splice(index, 1);
-			this.setState({recipe: newRecipe});
-		}
-	}
-	
-	setPreparation = (text: string) => {
-		if(this.state.recipe) {
-			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
-			newRecipe.preparation = text;
-			this.setState({recipe: newRecipe});
-		}
-	}
-	
-	setNotes = (text: string) => {
-		if(this.state.recipe) {
-			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
-			newRecipe.notes = text;
-			this.setState({recipe: newRecipe});
-		}
-	}
-	
 	setDuration = (duration: number) => {
 		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
 		newRecipe.duration = duration;
 		this.setState({ recipe: newRecipe, durationDialogOpen: false })
-	}
-	
-	addIngredient = () => {
-		if(this.state.recipe) {
-			const newRecipe: Recipe = this.state.recipe;
-			newRecipe.ingredients = JSON.parse(JSON.stringify(this.state.recipe.ingredients));
-			newRecipe.ingredients.push(EMPTY_INGREDIENT);
-			this.setState({recipe: newRecipe});
-		}
-	}
-	
-	deleteIngredient = (index: number) => {
-		if(this.state.recipe) {
-			const newRecipe: Recipe = this.state.recipe;
-			newRecipe.ingredients = JSON.parse(JSON.stringify(this.state.recipe.ingredients));
-			newRecipe.ingredients.splice(index, 1);
-			this.setState({recipe: newRecipe});
-		}
-	}
-	
-	dialogOpen = () => {
-		const { recipe } = this.state;
-		return  recipe !== null && Array.isArray(recipe.labels);
 	}
 	
 	closeDialog = () => {
@@ -142,18 +73,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		return (
 			<div className="RecipeDetails">
 				<RecipeDetailsDialog
-					open={this.dialogOpen()}
 					onClose={this.closeDialog}
 					recipe={this.state.recipe}
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
-					setRecipeName={(name: string) => this.setRecipeName(name)}
-					onClickOldLabelChip={(index: number) => this.deleteLabel(index)}
-					addIngredient={() => this.addIngredient()}
-					deleteIngredient={(index: number) => this.deleteIngredient(index)}
-					setPreparation={(text: string) => this.setPreparation(text)}
-					setNotes={(text: string) => this.setNotes(text)}
 				/>
 				<DurationDialog
 					open={this.state.durationDialogOpen}

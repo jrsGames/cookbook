@@ -1,8 +1,6 @@
 import React from 'react';
 import './durationDialog.css';
-import { GlobalState, Recipe } from '../../redux/initialState';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { Recipe } from '../../redux/initialState';
 import {
 	Dialog,
 	DialogActions,
@@ -16,16 +14,16 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
 
-interface Duration {
-	days: number,
-	hours: number,
-	minutes: number
-}
-
 enum DurationEnum {
 	DAYS = "days",
 	HOURS = "hours",
 	MINUTES = "minutes"
+}
+
+interface Duration {
+	days: number,
+	hours: number,
+	minutes: number
 }
 
 interface DurationDialogProps {
@@ -40,55 +38,41 @@ interface DurationDialogState {
 	open: boolean
 }
 
-class UnconnectedDurationDialog extends React.Component<DurationDialogProps, DurationDialogState> {
+export const parseDuration = (duration: number) => {
+		const days = Math.floor(duration/1440);
+		const hours = Math.floor((duration-1440*days)/60);
+		const minutes = duration-1440*days-60*hours;
+		return { days, hours, minutes }
+}
+	
+const parseCurrentDuration = (currentDuration: Duration) =>
+		currentDuration.days*1440 + currentDuration.hours*60 + currentDuration.minutes;
+
+export class DurationDialog extends React.Component<DurationDialogProps, DurationDialogState> {
 	
 	constructor(props: DurationDialogProps){
 		super(props);
 		this.state={
-			currentDuration: this.parseDuration(0),
+			currentDuration: parseDuration(props.recipe?.duration || 0),
 			open: props.open
 		}
 	}
 	
 	componentDidUpdate(oldProps: DurationDialogProps) {
+		if(this.props.recipe && oldProps.recipe !== this.props.recipe) {
+			this.setState({ currentDuration: parseDuration(this.props.recipe.duration || 0) });
+		}
 		if(oldProps.open !== this.props.open) {
 			this.setState({open: this.props.open });
 		}
 	}
-
-	parseDuration = (duration: number) => {
-		const days = Math.floor(duration/1440);
-		const hours = Math.floor((duration-1440*days)/60);
-		const minutes = duration-1440*days-60*hours;
-		return { days, hours, minutes }
-	}
-	
-	parseCurrentDuration = (currentDuration: Duration) =>
-		currentDuration.days*1440 + currentDuration.hours*60 + currentDuration.minutes;
 	
 	updateCurrentDuration = (timeUnit: DurationEnum, value: string) => {
 		const duration: Duration =  JSON.parse(JSON.stringify(this.state.currentDuration));
 		duration[timeUnit] = Number(value);
 		this.setState({ currentDuration: duration });
 	}
-	
-	getDurationLabel = () => {
-		const {days, hours, minutes} = this.parseDuration(this.props.recipe?.duration || 0);
-		const daysLabel = days.toString() + " T ";
-		const hoursLabel = hours.toString() + " Std ";
-		const minutesLabel = minutes.toString() + " Min";
-		if(days) {
-			return daysLabel + hoursLabel + minutesLabel;
-		}
-		if(hours) {
-			return hoursLabel + minutesLabel;
-		}
-		if(minutes) {
-			return minutesLabel;
-		}
-		return "Dauer angeben";
-	}
-	
+
 
 	render() {
 		return (
@@ -102,7 +86,7 @@ class UnconnectedDurationDialog extends React.Component<DurationDialogProps, Dur
 							type="number"
 							InputLabelProps={{ shrink: true }}
 							inputProps={{ step: 1, min: 0, max: 30,
-								placeholder: this.parseDuration(this.props.recipe?.duration || 0).days.toString()
+								placeholder: parseDuration(this.props.recipe?.duration || 0).days.toString()
 							}}
 							onChange={(event) => this.updateCurrentDuration(DurationEnum.DAYS, event.target.value)}
 						/>
@@ -112,7 +96,7 @@ class UnconnectedDurationDialog extends React.Component<DurationDialogProps, Dur
 							type="number"
 							InputLabelProps={{ shrink: true }}
 							inputProps={{ step: 1, min: 0, max: 23,
-								placeholder: this.parseDuration(this.props.recipe?.duration || 0).hours.toString() }}
+								placeholder: parseDuration(this.props.recipe?.duration || 0).hours.toString() }}
 							onChange={(event) => this.updateCurrentDuration(DurationEnum.HOURS, event.target.value)}
 						/>
 						<TextField
@@ -121,14 +105,14 @@ class UnconnectedDurationDialog extends React.Component<DurationDialogProps, Dur
 							type="number"
 							InputLabelProps={{ shrink: true }}
 							inputProps={{ step: 5, min: 0, max: 55,
-								placeholder: this.parseDuration(this.props.recipe?.duration || 0).minutes.toString() }}
+								placeholder: parseDuration(this.props.recipe?.duration || 0).minutes.toString() }}
 							onChange={(event) => this.updateCurrentDuration(DurationEnum.MINUTES, event.target.value)}
 						/>
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
 					<IconButton
-						onClick={() => this.props.setDuration(this.parseCurrentDuration(this.state.currentDuration))}
+						onClick={() => this.props.setDuration(parseCurrentDuration(this.state.currentDuration))}
 						color="primary"
 					>
 						<CheckIcon/>
@@ -139,9 +123,3 @@ class UnconnectedDurationDialog extends React.Component<DurationDialogProps, Dur
 		);
 	}
 }
-
-const mapStateToProps = (state: GlobalState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export const DurationDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedDurationDialog);

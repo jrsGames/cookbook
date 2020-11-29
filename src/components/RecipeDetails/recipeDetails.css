@@ -45,16 +45,3 @@
 .RecipeTitle .MuiTypography-root.MuiTypography-h6 {
 	font-weight: 600;
 }
-
-.Duration.MuiChip-root {
-	margin: 0 1rem;
-}
-
-.MuiFormControl-root.SetDurationForm {
-	flex-direction: row;
-}
-
-.MuiTextField-root.DurationInput {
-	margin: 0 1rem;
-	width: 4rem;
-}

@@ -31,24 +31,12 @@ import Zoom from '@material-ui/core/Zoom';
 import { getCookbook } from '../../redux/selectors';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
-import { DurationDialog } from '../DurationDialog/durationDialog';
+import { DurationDialog, parseDuration } from '../DurationDialog/durationDialog';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
 	amount: "",
 	name: ""
-}
-
-interface Duration {
-	days: number,
-	hours: number,
-	minutes: number
-}
-
-enum DurationEnum {
-	DAYS = "days",
-	HOURS = "hours",
-	MINUTES = "minutes"
 }
 
 interface RecipeDetailsProps {
@@ -62,9 +50,8 @@ interface RecipeDetailsProps {
 interface RecipeDetailsState {
 	recipe: Recipe | null,
 	addLabelDialogOpen: boolean,
-	setDurationDialogOpen: boolean,
+	durationDialogOpen: boolean,
 	newLabel: string | null,
-	currentDuration: Duration,
 	inEditMode: boolean
 }
 
@@ -75,9 +62,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.state={
 			recipe: props.recipe,
 			addLabelDialogOpen: false,
-			setDurationDialogOpen: false,
+			durationDialogOpen: false,
 			newLabel: null,
-			currentDuration: this.parseDuration(0),
 			inEditMode: false
 		}
 	}
@@ -86,22 +72,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		if(oldProps.recipe !== this.props.recipe) {
 			this.setState({recipe: this.props.recipe });
 		}
-	}
-
-	parseDuration = (duration: number) => {
-		const days = Math.floor(duration/1440);
-		const hours = Math.floor((duration-1440*days)/60);
-		const minutes = duration-1440*days-60*hours;
-		return { days, hours, minutes }
-	}
-	
-	parseCurrentDuration = (currentDuration: Duration) =>
-		currentDuration.days*1440 + currentDuration.hours*60 + currentDuration.minutes;
-	
-	updateCurrentDuration = (timeUnit: DurationEnum, value: string) => {
-		const duration: Duration =  JSON.parse(JSON.stringify(this.state.currentDuration));
-		duration[timeUnit] = Number(value);
-		this.setState({ currentDuration: duration });
 	}
 	
 	setRecipeName = (newName: string) => {
@@ -179,7 +149,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	}
 	
 	getDurationLabel = () => {
-		const {days, hours, minutes} = this.parseDuration(this.state.recipe?.duration || 0);
+		const {days, hours, minutes} = parseDuration(this.state.recipe?.duration || 0);
 		const daysLabel = days.toString() + " T ";
 		const hoursLabel = hours.toString() + " Std ";
 		const minutesLabel = minutes.toString() + " Min";
@@ -203,14 +173,14 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ addLabelDialogOpen: false, newLabel: null });
 	}
 	
-	openSetDurationDialog = () => {
+	openDurationDialog = () => {
 		if(this.state.inEditMode) {
-			this.setState({ setDurationDialogOpen: true });
+			this.setState({ durationDialogOpen: true });
 		}
 	}
 	
-	closeSetDurationDialog = () => {
-		this.setState({ setDurationDialogOpen: false });
+	closeDurationDialog = () => {
+		this.setState({ durationDialogOpen: false });
 	}
 	
 	setNewLabel = (label: string | null) => {
@@ -254,7 +224,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	setDuration = (duration: number) => {
 		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
 		newRecipe.duration = duration;
-		this.setState({ recipe: newRecipe, currentDuration: this.parseDuration(0), setDurationDialogOpen: false })
+		this.setState({ recipe: newRecipe, durationDialogOpen: false })
 	}
 	
 	addIngredient = () => {
@@ -304,7 +274,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 							color="secondary"
 							icon={this.state.inEditMode ? <IconButton size="small"> <EditIcon /> </IconButton> : undefined}
 							label={this.getDurationLabel()}
-							onClick={() => this.openSetDurationDialog()}
+							onClick={() => this.openDurationDialog()}
 						/>
 						<div className="ActionButtons">
 							<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
@@ -379,8 +349,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					<DialogActions />
 				</Dialog>
 				<DurationDialog
-					open={this.state.setDurationDialogOpen}
-					closeDialog={() => this.closeSetDurationDialog()}
+					open={this.state.durationDialogOpen}
+					closeDialog={() => this.closeDurationDialog()}
 					recipe={this.state.recipe}
 					setDuration={(dur: number) => this.setDuration(dur)}
 				 />

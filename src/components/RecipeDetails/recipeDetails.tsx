@@ -1,5 +1,4 @@
 import React from 'react';
-import './recipeDetails.css';
 import { GlobalState, Recipe, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -71,7 +70,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 
 	render() {
 		return (
-			<div className="RecipeDetails">
+			<div>
 				<RecipeDetailsDialog
 					onClose={this.closeDialog}
 					recipe={this.state.recipe}

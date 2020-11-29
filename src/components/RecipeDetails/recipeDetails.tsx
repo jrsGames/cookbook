@@ -3,15 +3,10 @@ import './recipeDetails.css';
 import { GlobalState, Recipe, Ingredient, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import {
-	Chip
-} from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { getCookbook } from '../../redux/selectors';
 import { updateRecipe } from '../../redux/action_creators/BookState';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
-import { DurationDialog, parseDuration } from '../DurationDialog/durationDialog';
+import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
 import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
 
@@ -60,89 +55,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 			newRecipe.name = newName;
 			this.setState({ recipe: newRecipe });
 		}
-	}
-
-	getDialogTitle = () => {
-		if(this.state.recipe) {
-			return this.state.inEditMode ?
-					<TextField
-						value={this.state.recipe.name}
-						variant="outlined"
-						onChange={(event) => this.setRecipeName(event.target.value)}
-					/> :
-					this.state.recipe.name;
-		} else {
-			return "";
-		}
-	}
-	
-	getPreparation = () => {
-		if(this.state.recipe && this.state.recipe.preparation) {
-			return this.state.recipe.preparation;
-		} else {
-			return "Zubereitung hinzufuegen";
-		}
-	}
-	
-	getLabels = () => {
-		let chips: JSX.Element[] = [];
-		if(this.state.recipe && this.state.recipe.labels) {
-			const labels: string[] = JSON.parse(JSON.stringify(this.state.recipe.labels));
-			chips = chips.concat(labels.map((label, index) => {
-				return <Chip
-							className="Label"
-							color="primary"
-							key={index}
-							label={label}
-							onDelete={this.state.inEditMode ? () => this.deleteLabel(index) : undefined}
-						/>;
-			}));
-			if(this.state.inEditMode) {
-				chips.push(
-					<Chip
-						className="Label"
-						key={labels.length}
-						label="Neues Label"
-						icon={<AddCircleIcon />}
-						onClick={() => this.openLabelDialog()}
-					/>
-				);
-			}
-		 }
-		return chips;
-	}
-
-	getNotes = () => {
-		if(this.state.recipe && this.state.recipe.notes) {
-			return this.state.recipe.notes;
-		} else {
-			return "";
-		}
-	}
-	
-	getIngredients = () => {
-		if(this.state.recipe && this.state.recipe.ingredients){
-			return this.state.recipe.ingredients;
-		} else {
-			return [];
-		}
-	}
-	
-	getDurationLabel = () => {
-		const {days, hours, minutes} = parseDuration(this.state.recipe?.duration || 0);
-		const daysLabel = days.toString() + " T ";
-		const hoursLabel = hours.toString() + " Std ";
-		const minutesLabel = minutes.toString() + " Min";
-		if(days) {
-			return daysLabel + hoursLabel + minutesLabel;
-		}
-		if(hours) {
-			return hoursLabel + minutesLabel;
-		}
-		if(minutes) {
-			return minutesLabel;
-		}
-		return "Dauer angeben";
 	}
 	
 	openLabelDialog = () => {
@@ -229,13 +141,6 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	closeDialog = () => {
 		this.setState({ recipe: null, inEditMode: false });
 		this.props.closeDialog();
-	}
-		
-	changeMode = () => {
-		if(this.state.inEditMode && this.state.recipe) {
-			this.props.updateRecipe(this.state.recipe.id || "", this.state.recipe);
-		}
-		this.setState({ inEditMode: !this.state.inEditMode });
 	}
 
 

@@ -46,9 +46,8 @@ interface RecipeDetailsProps {
 
 interface RecipeDetailsState {
 	recipe: Recipe | null,
-	addLabelDialogOpen: boolean,
+	labelDialogOpen: boolean,
 	durationDialogOpen: boolean,
-	newLabel: string | null,
 	inEditMode: boolean
 }
 
@@ -58,9 +57,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		super(props);
 		this.state={
 			recipe: props.recipe,
-			addLabelDialogOpen: false,
+			labelDialogOpen: false,
 			durationDialogOpen: false,
-			newLabel: null,
 			inEditMode: false
 		}
 	}
@@ -121,7 +119,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 						key={labels.length}
 						label="Neues Label"
 						icon={<AddCircleIcon />}
-						onClick={() => this.openAddLabelDialog()}
+						onClick={() => this.openLabelDialog()}
 					/>
 				);
 			}
@@ -162,12 +160,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		return "Dauer angeben";
 	}
 	
-	openAddLabelDialog = () => {
-		this.setState({ addLabelDialogOpen: true });
+	openLabelDialog = () => {
+		this.setState({ labelDialogOpen: true });
 	}
 	
-	closeAddLabelDialog = () => {
-		this.setState({ addLabelDialogOpen: false, newLabel: null });
+	closeLabelDialog = () => {
+		this.setState({ labelDialogOpen: false });
 	}
 	
 	openDurationDialog = () => {
@@ -180,16 +178,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ durationDialogOpen: false });
 	}
 	
-	setNewLabel = (label: string | null) => {
-		this.setState({ newLabel: label });
-	}
-	
 	addLabel = (label: string) => {
 		if(this.state.recipe && this.state.recipe.labels) {
 			const newRecipe: Recipe = this.state.recipe;
 			newRecipe.labels = JSON.parse(JSON.stringify(this.state.recipe.labels));
 			newRecipe.labels.push(label);
-			this.setState({ recipe: newRecipe, addLabelDialogOpen: false });
+			this.setState({ recipe: newRecipe, labelDialogOpen: false });
 		}
 	};
 	
@@ -352,8 +346,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					setDuration={(dur: number) => this.setDuration(dur)}
 				 />
 				<LabelDialog
-					open={this.state.addLabelDialogOpen}
-					closeDialog={() => this.closeAddLabelDialog()}
+					open={this.state.labelDialogOpen}
+					closeDialog={() => this.closeLabelDialog()}
 					addLabel={(label: string) => this.addLabel(label)}
 				/>
 			</div>

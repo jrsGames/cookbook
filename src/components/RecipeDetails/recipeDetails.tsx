@@ -145,6 +145,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					open={this.dialogOpen()}
 					onClose={this.closeDialog}
 					recipe={this.state.recipe}
+					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
 					setRecipeName={(name: string) => this.setRecipeName(name)}

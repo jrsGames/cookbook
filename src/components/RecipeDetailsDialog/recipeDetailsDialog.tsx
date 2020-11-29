@@ -40,7 +40,8 @@ interface RecipeDetailsDialogProps {
 	addIngredient: () => void,
 	deleteIngredient: (index: number) => void,
 	setPreparation: (text: string) => void,
-	setNotes: (text: string) => void
+	setNotes: (text: string) => void,
+	setRecipe: (recipe: Recipe) => void
 }
 
 interface RecipeDetailsDialogState {

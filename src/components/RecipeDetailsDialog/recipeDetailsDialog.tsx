@@ -140,6 +140,14 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		return "Dauer angeben";
 	}
 	
+	getImageName = () => {
+		if(this.props.recipe && this.props.recipe.image){
+			return this.props.recipe.image;
+		}
+		return "Kein Foto";
+
+	}
+	
 	setRecipeName = (newName: string) => {
 		if(this.props.recipe) {
 			const newRecipe = JSON.parse(JSON.stringify(this.props.recipe));
@@ -221,9 +229,14 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						label={this.getDurationLabel()}
 						onClick={() => this.onClickDuration()}
 					/>
-					<IconButton className="Image" color="primary" disabled={!this.state.inEditMode} onClick={() => this.onClickPhoto()}>
-						<PhotoCameraIcon />
-					</IconButton>
+					<Chip
+						className="Image"
+						color="primary"
+						disabled={!this.state.inEditMode}
+						icon={<IconButton size="small"> <PhotoCameraIcon /> </IconButton>}
+						label={this.getImageName()}
+						onClick={() => this.onClickPhoto()}
+					/>
 					<div className="ActionButtons">
 						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
 							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>

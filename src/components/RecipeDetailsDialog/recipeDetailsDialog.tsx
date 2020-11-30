@@ -216,11 +216,16 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			this.props.onClickPhoto();
 		}
 	}
+	
+	onClose = () => {
+		this.setState({ inEditMode: false });
+		this.props.onClose();
+	}
 
 
 	render() {
 		return (
-			<Dialog className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.props.onClose()}>
+			<Dialog className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
 				<DialogTitle className="RecipeTitle">
 					{this.getDialogTitle()}
 					<Chip
@@ -246,7 +251,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="Schliessen" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton CloseButton" onClick={() => this.props.onClose()}>
+							<IconButton className="ActionButton CloseButton" onClick={() => this.onClose()}>
 								<ClearIcon />
 							</IconButton>
 						</Tooltip>

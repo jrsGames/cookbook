@@ -18,6 +18,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
@@ -199,6 +200,10 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	onClickDuration = () => {
 		if(this.state.inEditMode) { this.props.onClickDuration(); }
 	}
+	
+	onClickPhoto = () => {
+		if(this.state.inEditMode) {}
+	}
 
 
 	render() {
@@ -213,6 +218,9 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						label={this.getDurationLabel()}
 						onClick={() => this.onClickDuration()}
 					/>
+					<IconButton className="Image" color="primary" onClick={() => this.onClickPhoto()}>
+						<PhotoCameraIcon />
+					</IconButton>
 					<div className="ActionButtons">
 						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
 							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>

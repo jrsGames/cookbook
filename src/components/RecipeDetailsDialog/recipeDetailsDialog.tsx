@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import DoneIcon from '@material-ui/icons/Done';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import Zoom from '@material-ui/core/Zoom';
@@ -225,7 +226,8 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					<Chip
 						className="Duration"
 						color="secondary"
-						icon={this.state.inEditMode ? <IconButton size="small"> <EditIcon /> </IconButton> : undefined}
+						disabled={!this.state.inEditMode}
+						icon={<IconButton size="small"> <ScheduleIcon /> </IconButton>}
 						label={this.getDurationLabel()}
 						onClick={() => this.onClickDuration()}
 					/>

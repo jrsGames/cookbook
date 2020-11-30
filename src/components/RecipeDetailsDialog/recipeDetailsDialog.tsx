@@ -38,6 +38,7 @@ interface RecipeDetailsDialogProps {
 	onClose: () => void,
 	recipe: Recipe | null,
 	onClickDuration: () => void,
+	onClickPhoto: () => void,
 	onClickNewLabelChip: () => void,
 	updateGlobalRecipe: (id: string, recipe: Recipe) => void,
 	setRecipe: (recipe: Recipe) => void
@@ -202,7 +203,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	onClickPhoto = () => {
-		if(this.state.inEditMode) {}
+		if(this.state.inEditMode) { this.props.onClickPhoto(); }
 	}
 
 
@@ -218,7 +219,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						label={this.getDurationLabel()}
 						onClick={() => this.onClickDuration()}
 					/>
-					<IconButton className="Image" color="primary" onClick={() => this.onClickPhoto()}>
+					<IconButton className="Image" color="primary" disabled={!this.state.inEditMode} onClick={() => this.onClickPhoto()}>
 						<PhotoCameraIcon />
 					</IconButton>
 					<div className="ActionButtons">

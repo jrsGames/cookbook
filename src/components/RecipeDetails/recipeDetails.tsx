@@ -7,6 +7,7 @@ import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
 import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
+import { PhotoDialog } from '../PhotoDialog/photoDialog';
 
 
 interface RecipeDetailsProps {
@@ -20,6 +21,7 @@ interface RecipeDetailsState {
 	recipe: Recipe | null,
 	labelDialogOpen: boolean,
 	durationDialogOpen: boolean,
+	photoDialogOpen: boolean
 }
 
 class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
@@ -29,7 +31,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.state={
 			recipe: props.recipe,
 			labelDialogOpen: false,
-			durationDialogOpen: false
+			durationDialogOpen: false,
+			photoDialogOpen: false
 		}
 	}
 	
@@ -47,6 +50,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	
 	closeDurationDialog = () => { this.setState({ durationDialogOpen: false }); }
 	
+	openPhotoDialog  = () => { this.setState({ photoDialogOpen: true }); }
+	
+	closePhotoDialog = () => { this.setState({ photoDialogOpen: false }); }
+	
 	addLabel = (label: string) => {
 		if(this.state.recipe && this.state.recipe.labels) {
 			const newRecipe: Recipe = this.state.recipe;
@@ -59,7 +66,13 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	setDuration = (duration: number) => {
 		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
 		newRecipe.duration = duration;
-		this.setState({ recipe: newRecipe, durationDialogOpen: false })
+		this.setState({ recipe: newRecipe, durationDialogOpen: false });
+	}
+	
+	setPhoto = (imageFileName: string) => {
+		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+		newRecipe.image = imageFileName;
+		this.setState({ recipe: newRecipe, photoDialogOpen: false });
 	}
 	
 	closeDialog = () => {
@@ -76,6 +89,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					recipe={this.state.recipe}
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
+					onClickPhoto={() => this.openPhotoDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
 				/>
 				<DurationDialog
@@ -88,6 +102,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					open={this.state.labelDialogOpen}
 					closeDialog={() => this.closeLabelDialog()}
 					addLabel={(label: string) => this.addLabel(label)}
+				/>
+				<PhotoDialog
+					open={this.state.photoDialogOpen}
+					closeDialog={() => this.closePhotoDialog()}
+					setPhoto={(imageFileName: string) => this.setPhoto(imageFileName)}
 				/>
 			</div>
 		);

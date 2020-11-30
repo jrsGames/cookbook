@@ -15,11 +15,11 @@ interface PhotoDialogProps {
 	open: boolean,
 	closeDialog: () => void,
 	setPhoto: (imageFileName: string) => void,
+	imageName: string
 }
 
 interface PhotoDialogState {
-	open: boolean,
-	imageFileName: string
+	open: boolean
 }
 
 
@@ -28,8 +28,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 	constructor(props: PhotoDialogProps){
 		super(props);
 		this.state={
-			open: props.open,
-			imageFileName: ""
+			open: props.open
 		}
 	}
 	
@@ -38,21 +37,15 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 			this.setState({ open: this.props.open });
 		}
 	}
-	
-	setNewPhoto = (imageFileName: string | null) => {
-		if(imageFileName) {
-			this.setState({ imageFileName });
-		}
-	}
 
 	render() {
 		return (
 			<Dialog className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
-				<DialogTitle> Neues Photo </DialogTitle>
+				<DialogTitle> {this.props.imageName} </DialogTitle>
 				<DialogContent>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.props.setPhoto(this.state.imageFileName)} color="primary">
+					<IconButton onClick={() => this.props.setPhoto(this.props.imageName)} color="primary">
 						<CheckIcon/>
 					</IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>

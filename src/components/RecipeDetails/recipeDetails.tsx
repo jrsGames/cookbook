@@ -21,7 +21,8 @@ interface RecipeDetailsState {
 	recipe: Recipe | null,
 	labelDialogOpen: boolean,
 	durationDialogOpen: boolean,
-	photoDialogOpen: boolean
+	photoDialogOpen: boolean,
+	importedFileName: string
 }
 
 class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, RecipeDetailsState> {
@@ -32,7 +33,8 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 			recipe: props.recipe,
 			labelDialogOpen: false,
 			durationDialogOpen: false,
-			photoDialogOpen: false
+			photoDialogOpen: false,
+			importedFileName: ""
 		}
 	}
 	
@@ -79,7 +81,26 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ recipe: null });
 		this.props.closeDialog();
 	}
+	
+	onClickPhoto = () => {
+		this.readPhoto();
+		this.openPhotoDialog();
+	} 
 
+	readPhoto: () => void = () => {
+		let x = document.getElementById("photoUpload") as HTMLInputElement;
+		if(x && x.files && x.files.length === 1){
+			let importedFile = x.files[0];
+			this.setState({ importedFileName: importedFile.name });
+		}
+	}
+
+	uploadPhoto: () => void = () => {
+		var x = document.getElementById("photoUpload");
+		if(x){
+			x.click();
+		}		
+	}
 
 	render() {
 		return (
@@ -89,7 +110,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					recipe={this.state.recipe}
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
-					onClickPhoto={() => this.openPhotoDialog()}
+					onClickPhoto={() => this.uploadPhoto()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
 				/>
 				<DurationDialog
@@ -107,7 +128,11 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					open={this.state.photoDialogOpen}
 					closeDialog={() => this.closePhotoDialog()}
 					setPhoto={(imageFileName: string) => this.setPhoto(imageFileName)}
+					imageName={this.state.importedFileName}
 				/>
+				<div className="PhotoInput">
+					<input type="file" id="photoUpload" style={{'display': 'none'}} onChange={() => this.onClickPhoto()}/>
+				</div>
 			</div>
 		);
 	}

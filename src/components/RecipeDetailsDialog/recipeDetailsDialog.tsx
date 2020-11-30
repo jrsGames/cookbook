@@ -203,7 +203,9 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	onClickPhoto = () => {
-		if(this.state.inEditMode) { this.props.onClickPhoto(); }
+		if(this.state.inEditMode) {
+			this.props.onClickPhoto();
+		}
 	}
 
 

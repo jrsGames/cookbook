@@ -50,15 +50,25 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 		}
 		return null;
 	}
+	
+	getScrollPosition = () => {
+		const container = document.getElementById("ImagePreviewContainer");
+		const image = document.getElementById("ImagePreview");
+		if(container && image) {
+			return (image as HTMLImageElement).height * container.scrollTop/100;
+		}
+		return 0;
+	}
 
 	render() {
 		return (
 			<Dialog className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> {this.props.imageName} </DialogTitle>
-				<DialogContent>
+				<DialogContent id="ImagePreviewContainer" className="ImagePreviewContainer" onScroll={() => this.getScrollPosition()}>
 					{this.getImageSource() ?
 					<img
-						className="RecipeImage"
+						id="ImagePreview"
+						className="ImagePreview"
 						src={this.getImageSource()}
 						alt="Bild nicht gefunden. Standard-Bild verwenden?"
 					/> :

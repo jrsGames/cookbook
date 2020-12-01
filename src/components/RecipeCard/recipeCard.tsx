@@ -24,6 +24,9 @@ import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Zoom from '@material-ui/core/Zoom';
 
+
+export const DEFAULT_PIC_NAME = "StandardBild.jpg";
+
 interface RecipeCardProps {
 	recipe: Recipe,
 	addSpaceBelow: boolean,
@@ -64,7 +67,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 				console.log("Picture \"" + image + "\" for recipe \"" + this.props.recipe.name + "\" not found.");
 			}
 		}
-		return require('../../resources/defaultPic.jpg');
+		return require('../../resources/' + DEFAULT_PIC_NAME);
 	}
 	
 	onDeleteClick = () => {

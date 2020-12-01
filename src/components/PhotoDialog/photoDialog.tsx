@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { DEFAULT_PIC_NAME } from '../RecipeCard/recipeCard';
 
 
 interface PhotoDialogProps {
@@ -37,15 +38,38 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 			this.setState({ open: this.props.open });
 		}
 	}
+	
+	getImageSource = () => {
+		const image = this.props.imageName;
+		if(image) {
+			try {
+				return require('../../resources/' + image);
+			} catch (e) {
+				console.log("Picture \"" + image + "\" not found.");
+			}
+		}
+		return null;
+	}
 
 	render() {
 		return (
 			<Dialog className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> {this.props.imageName} </DialogTitle>
 				<DialogContent>
+					{this.getImageSource() ?
+					<img
+						className="RecipeImage"
+						src={this.getImageSource()}
+						alt="Bild nicht gefunden. Standard-Bild verwenden?"
+					/> :
+					<div> Bild nicht gefunden. Standard-Bild verwenden? </div>
+					} 	
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.props.setPhoto(this.props.imageName)} color="primary">
+					<IconButton
+						color="primary"
+						onClick={() => this.props.setPhoto(this.getImageSource() ? this.props.imageName : DEFAULT_PIC_NAME)}
+					>
 						<CheckIcon/>
 					</IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>

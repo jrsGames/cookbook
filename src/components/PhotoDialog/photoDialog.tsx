@@ -9,13 +9,14 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { Image } from '../../redux/initialState';
 import { DEFAULT_PIC_NAME } from '../RecipeCard/recipeCard';
 
 
 interface PhotoDialogProps {
 	open: boolean,
 	closeDialog: () => void,
-	setPhoto: (imageFileName: string) => void,
+	setPhoto: (image: Image) => void,
 	imageName: string
 }
 
@@ -40,12 +41,12 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 	}
 	
 	getImageSource = () => {
-		const image = this.props.imageName;
-		if(image) {
+		const imageName = this.props.imageName;
+		if(imageName) {
 			try {
-				return require('../../resources/' + image);
+				return require('../../resources/' + imageName);
 			} catch (e) {
-				console.log("Picture \"" + image + "\" not found.");
+				console.log("Picture \"" + imageName + "\" not found.");
 			}
 		}
 		return null;
@@ -58,6 +59,14 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 			return (image as HTMLImageElement).height * container.scrollTop/100;
 		}
 		return 0;
+	}
+	
+	setPhoto = () => {
+		const image: Image = {
+			name: this.getImageSource() ? this.props.imageName : DEFAULT_PIC_NAME,
+			position: "0"
+		};
+		this.props.setPhoto(image);
 	}
 
 	render() {
@@ -78,7 +87,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 				<DialogActions>
 					<IconButton
 						color="primary"
-						onClick={() => this.props.setPhoto(this.getImageSource() ? this.props.imageName : DEFAULT_PIC_NAME)}
+						onClick={() => this.setPhoto()}
 					>
 						<CheckIcon/>
 					</IconButton>

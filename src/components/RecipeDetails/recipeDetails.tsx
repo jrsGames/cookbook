@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlobalState, Recipe, Cookbook } from '../../redux/initialState';
+import { GlobalState, Recipe, Cookbook, Image } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
@@ -71,10 +71,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		this.setState({ recipe: newRecipe, durationDialogOpen: false });
 	}
 	
-	setPhoto = (imageFileName: string) => {
-		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
-		newRecipe.image = imageFileName;
-		this.setState({ recipe: newRecipe, photoDialogOpen: false });
+	setPhoto = (image: Image) => {
+		if(this.state.recipe) {
+			const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+			newRecipe.image = image;
+			this.setState({ recipe: newRecipe, photoDialogOpen: false });
+		}
 	}
 	
 	closeDialog = () => {
@@ -127,7 +129,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 				<PhotoDialog
 					open={this.state.photoDialogOpen}
 					closeDialog={() => this.closePhotoDialog()}
-					setPhoto={(imageFileName: string) => this.setPhoto(imageFileName)}
+					setPhoto={(image) => this.setPhoto(image)}
 					imageName={this.state.importedFileName}
 				/>
 				<div className="PhotoInput">

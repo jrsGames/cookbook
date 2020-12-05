@@ -15,6 +15,11 @@ export interface Ingredient {
 	name: string
 }
 
+export interface Image {
+	name: string,
+	position: string
+}
+
 export interface Recipe {
 	id?: string,
 	name: string,
@@ -23,7 +28,7 @@ export interface Recipe {
 	ingredients: Ingredient[],
 	preparation: string,
 	notes?: string,
-	image?: string
+	image?: Image
 }
 export interface Cookbook {
 	title: string,

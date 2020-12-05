@@ -143,7 +143,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	
 	getImageName = () => {
 		if(this.props.recipe && this.props.recipe.image){
-			return this.props.recipe.image;
+			return this.props.recipe.image.name;
 		}
 		return "Kein Foto";
 

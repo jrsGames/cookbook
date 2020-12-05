@@ -200,6 +200,16 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			this.props.setRecipe(newRecipe);
 		}
 	}
+
+	changeIngredientAmount = (index: number, amount: string | null) => {
+		if(this.props.recipe && amount) {
+			const newRecipe: Recipe = this.props.recipe;
+			newRecipe.ingredients = this.props.recipe.ingredients;
+			newRecipe.ingredients[index] = JSON.parse(JSON.stringify(this.props.recipe.ingredients[index]));
+			newRecipe.ingredients[index].amount = amount;
+			this.props.setRecipe(newRecipe);
+		}
+	}
 	
 	deleteLabel = (index: number) => {
 		if(this.props.recipe && this.props.recipe.labels) {
@@ -278,6 +288,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 								onDelete={(index: number) => this.deleteIngredient(index)}
 								onAdd={() => this.addIngredient()}
 								onChangeIngredientName={(index, name) => this.changeIngredientName(index, name)}
+								onChangeIngredientAmount={(index, amount) => this.changeIngredientAmount(index, amount)}
 								editable={this.state.inEditMode}
 							/>
 						</AccordionDetails>

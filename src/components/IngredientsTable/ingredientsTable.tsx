@@ -14,6 +14,7 @@ interface IngredientsTableProps {
 	onAdd: () => void,
 	onDelete: (ingredientIndex: number) => void,
 	onChangeIngredientName: (index: number, name: string | null) => void,
+	onChangeIngredientAmount: (index: number, amount: string | null) => void,
 	editable: boolean
 }
 
@@ -31,9 +32,10 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									className="IngredientsTextField AmountTextField"
 									id="outlined-multiline-static"
 									rows={4}
-									value={ingredient.amount}
+									defaultValue={ingredient.amount}
 									variant="outlined"
 									disabled={!this.props.editable}
+									onChange={(event) => {this.props.onChangeIngredientAmount(index, event.target.value)}}
 								/>
 								<Autocomplete
 									className="IngredientsTextField NameTextField"

@@ -21,7 +21,8 @@ interface PhotoDialogProps {
 }
 
 interface PhotoDialogState {
-	open: boolean
+	open: boolean,
+	scrollPosition: number
 }
 
 
@@ -30,13 +31,14 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 	constructor(props: PhotoDialogProps){
 		super(props);
 		this.state={
-			open: props.open
+			open: props.open,
+			scrollPosition: 0
 		}
 	}
 	
 	componentDidUpdate(oldProps: PhotoDialogProps) {
 		if(oldProps.open !== this.props.open) {
-			this.setState({ open: this.props.open });
+			this.setState({ open: this.props.open, scrollPosition: 0 });
 		}
 	}
 	
@@ -52,19 +54,18 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 		return null;
 	}
 	
-	getScrollPosition = () => {
+	setScrollPosition = () => {
 		const container = document.getElementById("ImagePreviewContainer");
 		const image = document.getElementById("ImagePreview");
 		if(container && image) {
-			return (image as HTMLImageElement).height * container.scrollTop/100;
+			this.setState({ scrollPosition: container.scrollTop/100 });
 		}
-		return 0;
 	}
 	
 	setPhoto = () => {
 		const image: Image = {
 			name: this.getImageSource() ? this.props.imageName : DEFAULT_PIC_NAME,
-			position: "0"
+			position: this.state.scrollPosition
 		};
 		this.props.setPhoto(image);
 	}
@@ -73,7 +74,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 		return (
 			<Dialog className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> {this.props.imageName} </DialogTitle>
-				<DialogContent id="ImagePreviewContainer" className="ImagePreviewContainer" onScroll={() => this.getScrollPosition()}>
+				<DialogContent id="ImagePreviewContainer" className="ImagePreviewContainer" onScroll={() => this.setScrollPosition()}>
 					{this.getImageSource() ?
 					<img
 						id="ImagePreview"

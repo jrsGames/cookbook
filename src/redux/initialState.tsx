@@ -17,7 +17,7 @@ export interface Ingredient {
 
 export interface Image {
 	name: string,
-	position: string
+	position: number
 }
 
 export interface Recipe {

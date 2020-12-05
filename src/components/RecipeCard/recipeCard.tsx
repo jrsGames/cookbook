@@ -70,6 +70,15 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 		return require('../../resources/' + DEFAULT_PIC_NAME);
 	}
 	
+	getImageStyle = () => {
+		const image = this.props.recipe.image;
+		const positionShift: number = image ? image.position : 0;
+		const position = (-6*16*positionShift).toString();
+		return {
+			marginTop: position + "px"
+		}
+	}
+	
 	onDeleteClick = () => {
 		this.setState({ deleteDialogOpen: true });
 	}
@@ -95,7 +104,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 			<div className={this.getRootClassName()}>
 				<Card>
 					<div className="RecipeImageWrapper">
-						<img className="RecipeImage" src={this.getImageSource()} alt="Loading" />
+						<img className="RecipeImage" src={this.getImageSource()} style={this.getImageStyle()} alt="Loading" />
 					</div>
 					<CardContent>
 						<Tooltip title={recipe.name} TransitionComponent={Zoom} placement="top">

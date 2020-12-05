@@ -191,6 +191,16 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		}
 	}
 	
+	changeIngredientName = (index: number, name: string | null) => {
+		if(this.props.recipe && name) {
+			const newRecipe: Recipe = this.props.recipe;
+			newRecipe.ingredients = this.props.recipe.ingredients;
+			newRecipe.ingredients[index] = JSON.parse(JSON.stringify(this.props.recipe.ingredients[index]));
+			newRecipe.ingredients[index].name = name;
+			this.props.setRecipe(newRecipe);
+		}
+	}
+	
 	deleteLabel = (index: number) => {
 		if(this.props.recipe && this.props.recipe.labels) {
 			const newRecipe: Recipe = this.props.recipe;
@@ -221,8 +231,8 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		this.setState({ inEditMode: false });
 		this.props.onClose();
 	}
-
-
+	
+	
 	render() {
 		return (
 			<Dialog className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
@@ -267,6 +277,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 								ingredients={this.getIngredients()}
 								onDelete={(index: number) => this.deleteIngredient(index)}
 								onAdd={() => this.addIngredient()}
+								onChangeIngredientName={(index, name) => this.changeIngredientName(index, name)}
 								editable={this.state.inEditMode}
 							/>
 						</AccordionDetails>

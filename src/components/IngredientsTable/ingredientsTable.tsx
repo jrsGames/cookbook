@@ -13,6 +13,7 @@ interface IngredientsTableProps {
 	ingredients: Ingredient[],
 	onAdd: () => void,
 	onDelete: (ingredientIndex: number) => void,
+	onChangeIngredientName: (index: number, name: string | null) => void,
 	editable: boolean
 }
 
@@ -40,6 +41,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									value={ingredient.name}
 									options={INGREDIENTS}
 									disabled={!this.props.editable}
+									onChange={(_event, value) => {this.props.onChangeIngredientName(index, value)}}
 									renderInput={(params) => (
 										<TextField
 											{...params}

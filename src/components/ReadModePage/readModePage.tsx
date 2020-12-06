@@ -14,6 +14,7 @@ import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
 import { TitleDialog } from '../TitleDialog/titleDialog';
+import { FilterDialog } from '../FilterDialog/filterDialog';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -24,14 +25,17 @@ interface ReadModePageProps {
 	setCookbook: (cookbook: Cookbook) => void,
 	deleteRecipe: (id: string) => void,
 	copyRecipe: (recipeId: string) => void,
-	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void
+	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void,
+	getFilters: () => {include: string[], exclude: string[]},
+	setFilteredLabels: (include: string[], exclude: string[]) => void,
 }
 
 interface ReadModePageState {
 	cookbook: Cookbook,
 	toBeSwapped: number | null,
 	openRecipeIndex: number,
-	titleDialogOpen: boolean
+	titleDialogOpen: boolean,
+	filterDialogOpen: boolean
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -42,7 +46,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			cookbook: props.getCookbook(),
 			toBeSwapped: null,
 			openRecipeIndex: -1,
-			titleDialogOpen: false
+			titleDialogOpen: false,
+			filterDialogOpen: false
 		}
 	}
 	
@@ -65,6 +70,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	
 	closeTitleDialog = () => {
 		this.setState({ titleDialogOpen: false });
+	}
+	
+	openFilterDialog = () => {
+		this.setState({ filterDialogOpen: true });
+	}
+
+	closeFilterDialog = () => {
+		this.setState({ filterDialogOpen: false });
 	}
 	
 	openRecipe = (index: number) => {
@@ -145,10 +158,17 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						/>
 						<div className="RightHandButtons">
 							<Tooltip title="Kochbuch filtern" TransitionComponent={Zoom} placement="bottom">
-								<IconButton color="inherit" aria-label="menu" onClick={() => {}}>
+								<IconButton color="inherit" aria-label="menu" onClick={() => this.openFilterDialog()}>
 									<TuneIcon />
 								</IconButton>
 							</Tooltip>
+							<FilterDialog
+								open={this.state.filterDialogOpen}
+								closeDialog={() => this.closeFilterDialog()}
+								oldIncluded={this.props.getFilters().include}
+								oldExcluded={this.props.getFilters().exclude}
+								setFilteredLabels={(incl: string[], excl: string[]) => this.props.setFilteredLabels(incl, excl)}
+							/>
 							<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
 								<IconButton color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
 									<GetAppIcon />
@@ -199,12 +219,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
 	copyRecipe: (recipeId: string) => dispatch(copyRecipe(recipeId)),
 	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId)),
-	setFilteredLabels: (type: string, labels: string[]) => {
-		if(type === 'include') {
-			dispatch(setIncludedLabels(labels))
-		} else if (type === 'exclude') {
-			dispatch(setExcludedLabels(labels))
-		}
+	setFilteredLabels: (included: string[], excluded: string[]) => {
+		dispatch(setIncludedLabels(included));
+		dispatch(setExcludedLabels(excluded));
 	}
 });
 

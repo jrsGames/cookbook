@@ -11,6 +11,7 @@ import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
+import TuneIcon from '@material-ui/icons/Tune';
 import { TitleDialog } from '../TitleDialog/titleDialog';
 
 
@@ -141,11 +142,18 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							closeDialog={() => this.closeTitleDialog()}
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
 						/>
-						<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
-							<IconButton className="ExportButton" color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
-								<GetAppIcon />
-							</IconButton>
-						</Tooltip>
+						<div className="RightHandButtons">
+							<Tooltip title="Kochbuch filtern" TransitionComponent={Zoom} placement="bottom">
+								<IconButton color="inherit" aria-label="menu" onClick={() => {}}>
+									<TuneIcon />
+								</IconButton>
+							</Tooltip>
+							<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
+								<IconButton color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
+									<GetAppIcon />
+								</IconButton>
+							</Tooltip>
+						</div>
 					</Toolbar>
 				</AppBar>
 				<div className="RecipeList">

@@ -115,6 +115,28 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 							</Select>
 						</FormControl>
 				</DialogContent>
+				<div className="Exclude"> Darf nicht enthalten </div>
+				<DialogContent className="AddFilterDialogContent">
+						<FormControl>
+							<Select
+								className="Select"
+								multiple
+								defaultValue={excluded}
+								renderValue={(selected) => (
+									<div>
+										{(selected as string[]).map((value) => (
+											<Chip className="Label" key={value} label={value} color="primary" />
+										))}
+									</div>
+								)}
+								MenuProps={this.menuProps}
+							>
+								{this.getLabels().map((label) => (
+									<MenuItem key={label} value={label}> {label} </MenuItem>
+								))}
+							</Select>
+						</FormControl>
+				</DialogContent>
 				<DialogActions>
 					<IconButton onClick={() => this.setFilter()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>

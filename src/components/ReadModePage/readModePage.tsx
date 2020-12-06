@@ -3,13 +3,12 @@ import './readModePage.css';
 import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
+import { getCookbook } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
-import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
@@ -26,8 +25,6 @@ interface ReadModePageProps {
 	deleteRecipe: (id: string) => void,
 	copyRecipe: (recipeId: string) => void,
 	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void,
-	getFilters: () => {include: string[], exclude: string[]},
-	setFilteredLabels: (include: string[], exclude: string[]) => void,
 }
 
 interface ReadModePageState {
@@ -76,11 +73,6 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.setState({ filterDialogOpen: true });
 	}
 	
-	setFilteredLabels = (incl: string[], excl: string[]) => {
-		this.closeFilterDialog();
-		this.props.setFilteredLabels(incl, excl);
-	}
-
 	closeFilterDialog = () => {
 		this.setState({ filterDialogOpen: false });
 	}
@@ -120,16 +112,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	closeDetailsDialog = () => {
 		this.setState({ openRecipeIndex: -1});
 	}
-	
-	updateCookbookWithRecipe = (recipe: Recipe) => {
-		const newCookbook = this.props.getCookbook();
-		if(newCookbook) {
-			newCookbook.recipes = JSON.parse(JSON.stringify(newCookbook.recipes));
-			newCookbook.recipes[this.state.openRecipeIndex] = recipe;
-			this.props.setCookbook(newCookbook);
-		}
-	}
-	
+
 	exportCookbook = () => {
 		let content = JSON.stringify(this.props.getCookbook());
 		let link = document.createElement("a");
@@ -170,9 +153,6 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							<FilterDialog
 								open={this.state.filterDialogOpen}
 								closeDialog={() => this.closeFilterDialog()}
-								oldIncluded={this.props.getFilters().include}
-								oldExcluded={this.props.getFilters().exclude}
-								setFilteredLabels={(incl: string[], excl: string[]) => this.setFilteredLabels(incl, excl)}
 							/>
 							<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
 								<IconButton color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
@@ -212,22 +192,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
-	getFilters: () => ({
-		include: getIncludedLabels(state),
-		exclude: getExcludedLabels(state)
-	})
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
 	copyRecipe: (recipeId: string) => dispatch(copyRecipe(recipeId)),
-	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId)),
-	setFilteredLabels: (included: string[], excluded: string[]) => {
-		dispatch(setIncludedLabels(included));
-		dispatch(setExcludedLabels(excluded));
-	}
+	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId))
 });
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

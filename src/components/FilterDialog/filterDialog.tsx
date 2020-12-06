@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import './filterDialog.css';
 import { Cookbook, GlobalState } from '../../redux/initialState';
-import { getCookbook } from '../../redux/selectors';
+import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import {
 	Chip,
@@ -18,13 +18,14 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 
 
 interface FilterDialogProps {
 	open: boolean,
 	closeDialog: () => void,
-	oldIncluded: string[],
-	oldExcluded: string[],
+	getIncludedLabels: () => string[],
+	getExcludedLabels: () => string[],
 	setFilteredLabels: (included: string[], excluded: string[]) => void,
 	getCookbook: () => Cookbook
 }
@@ -44,8 +45,8 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		super(props);
 		this.state={
 			open: props.open,
-			included: props.oldIncluded,
-			excluded: props.oldExcluded,
+			included: props.getIncludedLabels(),
+			excluded: props.getExcludedLabels(),
 			defaultIncl: [],
 			defaultExcl: []
 		}
@@ -55,13 +56,14 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		if(oldProps.open !== this.props.open) {
 			this.setState({ open: this.props.open });
 			if(this.props.open) {
-				this.setState({ defaultIncl: this.props.oldIncluded, defaultExcl: this.props.oldExcluded })
+				this.setState({ defaultIncl: this.props.getIncludedLabels(), defaultExcl: this.props.getExcludedLabels() })
 			}
 		}
 	}
 	
 	setFilter = () => {
 		this.props.setFilteredLabels(this.state.included, this.state.excluded);
+		this.props.closeDialog();
 	}
 	
 	deleteLabel = (index: number) => {
@@ -160,9 +162,16 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
+	getIncludedLabels: () => getIncludedLabels(state),
+	getExcludedLabels: () => getExcludedLabels(state)
 });
 
-const mapDispatchToProps = (_dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	setFilteredLabels: (included: string[], excluded: string[]) => {
+		dispatch(setIncludedLabels(included));
+		dispatch(setExcludedLabels(excluded));
+	}
+});
 
 export const FilterDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedFilterDialog);

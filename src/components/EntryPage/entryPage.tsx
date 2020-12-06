@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { GlobalState, CREATE_VIEW } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { setView } from '../../redux/action_creators/GeneralState';
+import { setView } from '../../redux/action_creators/ViewState';
 
 interface EntryPageProps {
 	enterCreateMode: () => void

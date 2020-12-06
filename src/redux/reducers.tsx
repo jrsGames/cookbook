@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import {
-	GeneralState,
+	ViewState,
 	BookState,
-	initialGeneralState,
+	initialViewState,
 	initialBookState,
 	Cookbook,
     Recipe
@@ -10,7 +10,7 @@ import {
 import {
 	Action,
 	ACTION_SET_VIEW,
-	ActionSetGeneralState,
+	ActionSetViewState,
 	ACTION_SET_COOKBOOK,
 	ActionSetBookState,
 	ACTION_SET_COOKBOOK_STRING,
@@ -22,10 +22,10 @@ import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 import { generateId } from '../components/UploadInput/uploadInput';
 
 
-/* GENERALSTATE */
-export function generalReducer(
-	state: GeneralState = initialGeneralState,
-	action: Action<ActionSetGeneralState>
+/* VIEWSTATE */
+export function viewReducer(
+	state: ViewState = initialViewState,
+	action: Action<ActionSetViewState>
 ) {
 	switch(action.type) {
 		case ACTION_SET_VIEW: return {
@@ -96,6 +96,6 @@ export function bookReducer(
 }
 
 export const reducers = combineReducers({
-	generalState: generalReducer,
+	viewState: viewReducer,
 	bookState: bookReducer
 });

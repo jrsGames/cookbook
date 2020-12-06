@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalState, READ_VIEW, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
-import { setView } from '../../redux/action_creators/GeneralState';
+import { setView } from '../../redux/action_creators/ViewState';
 import { connect } from 'react-redux';
 import { setCookbookString, setCookbook } from '../../redux/action_creators/BookState';
 import { isCookbook } from '../../helpers';

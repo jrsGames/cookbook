@@ -5,7 +5,7 @@ export interface Action<T> {
 	payload: T;
 }
 
-/* GENERALSTATE */
+/* VIEWSTATE */
 export const ACTION_SET_VIEW = "setView";
 export interface ActionSetView {
 	view: string
@@ -39,7 +39,7 @@ export interface ActionUpdateRecipe {
 	newRecipe: Recipe
 }
 
-export interface ActionSetGeneralState extends ActionSetView {};
+export interface ActionSetViewState extends ActionSetView {};
 export interface ActionSetBookState extends
 	ActionSetCookbook,
 	ActionSetCookbookString,

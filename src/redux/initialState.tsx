@@ -2,11 +2,11 @@ export const ENTRY_VIEW: string = 'entry';
 export const CREATE_VIEW: string = 'create';
 export const READ_VIEW: string = 'read';
 
-export interface GeneralState {
+export interface ViewState {
 	view: string
 }
 
-export const initialGeneralState: GeneralState = {
+export const initialViewState: ViewState = {
 	view: ENTRY_VIEW
 }
 
@@ -42,11 +42,11 @@ export interface BookState {
 export const initialBookState: BookState = {}
 
 export interface GlobalState {
-	generalState: GeneralState,
+	viewState: ViewState,
 	bookState: BookState
 };
 
 export const initialState: GlobalState = {
-	generalState: initialGeneralState,
+	viewState: initialViewState,
 	bookState: initialBookState
 }

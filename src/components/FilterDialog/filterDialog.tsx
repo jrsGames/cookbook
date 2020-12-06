@@ -14,8 +14,7 @@ import {
 	IconButton,
 	MenuItem,
 	Select,
-	FormControl,
-	InputLabel
+	FormControl
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -77,6 +76,15 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		})
 		return labels.filter((item, pos) => labels.indexOf(item) === pos).sort();
 	}
+	
+	menuProps = {
+		PaperProps: {
+			style: {
+				minWidth: 250,
+				width: 250,
+			},
+		},
+	}
 
 	render() {
 		const included: string[] = JSON.parse(JSON.stringify(this.state.included));
@@ -85,27 +93,27 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		return (
 			<Dialog className="SetFilterDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Nach Labels filtern </DialogTitle>
+				<div className="Include"> Muss enthalten </div>
 				<DialogContent className="AddFilterDialogContent">
-					<div>
 						<FormControl>
-							<InputLabel>Muss enthalten</InputLabel>
 							<Select
+								className="Select"
 								multiple
 								defaultValue={included}
 								renderValue={(selected) => (
 									<div>
 										{(selected as string[]).map((value) => (
-											<Chip key={value} label={value} color="primary" />
+											<Chip className="Label" key={value} label={value} color="primary" />
 										))}
 									</div>
 								)}
+								MenuProps={this.menuProps}
 							>
 								{this.getLabels().map((label) => (
 									<MenuItem key={label} value={label}> {label} </MenuItem>
 								))}
 							</Select>
 						</FormControl>
-					</div>
 				</DialogContent>
 				<DialogActions>
 					<IconButton onClick={() => this.setFilter()} color="primary"> <CheckIcon/> </IconButton>

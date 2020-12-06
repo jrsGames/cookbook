@@ -1,0 +1,26 @@
+.SetFilterDialog .MuiDialog-paperWidthSm {
+	width: 30rem;
+	max-width: unset;
+}
+
+.Include {
+	margin-left: 2rem;
+}
+
+.AddFilterDialogContent.MuiDialogContent-root {
+	margin: 0 2rem;
+}
+
+.InputLabel {
+	min-width: 23rem;
+}
+
+.Select {
+	min-width: 23rem;
+}
+
+.Label.MuiChip-root {
+	margin-top: 0.3rem;
+	margin-right: 0.3rem;
+	font-size: small;
+}

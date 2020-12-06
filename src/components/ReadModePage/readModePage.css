@@ -1,4 +1,7 @@
-.ReadModePage {}
+.ExportButton.MuiButtonBase-root {
+	float: right;
+	margin: 0 0 0 auto;
+}
 
 .RecipeList {
 	display: flex;

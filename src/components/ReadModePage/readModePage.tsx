@@ -5,11 +5,12 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import { RecipeCard } from '../RecipeCard/recipeCard';
+import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
+import Zoom from '@material-ui/core/Zoom';
+
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
 	recipes.findIndex((recipe) => recipe.id && recipe.id === id);
@@ -107,12 +108,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			<div className="ReadModePage">
 				<AppBar position="static">
 					<Toolbar>
-						<IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
-							<MenuIcon/>
-						</IconButton>
 						<Typography variant="h6">
 							{cookbook.title}
 						</Typography>
+						<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
+							<IconButton className="ExportButton" color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
+								<GetAppIcon />
+							</IconButton>
+						</Tooltip>
 					</Toolbar>
 				</AppBar>
 				<div className="RecipeList">

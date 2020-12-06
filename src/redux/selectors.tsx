@@ -8,3 +8,9 @@ export const getCookbook: (state: GlobalState) => Cookbook | null =
 	
 export const getCookbookString: (state: GlobalState) => string =
 	(state) => state.bookState.cookbookString || "";
+	
+export const getIncludedLabels: (state: GlobalState) => string[] =
+	(state) => state.filterState.include;
+	
+export const getExcludedLabels: (state: GlobalState) => string[] =
+	(state) => state.filterState.exclude;

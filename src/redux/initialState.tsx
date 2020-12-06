@@ -41,12 +41,24 @@ export interface BookState {
 
 export const initialBookState: BookState = {}
 
+export interface FilterState {
+	include: string[],
+	exclude: string[]
+}
+
+export const initialFilterState: FilterState = {
+	include: [],
+	exclude: []
+}
+
 export interface GlobalState {
 	viewState: ViewState,
-	bookState: BookState
+	bookState: BookState,
+	filterState: FilterState
 };
 
 export const initialState: GlobalState = {
 	viewState: initialViewState,
-	bookState: initialBookState
+	bookState: initialBookState,
+	filterState: initialFilterState
 }

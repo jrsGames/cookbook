@@ -38,6 +38,14 @@ export interface ActionUpdateRecipe {
 	id: string,
 	newRecipe: Recipe
 }
+export const ACTION_SET_INCLUDE = "setIncludedLabels";
+export interface ActionSetInclude {
+	labels: string[]
+}
+export const ACTION_SET_EXCLUDE = "setExcludedLabels";
+export interface ActionSetExclude {
+	labels: string[]
+}
 
 export interface ActionSetViewState extends ActionSetView {};
 export interface ActionSetBookState extends
@@ -47,3 +55,4 @@ export interface ActionSetBookState extends
 	ActionCopyRecipe,
 	ActionSwapRecipes,
 	ActionUpdateRecipe {};
+export interface ActionSetFilterState extends ActionSetInclude, ActionSetExclude {};

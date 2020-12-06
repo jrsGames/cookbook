@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import {
 	ViewState,
 	BookState,
+	FilterState,
 	initialViewState,
 	initialBookState,
-	Cookbook,
-    Recipe
+	initialFilterState,
+	Cookbook,
+	Recipe
 } from './initialState';
 import {
 	Action,
@@ -17,7 +19,10 @@ import {
 	ACTION_DELETE_RECIPE,
 	ACTION_COPY_RECIPE,
 	ACTION_SWAP_RECIPES,
-	ACTION_UPDATE_RECIPE} from './actions';
+	ACTION_UPDATE_RECIPE,
+	ActionSetFilterState,
+	ACTION_SET_INCLUDE,
+	ACTION_SET_EXCLUDE} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 import { generateId } from '../components/UploadInput/uploadInput';
 
@@ -95,7 +100,26 @@ export function bookReducer(
 	}	
 }
 
+/* FILTERSTATE */
+export function filterReducer(
+	state: FilterState = initialFilterState,
+	action: Action<ActionSetFilterState>
+) {
+	switch(action.type) {
+		case ACTION_SET_INCLUDE: return {
+			...state,
+			include: action.payload.labels || state.include
+		};
+		case ACTION_SET_EXCLUDE: return {
+			...state,
+			exclude: action.payload.labels || state.exclude
+		};
+		default: return state;
+	}	
+}
+
 export const reducers = combineReducers({
 	viewState: viewReducer,
-	bookState: bookReducer
+	bookState: bookReducer,
+	filterState: filterReducer
 });

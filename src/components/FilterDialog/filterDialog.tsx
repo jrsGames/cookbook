@@ -1,5 +1,10 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import './filterDialog.css';
+import { Cookbook, GlobalState } from '../../redux/initialState';
+import { getCookbook } from '../../redux/selectors';
+import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import {
 	Chip,
 	Dialog,
@@ -22,6 +27,7 @@ interface FilterDialogProps {
 	oldIncluded: string[],
 	oldExcluded: string[],
 	setFilteredLabels: (included: string[], excluded: string[]) => void,
+	getCookbook: () => Cookbook
 }
 
 interface FilterDialogState {
@@ -31,7 +37,7 @@ interface FilterDialogState {
 }
 
 
-export class FilterDialog extends React.Component<FilterDialogProps, FilterDialogState> {
+export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, FilterDialogState> {
 	
 	constructor(props: FilterDialogProps){
 		super(props);
@@ -63,9 +69,16 @@ export class FilterDialog extends React.Component<FilterDialogProps, FilterDialo
 		newIncluded.splice(index, 1);
 		this.setState({ included: newIncluded})
 	}
+	
+	getLabels: () => string[] = () => {
+		let labels: string[] = [];
+		this.props.getCookbook().recipes.forEach((recipe) => {
+			labels = labels.concat(recipe.labels);
+		})
+		return labels.filter((item, pos) => labels.indexOf(item) === pos).sort();
+	}
 
 	render() {
-		const names = ["Name1", "Name2"]
 		const included: string[] = JSON.parse(JSON.stringify(this.state.included));
 		const excluded: string[] = JSON.parse(JSON.stringify(this.state.excluded));
 		
@@ -87,8 +100,8 @@ export class FilterDialog extends React.Component<FilterDialogProps, FilterDialo
 									</div>
 								)}
 							>
-								{names.map((name) => (
-									<MenuItem key={name} value={name}> {name} </MenuItem>
+								{this.getLabels().map((label) => (
+									<MenuItem key={label} value={label}> {label} </MenuItem>
 								))}
 							</Select>
 						</FormControl>
@@ -102,3 +115,11 @@ export class FilterDialog extends React.Component<FilterDialogProps, FilterDialo
 		);
 	}
 }
+
+const mapStateToProps = (state: GlobalState) => ({
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
+
+export const FilterDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedFilterDialog);

@@ -3,12 +3,13 @@ import './readModePage.css';
 import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { getCookbook } from '../../redux/selectors';
+import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
+import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
@@ -186,14 +187,25 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
+	getFilters: () => ({
+		include: getIncludedLabels(state),
+		exclude: getExcludedLabels(state)
+	})
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
 	copyRecipe: (recipeId: string) => dispatch(copyRecipe(recipeId)),
-	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId))
+	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => dispatch(swapRecipes(firstRecipeId, secondRecipeId)),
+	setFilteredLabels: (type: string, labels: string[]) => {
+		if(type === 'include') {
+			dispatch(setIncludedLabels(labels))
+		} else if (type === 'exclude') {
+			dispatch(setExcludedLabels(labels))
+		}
+	}
 });
 
 export const ReadModePage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedReadModePage);

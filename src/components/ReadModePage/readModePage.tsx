@@ -3,7 +3,7 @@ import './readModePage.css';
 import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { getCookbook } from '../../redux/selectors';
+import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '../RecipeCard/recipeCard';
@@ -25,6 +25,8 @@ interface ReadModePageProps {
 	deleteRecipe: (id: string) => void,
 	copyRecipe: (recipeId: string) => void,
 	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void,
+	getIncludedLabels: () => string[],
+	getExcludedLabels: () => string[]
 }
 
 interface ReadModePageState {
@@ -49,9 +51,34 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	componentDidUpdate(prevProps: ReadModePageProps) {
-		if(prevProps.getCookbook() !== this.props.getCookbook()) {
+		if(prevProps.getCookbook() !== this.props.getCookbook() ||
+			prevProps.getIncludedLabels() !== this.props.getIncludedLabels() ||
+			prevProps.getExcludedLabels() !== this.props.getExcludedLabels()
+		) {
 			this.setState({cookbook: this.props.getCookbook()});
 		}
+	}
+	
+	filterCookbook = (cookbook: Cookbook) => {
+		const newCookbook: Cookbook = cookbook;
+		const newRecipes: Recipe[] = JSON.parse(JSON.stringify(cookbook.recipes));
+		newCookbook.recipes = newRecipes.filter(this.containsRequiredLabels);
+		return newCookbook;
+	}
+	
+	containsRequiredLabels = (recipe: Recipe) => {
+		let fulfilled: boolean = true;
+		this.props.getIncludedLabels().forEach((label) => {
+			if(fulfilled && recipe.labels.indexOf(label) === -1) {
+				fulfilled = false;
+			}
+		});
+		recipe.labels.forEach((label) => {
+			if(fulfilled && this.props.getExcludedLabels().indexOf(label) > -1) {
+				fulfilled = false;
+			}
+		});
+		return fulfilled;
 	}
 	
 	openTitleDialog = () => {
@@ -123,8 +150,10 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		link.click();
 	}
 	
+	
 	render() {
-		const cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
+		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
+		cookbook = this.filterCookbook(cookbook);
 		
 		return (
 			<div className="ReadModePage">
@@ -192,7 +221,9 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
+	getIncludedLabels: () => getIncludedLabels(state),
+	getExcludedLabels: () => getExcludedLabels(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

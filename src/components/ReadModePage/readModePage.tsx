@@ -10,6 +10,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '.
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
 import Zoom from '@material-ui/core/Zoom';
+import EditIcon from '@material-ui/icons/Edit';
+import { TitleDialog } from '../TitleDialog/titleDialog';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -26,7 +28,8 @@ interface ReadModePageProps {
 interface ReadModePageState {
 	cookbook: Cookbook,
 	toBeSwapped: number | null,
-	openRecipeIndex: number
+	openRecipeIndex: number,
+	titleDialogOpen: boolean
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -36,7 +39,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.state = {
 			cookbook: props.getCookbook(),
 			toBeSwapped: null,
-			openRecipeIndex: -1
+			openRecipeIndex: -1,
+			titleDialogOpen: false
 		}
 	}
 	
@@ -44,6 +48,21 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		if(prevProps.getCookbook() !== this.props.getCookbook()) {
 			this.setState({cookbook: this.props.getCookbook()});
 		}
+	}
+	
+	openTitleDialog = () => {
+		this.setState({ titleDialogOpen: true });
+	}
+	
+	setNewTitle = (newTitle: string) => {
+		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
+		newCookbook.title = newTitle;
+		this.props.setCookbook(newCookbook);
+		this.closeTitleDialog();
+	}
+	
+	closeTitleDialog = () => {
+		this.setState({ titleDialogOpen: false });
 	}
 	
 	openRecipe = (index: number) => {
@@ -87,7 +106,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		if(newCookbook) {
 			newCookbook.recipes = JSON.parse(JSON.stringify(newCookbook.recipes));
 			newCookbook.recipes[this.state.openRecipeIndex] = recipe;
-			this.props.setCookbook(newCookbook);	
+			this.props.setCookbook(newCookbook);
 		}
 	}
 	
@@ -111,6 +130,17 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						<Typography variant="h6">
 							{cookbook.title}
 						</Typography>
+						<Tooltip title="Title bearbeiten" TransitionComponent={Zoom} placement="bottom">
+							<IconButton color="inherit" aria-label="menu" onClick={() => this.openTitleDialog()}>
+								<EditIcon />
+							</IconButton>
+						</Tooltip>
+						<TitleDialog
+							open={this.state.titleDialogOpen}
+							oldTitle={cookbook.title}
+							closeDialog={() => this.closeTitleDialog()}
+							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
+						/>
 						<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
 							<IconButton className="ExportButton" color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
 								<GetAppIcon />

@@ -32,7 +32,9 @@ interface FilterDialogProps {
 interface FilterDialogState {
 	open: boolean,
 	included: string[],
-	excluded: string[]
+	excluded: string[],
+	defaultIncl: string[],
+	defaultExcl: string[]
 }
 
 
@@ -43,19 +45,18 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		this.state={
 			open: props.open,
 			included: props.oldIncluded,
-			excluded: props.oldExcluded
+			excluded: props.oldExcluded,
+			defaultIncl: [],
+			defaultExcl: []
 		}
 	}
 	
 	componentDidUpdate(oldProps: FilterDialogProps) {
 		if(oldProps.open !== this.props.open) {
 			this.setState({ open: this.props.open });
-		}
-		if(oldProps.oldIncluded !== this.props.oldIncluded) {
-			this.setState({ included: this.props.oldIncluded });
-		}
-		if(oldProps.oldExcluded !== this.props.oldExcluded) {
-			this.setState({ excluded: this.props.oldExcluded });
+			if(this.props.open) {
+				this.setState({ defaultIncl: this.props.oldIncluded, defaultExcl: this.props.oldExcluded })
+			}
 		}
 	}
 	
@@ -85,11 +86,21 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 			},
 		},
 	}
+	
+	setIncludeFilter = (value: string[] | unknown) => {
+		if(Array.isArray(value)) {
+			this.setState({ included: value });
+		}
+	}
 
+	setExcludeFilter = (value: string[] | unknown) => {
+		if(Array.isArray(value)) {
+			this.setState({ excluded: value });
+		}
+	}
+	
+	
 	render() {
-		const included: string[] = JSON.parse(JSON.stringify(this.state.included));
-		const excluded: string[] = JSON.parse(JSON.stringify(this.state.excluded));
-		
 		return (
 			<Dialog className="SetFilterDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Nach Labels filtern </DialogTitle>
@@ -99,7 +110,8 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 							<Select
 								className="Select"
 								multiple
-								defaultValue={included}
+								defaultValue={this.state.defaultIncl}
+								onChange={(event) => this.setIncludeFilter(event.target.value)}
 								renderValue={(selected) => (
 									<div>
 										{(selected as string[]).map((value) => (
@@ -121,7 +133,8 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 							<Select
 								className="Select"
 								multiple
-								defaultValue={excluded}
+								defaultValue={this.state.defaultExcl}
+								onChange={(event) => this.setExcludeFilter(event.target.value)}
 								renderValue={(selected) => (
 									<div>
 										{(selected as string[]).map((value) => (
@@ -150,6 +163,6 @@ const mapStateToProps = (state: GlobalState) => ({
 	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (_dispatch: Dispatch) => ({});
 
 export const FilterDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedFilterDialog);

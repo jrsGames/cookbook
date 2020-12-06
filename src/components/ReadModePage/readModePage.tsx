@@ -75,6 +75,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	openFilterDialog = () => {
 		this.setState({ filterDialogOpen: true });
 	}
+	
+	setFilteredLabels = (incl: string[], excl: string[]) => {
+		this.closeFilterDialog();
+		this.props.setFilteredLabels(incl, excl);
+	}
 
 	closeFilterDialog = () => {
 		this.setState({ filterDialogOpen: false });
@@ -167,7 +172,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 								closeDialog={() => this.closeFilterDialog()}
 								oldIncluded={this.props.getFilters().include}
 								oldExcluded={this.props.getFilters().exclude}
-								setFilteredLabels={(incl: string[], excl: string[]) => this.props.setFilteredLabels(incl, excl)}
+								setFilteredLabels={(incl: string[], excl: string[]) => this.setFilteredLabels(incl, excl)}
 							/>
 							<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
 								<IconButton color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>

@@ -27,6 +27,7 @@ export const copyRecipe = (recipeId: string) => ({
 export const swapRecipes = (firstRecipeId: string, secondRecipeId: string) => ({
 	type: ACTION_SWAP_RECIPES, payload: {firstRecipeId, secondRecipeId}
 });
+
 export const updateRecipe = (id: string, newRecipe: Recipe) => ({
 	type: ACTION_UPDATE_RECIPE, payload: {id, newRecipe}
 })

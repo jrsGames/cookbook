@@ -6,12 +6,14 @@ import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';import { RecipeCard } from '../RecipeCard/recipeCard';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
+import MergeTypeIcon from '@material-ui/icons/MergeType';
 import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
 
@@ -150,6 +152,13 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		link.click();
 	}
 	
+	mergeRecipes: () => void = () => {
+		var x = document.getElementById("fileUpload");
+		if(x){
+			x.click();
+		}		
+	}
+	
 	
 	render() {
 		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
@@ -174,6 +183,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
 						/>
 						<div className="RightHandButtons">
+							<Tooltip title="Kombinieren" TransitionComponent={Zoom} placement="bottom">
+								<IconButton color="inherit" aria-label="menu" onClick={() => this.mergeRecipes()}>
+									<MergeTypeIcon />
+								</IconButton>
+							</Tooltip>
 							<Tooltip title="Kochbuch filtern" TransitionComponent={Zoom} placement="bottom">
 								<IconButton color="inherit" aria-label="menu" onClick={() => this.openFilterDialog()}>
 									<TuneIcon />

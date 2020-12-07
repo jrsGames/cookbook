@@ -5,6 +5,7 @@ import { setView } from '../../redux/action_creators/ViewState';
 import { connect } from 'react-redux';
 import { setCookbookString, setCookbook } from '../../redux/action_creators/BookState';
 import { isCookbook } from '../../helpers';
+import { getCookbook } from '../../redux/selectors';
 
 export const EMPTY_COOKBOOK: Cookbook = {
 		title: "",
@@ -13,7 +14,8 @@ export const EMPTY_COOKBOOK: Cookbook = {
 
 interface UploadInputProps {
 	enterReadMode: () => void;
-	setCookbook: (cookbook: string) => void;
+	setCookbook: (cookbook: Cookbook) => void;
+	getCookbook: () => Cookbook | null;
 }
 
 class UnconnectedUploadInput extends React.Component<UploadInputProps> {
@@ -25,7 +27,14 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 			let reader = new FileReader();
 			reader.onload = () => {
 				if(typeof reader.result === "string"){
-					this.props.setCookbook(reader.result);
+					if(this.props.getCookbook()) {
+						const secondCookbook: Cookbook = parseToCookbook(reader.result);
+						const newCookbook: Cookbook = addNewRecipes((this.props.getCookbook()) as Cookbook, secondCookbook);
+						this.props.setCookbook(newCookbook);
+					} else {
+						const parsedCookbook: Cookbook = parseToCookbook(reader.result);
+						this.props.setCookbook(parsedCookbook);
+					}
 				}
 			}
 			reader.readAsText(importedFile);
@@ -44,6 +53,23 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 			</div>
 		);
 	}
+}
+
+const addNewRecipes = (oldCookbook: Cookbook, newCookbook: Cookbook) => {
+	const oldCookbookCopy: Cookbook = JSON.parse(JSON.stringify(oldCookbook));
+	const presentIds: string[] = [];
+	oldCookbookCopy.recipes.forEach((recipe) => {
+		if(recipe.id) {
+			presentIds.push(recipe.id);
+		}
+	});
+	newCookbook.recipes.forEach((recipe) => {
+		setId(recipe);
+		if(presentIds.indexOf((recipe.id) as string) === -1) {
+			oldCookbookCopy.recipes.push(recipe);
+		}
+	})
+	return oldCookbookCopy;
 }
 
 export const generateId = () => Math.floor(Math.random() * 1000000).toString();
@@ -75,14 +101,15 @@ const parseToCookbook: (input: string) => Cookbook = (input) => {
 	return EMPTY_COOKBOOK;
 }
 
-const mapStateToProps = (state: GlobalState) => ({});
+const mapStateToProps = (state: GlobalState) => ({
+	getCookbook: () => getCookbook(state),
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	enterReadMode: () => dispatch(setView(READ_VIEW)),
-	setCookbook: (cookbook: string) => {
-		const parsedCookbook = parseToCookbook(cookbook);
-		dispatch(setCookbookString(JSON.stringify(parsedCookbook)));
-		dispatch(setCookbook(parsedCookbook));
+	setCookbook: (cookbook: Cookbook) => {
+		dispatch(setCookbookString(JSON.stringify(cookbook)));
+		dispatch(setCookbook(cookbook));
 	}
 });
 

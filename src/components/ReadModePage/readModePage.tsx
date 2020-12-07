@@ -14,6 +14,7 @@ import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
 import MergeTypeIcon from '@material-ui/icons/MergeType';
+import CasinoIcon from '@material-ui/icons/Casino';
 import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
 
@@ -159,6 +160,26 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}		
 	}
 	
+	openRandomRecipe: () => void = () => {
+		const filteredCookbook: Cookbook = this.filterCookbook(this.state.cookbook);
+		const recipeNumber = filteredCookbook.recipes.length;
+		if(recipeNumber > 0) {
+			const randomIndex = Math.floor(Math.random() * recipeNumber);
+			const randomId = filteredCookbook.recipes[randomIndex].id;
+			this.openRecipeById((randomId) as string);
+		}
+	}
+	
+	openRecipeById: (id: string) => void = (id) => {
+		let goOn: boolean = true;
+		this.state.cookbook.recipes.forEach((recipe, index) => {
+			if(goOn && recipe.id === id) {
+				this.openRecipe(index);
+				goOn = false;
+			}
+		})
+	}
+	
 	
 	render() {
 		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
@@ -183,6 +204,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
 						/>
 						<div className="RightHandButtons">
+							<Tooltip title="Zufallsrezept" TransitionComponent={Zoom} placement="bottom">
+								<IconButton color="inherit" aria-label="menu" onClick={() => this.openRandomRecipe()}>
+									<CasinoIcon />
+								</IconButton>
+							</Tooltip>
 							<Tooltip title="Kombinieren" TransitionComponent={Zoom} placement="bottom">
 								<IconButton color="inherit" aria-label="menu" onClick={() => this.mergeRecipes()}>
 									<MergeTypeIcon />

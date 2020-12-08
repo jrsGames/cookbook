@@ -4,7 +4,7 @@ import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialSt
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
-import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
+import { EMPTY_COOKBOOK, generateId } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
@@ -21,6 +21,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
 import RestoreIcon from '@material-ui/icons/Restore';
 import HomeIcon from '@material-ui/icons/Home';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { RightHandButton } from '../RightHandButton/rightHandButton';
 import { setView } from '../../redux/action_creators/ViewState';
 
@@ -133,6 +134,22 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		const recipeIdToBeCopied = newCookbook.recipes[index].id || "";
 		this.props.copyRecipe(recipeIdToBeCopied);
+	}
+	
+	addNewRecipe(){
+		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
+		let newRecipes: Recipe[] = JSON.parse(JSON.stringify(this.props.getCookbook().recipes));
+		const defaultRecipe: Recipe = {
+			name: "Neues Rezept",
+			id: generateId(),
+			ingredients: [],
+			labels: [],
+			preparation: "",
+		}
+		newRecipes = [defaultRecipe].concat(newRecipes);
+		newCookbook.recipes = newRecipes;
+		this.props.setCookbook(newCookbook);
+		this.openRecipe(0);
 	}
 	
 	swapRecipe(index: number){
@@ -260,6 +277,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						/>
 						<div className="RightHandButtons">
 							<RightHandButton title="Startseite" onClick={() => this.props.goToEntryPage()} icon={<HomeIcon/>}/>
+							<RightHandButton title="Neues Rezept" onClick={() => this.addNewRecipe()} icon={<AddCircleIcon/>}/>
+							<RightHandButton
+								title="Kochbuch filtern"
+								onClick={() => this.openFilterDialog()}
+								icon={<TuneIcon/>}
+								active={this.props.getIncludedLabels().concat(this.props.getExcludedLabels()).length > 0}
+							/>
+							<FilterDialog open={this.state.filterDialogOpen} closeDialog={() => this.closeFilterDialog()} />
+							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
+							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
 							<RightHandButton title="Wiederherstellen" onClick={() => this.openRestoreDialog()} icon={<RestoreIcon/>}/>
 							<Dialog open={this.state.restoreDialogOpen} onClose={() => this.closeRestoreDialog()}>
 								<DialogTitle>{"Willst du das Kochbuch wiederherstellen?"}</DialogTitle>
@@ -272,17 +299,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									<Button onClick={() => this.restoreCookbook()} color="primary"> Ja </Button>
 									<Button onClick={() => this.closeRestoreDialog()} color="primary"> Nein </Button>
 								</DialogActions>
-							</Dialog>
-							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
-							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
-							<RightHandButton
-								title="Kochbuch filtern"
-								onClick={() => this.openFilterDialog()}
-								icon={<TuneIcon/>}
-								active={this.props.getIncludedLabels().concat(this.props.getExcludedLabels()).length > 0}
-							/>
-							<FilterDialog open={this.state.filterDialogOpen} closeDialog={() => this.closeFilterDialog()} />
-							<RightHandButton title="Kochbuch exportieren" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
+							</Dialog>							<RightHandButton title="Kochbuch exportieren" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
 						</div>
 					</Toolbar>
 				</AppBar>

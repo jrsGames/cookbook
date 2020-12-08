@@ -144,7 +144,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 
 	exportCookbook = () => {
-		let content = JSON.stringify(this.props.getCookbook());
+		let content = JSON.stringify(this.filterCookbook(this.props.getCookbook()));
 		let link = document.createElement("a");
 		const dataURI = "data:text/json;base64," + btoa(content);
 		link.setAttribute("href", dataURI);

@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
-import { AppBar, Toolbar, IconButton, Typography, Tooltip } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
@@ -17,6 +17,8 @@ import MergeTypeIcon from '@material-ui/icons/MergeType';
 import CasinoIcon from '@material-ui/icons/Casino';
 import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -180,6 +182,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		})
 	}
 	
+	openRecipeByName: (name: string | null) => void = (name) => {
+		let goOn: boolean = true;
+		this.state.cookbook.recipes.forEach((recipe, index) => {
+			if(goOn && recipe.name === name as string) {
+				this.openRecipe(index);
+				goOn = false;
+			}
+		})
+	}
+	
 	
 	render() {
 		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
@@ -202,6 +214,29 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							oldTitle={cookbook.title}
 							closeDialog={() => this.closeTitleDialog()}
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
+						/>
+						<Autocomplete
+							className="SearchField"
+							freeSolo
+							options={cookbook.recipes.map((recipe) => recipe.name)}
+							onChange={(_event, value) => this.openRecipeByName(value)}
+							renderInput={(params) => (
+								<TextField
+									className="SearchTextField"
+									{...params}
+									variant="standard"
+									onChange={(event) => this.openRecipeByName(event.target.value)}
+									InputProps={{
+										...params.InputProps,
+										type: 'search',
+										startAdornment: (
+											<InputAdornment className="SearchIcon" position="start">
+												<SearchIcon />
+											</InputAdornment>
+										),
+									}}
+								/>
+							)}
 						/>
 						<div className="RightHandButtons">
 							<Tooltip title="Zufallsrezept" TransitionComponent={Zoom} placement="bottom">

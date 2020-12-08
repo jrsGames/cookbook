@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './filterDialog.css';
 import { Cookbook, GlobalState } from '../../redux/initialState';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
-import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
 import {
 	Chip,
 	Dialog,
@@ -162,7 +162,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
+	getCookbook: () => getCookbook(state) || START_COOKBOOK,
 	getIncludedLabels: () => getIncludedLabels(state),
 	getExcludedLabels: () => getExcludedLabels(state)
 });

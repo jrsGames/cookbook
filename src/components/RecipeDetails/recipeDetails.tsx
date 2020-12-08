@@ -3,7 +3,7 @@ import { GlobalState, Recipe, Cookbook, Image } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook } from '../../redux/selectors';
-import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
 import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
 import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
@@ -141,7 +141,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK
+	getCookbook: () => getCookbook(state) || START_COOKBOOK
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({});

@@ -2,10 +2,9 @@ import React from 'react';
 import './App.css';
 import { UploadInput } from './components/UploadInput/uploadInput';
 import { EntryPage } from './components/EntryPage/entryPage';
-import { CreateModePage } from './components/CreateModePage/createModePage';
 import { ReadModePage } from './components/ReadModePage/readModePage';
 import { getView } from './redux/selectors';
-import { GlobalState, ENTRY_VIEW, CREATE_VIEW, READ_VIEW } from './redux/initialState';
+import { GlobalState, ENTRY_VIEW, READ_VIEW } from './redux/initialState';
 import { connect } from 'react-redux';
 
 interface AppProps {
@@ -25,7 +24,6 @@ class UnconnectedApp extends React.Component<AppProps> {
 		let content = <div />;
 		switch (this.props.getView()) {
 			case ENTRY_VIEW: { content = <EntryPage />; break; }
-			case CREATE_VIEW: { content = <CreateModePage />; break; }
 			case READ_VIEW: { content = <ReadModePage />; break; }
 			default: break;
 		}

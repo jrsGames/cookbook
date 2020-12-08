@@ -4,12 +4,12 @@ import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialSt
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
-import { EMPTY_COOKBOOK, generateId } from '../UploadInput/uploadInput';
+import { generateId } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook } from '../../redux/action_creators/BookState';
+import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook, setCookbookString } from '../../redux/action_creators/BookState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
@@ -24,6 +24,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { RightHandButton } from '../RightHandButton/rightHandButton';
 import { setView } from '../../redux/action_creators/ViewState';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -149,7 +150,9 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		newRecipes = [defaultRecipe].concat(newRecipes);
 		newCookbook.recipes = newRecipes;
 		this.props.setCookbook(newCookbook);
-		this.openRecipe(0);
+		if(this.state.cookbook.recipes.length > 0) {
+			this.openRecipe(0);
+		}
 	}
 	
 	swapRecipe(index: number){
@@ -333,7 +336,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getCookbook: () => getCookbook(state) || EMPTY_COOKBOOK,
+	getCookbook: () => getCookbook(state) || START_COOKBOOK,
 	getIncludedLabels: () => getIncludedLabels(state),
 	getExcludedLabels: () => getExcludedLabels(state)
 });
@@ -341,7 +344,8 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	goToEntryPage: () => {
 		dispatch(setView(ENTRY_VIEW));
-		dispatch(setCookbook(null))
+		dispatch(setCookbook(null));
+		dispatch(setCookbookString(""));
 	},
 	restoreCookbook: () => dispatch(restoreCookbook()),
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),

@@ -1,13 +1,20 @@
 import React from 'react';
 import './entryPage.css';
 import Button from '@material-ui/core/Button';
-import { GlobalState, CREATE_VIEW } from '../../redux/initialState';
+import { GlobalState, READ_VIEW, Cookbook } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { setView } from '../../redux/action_creators/ViewState';
+import { setCookbook, setCookbookString } from '../../redux/action_creators/BookState';
+
+
+export const START_COOKBOOK: Cookbook = {
+		title: "Titel hinzufuegen",
+		recipes: []
+};
 
 interface EntryPageProps {
-	enterCreateMode: () => void
+	enterStartCookbook: () => void
 }
 
 class UnconnectedEntryPage extends React.Component<EntryPageProps> {
@@ -25,7 +32,7 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 				<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
 					Import Cookbook
 				</Button>
-				<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterCreateMode()}> Create New Cookbook </Button>
+				<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterStartCookbook()}> Create New Cookbook </Button>
 			</div>
 		);
 	}
@@ -34,7 +41,11 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 const mapStateToProps = (state: GlobalState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	enterCreateMode: () => dispatch(setView(CREATE_VIEW))
+	enterStartCookbook: () => {
+		dispatch(setView(READ_VIEW));
+		dispatch(setCookbookString(JSON.stringify(START_COOKBOOK)));
+		dispatch(setCookbook(START_COOKBOOK));
+	}
 });
 
 export const EntryPage = connect(mapStateToProps, mapDispatchToProps)(UnconnectedEntryPage);

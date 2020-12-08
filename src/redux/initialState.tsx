@@ -1,5 +1,4 @@
 export const ENTRY_VIEW: string = 'entry';
-export const CREATE_VIEW: string = 'create';
 export const READ_VIEW: string = 'read';
 
 export interface ViewState {

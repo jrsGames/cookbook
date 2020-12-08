@@ -22,9 +22,10 @@ import {
 	ACTION_UPDATE_RECIPE,
 	ActionSetFilterState,
 	ACTION_SET_INCLUDE,
-	ACTION_SET_EXCLUDE} from './actions';
+	ACTION_SET_EXCLUDE,
+	ACTION_RESTORE_COOKBOOK} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
-import { generateId } from '../components/UploadInput/uploadInput';
+import { generateId, parseToCookbook } from '../components/UploadInput/uploadInput';
 
 
 /* VIEWSTATE */
@@ -74,6 +75,12 @@ export function bookReducer(
 				...state,
 				cookbook: newCookbook
 			};
+		}
+		case ACTION_RESTORE_COOKBOOK: {
+			return {
+				...state,
+				cookbook: parseToCookbook(state.cookbookString || "")
+			}
 		}
 		case ACTION_SWAP_RECIPES: {
 			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));

@@ -80,7 +80,7 @@ export const setId = (recipe: Recipe) => {
 	}
 }
 
-const parseToCookbook: (input: string) => Cookbook = (input) => {
+export const parseToCookbook: (input: string) => Cookbook = (input) => {
 	try {
 		JSON.parse(input);
 	} catch(e) {

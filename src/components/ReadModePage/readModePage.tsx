@@ -9,7 +9,7 @@ import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdorn
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook, deleteRecipe, copyRecipe, swapRecipes } from '../../redux/action_creators/BookState';
+import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook } from '../../redux/action_creators/BookState';
 import Zoom from '@material-ui/core/Zoom';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
@@ -19,6 +19,7 @@ import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
+import RestoreIcon from '@material-ui/icons/Restore';
 import { RightHandButton } from '../RightHandButton/rightHandButton';
 
 
@@ -32,7 +33,8 @@ interface ReadModePageProps {
 	copyRecipe: (recipeId: string) => void,
 	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void,
 	getIncludedLabels: () => string[],
-	getExcludedLabels: () => string[]
+	getExcludedLabels: () => string[],
+	restoreCookbook: () => void
 }
 
 interface ReadModePageState {
@@ -240,6 +242,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							)}
 						/>
 						<div className="RightHandButtons">
+							<RightHandButton title="Wiederherstellen" onClick={() => this.props.restoreCookbook()} icon={<RestoreIcon/>}/>
 							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
 							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
 							<RightHandButton
@@ -289,6 +292,7 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+	restoreCookbook: () => dispatch(restoreCookbook()),
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),
 	copyRecipe: (recipeId: string) => dispatch(copyRecipe(recipeId)),

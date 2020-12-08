@@ -145,7 +145,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 					<DialogTitle>{"Willst du das Rezept \"" + recipe.name + "\" wirklich entfernen?"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Du kannst es danach nicht mehr wiederherstellen.
+							Du kannst danach nur das gesamte Rezept wiederherstellen.
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>

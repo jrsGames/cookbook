@@ -16,6 +16,8 @@ export const ACTION_SET_COOKBOOK = "setCookbook";
 export interface ActionSetCookbook {
 	cookbook: Cookbook
 }
+export const ACTION_RESTORE_COOKBOOK = "restoreCookbook";
+
 export const ACTION_SET_COOKBOOK_STRING = "setCookbookString";
 export interface ActionSetCookbookString {
 	cookbookString: string

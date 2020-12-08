@@ -4,12 +4,17 @@ import {
 	ACTION_DELETE_RECIPE,
 	ACTION_COPY_RECIPE,
 	ACTION_SWAP_RECIPES,
-	ACTION_UPDATE_RECIPE
+	ACTION_UPDATE_RECIPE,
+	ACTION_RESTORE_COOKBOOK
 } from "../actions";
 import { Cookbook, Recipe } from "../initialState";
 
 export const setCookbook = (cookbook: Cookbook) => ({
 	type: ACTION_SET_COOKBOOK, payload: {cookbook}
+});
+
+export const restoreCookbook = () => ({
+	type: ACTION_RESTORE_COOKBOOK, payload: {}
 });
 
 export const setCookbookString = (cookbookString: string) => ({

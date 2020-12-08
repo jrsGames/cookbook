@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { EMPTY_COOKBOOK } from '../UploadInput/uploadInput';
-import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
@@ -42,7 +42,8 @@ interface ReadModePageState {
 	toBeSwapped: number | null,
 	openRecipeIndex: number,
 	titleDialogOpen: boolean,
-	filterDialogOpen: boolean
+	filterDialogOpen: boolean,
+	restoreDialogOpen: boolean
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -54,7 +55,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			toBeSwapped: null,
 			openRecipeIndex: -1,
 			titleDialogOpen: false,
-			filterDialogOpen: false
+			filterDialogOpen: false,
+			restoreDialogOpen: false
 		}
 	}
 	
@@ -110,6 +112,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	
 	closeFilterDialog = () => {
 		this.setState({ filterDialogOpen: false });
+	}
+	
+	openRestoreDialog = () => {
+		this.setState({ restoreDialogOpen: true });
+	}
+	
+	closeRestoreDialog = () => {
+		this.setState({ restoreDialogOpen: false });
 	}
 	
 	openRecipe = (index: number) => {
@@ -195,6 +205,10 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		})
 	}
 	
+	restoreCookbook = () => {
+		this.props.restoreCookbook();
+		this.closeRestoreDialog();
+	}
 	
 	render() {
 		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
@@ -242,7 +256,19 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							)}
 						/>
 						<div className="RightHandButtons">
-							<RightHandButton title="Wiederherstellen" onClick={() => this.props.restoreCookbook()} icon={<RestoreIcon/>}/>
+							<RightHandButton title="Wiederherstellen" onClick={() => this.openRestoreDialog()} icon={<RestoreIcon/>}/>
+							<Dialog open={this.state.restoreDialogOpen} onClose={() => this.closeRestoreDialog()}>
+								<DialogTitle>{"Willst du das Kochbuch wiederherstellen?"}</DialogTitle>
+								<DialogContent>
+									<DialogContentText>
+										Deine gesamten Aenderungen gehen dadurch verloren.
+									</DialogContentText>
+								</DialogContent>
+								<DialogActions>
+									<Button onClick={() => this.restoreCookbook()} color="primary"> Ja </Button>
+									<Button onClick={() => this.closeRestoreDialog()} color="primary"> Nein </Button>
+								</DialogActions>
+							</Dialog>
 							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
 							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
 							<RightHandButton

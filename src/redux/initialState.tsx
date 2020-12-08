@@ -35,7 +35,7 @@ export interface Cookbook {
 	recipes: Recipe[]
 }
 export interface BookState {
-	cookbook?: Cookbook,
+	cookbook?: Cookbook | null,
 	cookbookString?: string
 }
 

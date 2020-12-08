@@ -1,6 +1,6 @@
 import React from 'react';
 import './readModePage.css';
-import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
+import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
@@ -20,7 +20,9 @@ import { FilterDialog } from '../FilterDialog/filterDialog';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
 import RestoreIcon from '@material-ui/icons/Restore';
+import HomeIcon from '@material-ui/icons/Home';
 import { RightHandButton } from '../RightHandButton/rightHandButton';
+import { setView } from '../../redux/action_creators/ViewState';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -34,7 +36,8 @@ interface ReadModePageProps {
 	swapRecipes: (firstRecipeId: string, secondRecipeId: string) => void,
 	getIncludedLabels: () => string[],
 	getExcludedLabels: () => string[],
-	restoreCookbook: () => void
+	restoreCookbook: () => void,
+	goToEntryPage: () => void
 }
 
 interface ReadModePageState {
@@ -256,6 +259,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							)}
 						/>
 						<div className="RightHandButtons">
+							<RightHandButton title="Startseite" onClick={() => this.props.goToEntryPage()} icon={<HomeIcon/>}/>
 							<RightHandButton title="Wiederherstellen" onClick={() => this.openRestoreDialog()} icon={<RestoreIcon/>}/>
 							<Dialog open={this.state.restoreDialogOpen} onClose={() => this.closeRestoreDialog()}>
 								<DialogTitle>{"Willst du das Kochbuch wiederherstellen?"}</DialogTitle>
@@ -318,6 +322,10 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+	goToEntryPage: () => {
+		dispatch(setView(ENTRY_VIEW));
+		dispatch(setCookbook(null))
+	},
 	restoreCookbook: () => dispatch(restoreCookbook()),
 	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
 	deleteRecipe: (id: string) => dispatch(deleteRecipe(id)),

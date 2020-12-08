@@ -9,7 +9,7 @@ import {
 } from "../actions";
 import { Cookbook, Recipe } from "../initialState";
 
-export const setCookbook = (cookbook: Cookbook) => ({
+export const setCookbook = (cookbook: Cookbook | null) => ({
 	type: ACTION_SET_COOKBOOK, payload: {cookbook}
 });
 

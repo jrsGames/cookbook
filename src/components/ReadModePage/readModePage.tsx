@@ -19,6 +19,7 @@ import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
+import { RightHandButton } from '../RightHandButton/rightHandButton';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -239,30 +240,16 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							)}
 						/>
 						<div className="RightHandButtons">
-							<Tooltip title="Zufallsrezept" TransitionComponent={Zoom} placement="bottom">
-								<IconButton color="inherit" aria-label="menu" onClick={() => this.openRandomRecipe()}>
-									<CasinoIcon />
-								</IconButton>
-							</Tooltip>
-							<Tooltip title="Kombinieren" TransitionComponent={Zoom} placement="bottom">
-								<IconButton color="inherit" aria-label="menu" onClick={() => this.mergeRecipes()}>
-									<MergeTypeIcon />
-								</IconButton>
-							</Tooltip>
-							<Tooltip title="Kochbuch filtern" TransitionComponent={Zoom} placement="bottom">
-								<IconButton color="inherit" aria-label="menu" onClick={() => this.openFilterDialog()}>
-									<TuneIcon />
-								</IconButton>
-							</Tooltip>
-							<FilterDialog
-								open={this.state.filterDialogOpen}
-								closeDialog={() => this.closeFilterDialog()}
+							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
+							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
+							<RightHandButton
+								title="Kochbuch filtern"
+								onClick={() => this.openFilterDialog()}
+								icon={<TuneIcon/>}
+								active={this.props.getIncludedLabels().concat(this.props.getExcludedLabels()).length > 0}
 							/>
-							<Tooltip title="Kochbuch exportieren" TransitionComponent={Zoom} placement="bottom">
-								<IconButton color="inherit" aria-label="menu" onClick={() => this.exportCookbook()}>
-									<GetAppIcon />
-								</IconButton>
-							</Tooltip>
+							<FilterDialog open={this.state.filterDialogOpen} closeDialog={() => this.closeFilterDialog()} />
+							<RightHandButton title="Kochbuch exportieren" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
 						</div>
 					</Toolbar>
 				</AppBar>

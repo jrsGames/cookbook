@@ -49,7 +49,8 @@ interface ReadModePageState {
 	openRecipeIndex: number,
 	titleDialogOpen: boolean,
 	filterDialogOpen: boolean,
-	restoreDialogOpen: boolean
+	restoreDialogOpen: boolean,
+	homeDialogOpen: boolean
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -62,7 +63,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			openRecipeIndex: -1,
 			titleDialogOpen: false,
 			filterDialogOpen: false,
-			restoreDialogOpen: false
+			restoreDialogOpen: false,
+			homeDialogOpen: false
 		}
 	}
 	
@@ -112,6 +114,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.setState({ titleDialogOpen: false });
 	}
 	
+	openHomeDialog = () => {
+		this.setState({ homeDialogOpen: true });
+	}
+	
+	closeHomeDialog = () => {
+		this.setState({ homeDialogOpen: false });
+	}
+
 	openFilterDialog = () => {
 		this.setState({ filterDialogOpen: true });
 	}
@@ -280,7 +290,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							)}
 						/>
 						<div className="RightHandButtons">
-							<RightHandButton title="Startseite" onClick={() => this.props.goToEntryPage()} icon={<HomeIcon/>}/>
+							<RightHandButton title="Startseite" onClick={() => this.openHomeDialog()} icon={<HomeIcon/>}/>
+							<SimpleDialog
+								open={this.state.homeDialogOpen}
+								onClose={() => this.closeHomeDialog()}
+								title="Willst du zur Startseite zurueckkehren?"
+								subTitle="Deine gesamten Aenderungen gehen dadurch verloren."
+								onConfirm={() => this.props.goToEntryPage()}
+							/>
 							<RightHandButton title="Neues Rezept" onClick={() => this.addNewRecipe()} icon={<AddCircleIcon/>}/>
 							<RightHandButton
 								title="Kochbuch filtern"

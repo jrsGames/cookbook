@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
 import { generateId } from '../UploadInput/uploadInput';
-import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
@@ -17,6 +17,7 @@ import MergeTypeIcon from '@material-ui/icons/MergeType';
 import CasinoIcon from '@material-ui/icons/Casino';
 import { TitleDialog } from '../TitleDialog/titleDialog';
 import { FilterDialog } from '../FilterDialog/filterDialog';
+import { SimpleDialog } from '../SimpleDialog/simpleDialog';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
 import RestoreIcon from '@material-ui/icons/Restore';
@@ -258,7 +259,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						<Autocomplete
 							className="SearchField"
 							freeSolo
-							options={cookbook.recipes.map((recipe) => recipe.name)}
+							options={cookbook.recipes.map((recipe) => recipe.name).sort()}
 							onChange={(_event, value) => this.openRecipeByName(value)}
 							renderInput={(params) => (
 								<TextField
@@ -291,18 +292,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							<RightHandButton title="Zufallsrezept" onClick={() => this.openRandomRecipe()} icon={<CasinoIcon/>}/>
 							<RightHandButton title="Kombinieren" onClick={() => this.mergeRecipes()} icon={<MergeTypeIcon/>}/>
 							<RightHandButton title="Wiederherstellen" onClick={() => this.openRestoreDialog()} icon={<RestoreIcon/>}/>
-							<Dialog open={this.state.restoreDialogOpen} onClose={() => this.closeRestoreDialog()}>
-								<DialogTitle>{"Willst du das Kochbuch wiederherstellen?"}</DialogTitle>
-								<DialogContent>
-									<DialogContentText>
-										Deine gesamten Aenderungen gehen dadurch verloren.
-									</DialogContentText>
-								</DialogContent>
-								<DialogActions>
-									<Button onClick={() => this.restoreCookbook()} color="primary"> Ja </Button>
-									<Button onClick={() => this.closeRestoreDialog()} color="primary"> Nein </Button>
-								</DialogActions>
-							</Dialog>							<RightHandButton title="Kochbuch exportieren" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
+							<SimpleDialog
+								open={this.state.restoreDialogOpen}
+								onClose={() => this.closeRestoreDialog()}
+								title="Willst du das Kochbuch wiederherstellen?"
+								subTitle="Deine gesamten Aenderungen gehen dadurch verloren."
+								onConfirm={() => this.restoreCookbook()}
+							/>
+							<RightHandButton title="Kochbuch exportieren" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
 						</div>
 					</Toolbar>
 				</AppBar>

@@ -3,21 +3,8 @@ import './recipeCard.css';
 import { GlobalState, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import {
-	Card,
-	CardContent,
-	CardActions,
-	IconButton,
-	Typography,
-	Chip,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Button,
-	Tooltip
-} from '@material-ui/core';
+import { Card, CardContent, CardActions, IconButton, Typography, Chip, Tooltip } from '@material-ui/core';
+import { SimpleDialog } from '../SimpleDialog/simpleDialog';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
@@ -141,18 +128,13 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 						</Tooltip>
 					</CardActions>
 				</Card>
-				<Dialog open={this.state.deleteDialogOpen} onClose={() => this.closeDeleteDialog()}>
-					<DialogTitle>{"Willst du das Rezept \"" + recipe.name + "\" wirklich entfernen?"}</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							Du kannst danach nur das gesamte Rezept wiederherstellen.
-						</DialogContentText>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={() => this.deleteRecipe()} color="primary"> Ja </Button>
-						<Button onClick={() => this.closeDeleteDialog()} color="primary"> Nein </Button>
-					</DialogActions>
-				</Dialog>
+				<SimpleDialog
+					open={this.state.deleteDialogOpen}
+					onClose={() => this.closeDeleteDialog()}
+					title={"Willst du das Rezept \"" + recipe.name + "\" wirklich entfernen?"}
+					subTitle="Du kannst danach nur das gesamte Rezept wiederherstellen."
+					onConfirm={() => this.deleteRecipe()}
+				/>
 			</div>
 		);
 	}

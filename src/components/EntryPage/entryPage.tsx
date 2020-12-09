@@ -29,12 +29,14 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 	render() {
 		return (
 			<div className="EntryPage">
-				<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
-					Kochbuch importieren
-				</Button>
-				<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterStartCookbook()}>
-					Neues Kochbuch erstellen
-				</Button>
+				<div className="EntryPageContent">
+					<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
+						Kochbuch importieren
+					</Button>
+					<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterStartCookbook()}>
+						Neues Kochbuch erstellen
+					</Button>
+				</div>
 			</div>
 		);
 	}

@@ -76,7 +76,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						variant="outlined"
 						onChange={(event) => this.setRecipeName(event.target.value)}
 					/> :
-					this.props.recipe.name;
+					<div className="RecipeDetailsTitle"> {this.props.recipe.name} </div>;
 		}
 		return "";
 	}

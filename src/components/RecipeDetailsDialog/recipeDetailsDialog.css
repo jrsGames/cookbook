@@ -1,10 +1,16 @@
 .RecipeDetailsDialog .MuiDialog-paperWidthSm {
 	width: 50%;
 	max-width: unset;
+	background-color: bisque;
 }
 
 .RecipeDetailsTextField.MuiFormControl-root {
 	width: 100%;
+}
+
+.RecipeDetailsTitle {
+	font-style: italic;
+	display: contents;
 }
 
 .Label.MuiChip-root {

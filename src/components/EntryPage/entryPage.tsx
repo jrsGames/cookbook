@@ -30,11 +30,11 @@ class UnconnectedEntryPage extends React.Component<EntryPageProps> {
 		return (
 			<div className="EntryPage">
 				<div className="EntryPageContent">
-					<Button className='ImportButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
-						Kochbuch importieren
+					<Button className='EntryPageButton' color="primary" variant="contained" onClick={() => this.uploadFile()}>
+						importieren
 					</Button>
-					<Button className='CreateNewButton' variant="contained" onClick={() => this.props.enterStartCookbook()}>
-						Neues Kochbuch erstellen
+					<Button className='EntryPageButton' variant="contained" onClick={() => this.props.enterStartCookbook()}>
+						erstellen
 					</Button>
 				</div>
 			</div>

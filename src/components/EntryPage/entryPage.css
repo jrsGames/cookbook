@@ -12,17 +12,12 @@
 	margin-top: 15%;
 }
 
-.MuiButton-contained.ImportButton {
-	margin: 2rem;
-	color: #fff;
-}
-
-.MuiButton-contained.CreateNewButton {
-	background-color: green;
+.MuiButton-contained.EntryPageButton {
+	background-color: crimson;
 	color: #fff;
 	margin: 2rem;
 }
 
-.MuiButton-contained.CreateNewButton:hover {
-	background-color: #036f1a;
+.MuiButton-contained.EntryPageButton:hover {
+	background-color: darkred;
 }

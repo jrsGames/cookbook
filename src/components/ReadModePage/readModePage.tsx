@@ -45,7 +45,7 @@ interface ReadModePageProps {
 
 interface ReadModePageState {
 	cookbook: Cookbook,
-	toBeSwapped: number | null,
+	toBeSwapped: string | null,
 	openRecipeIndex: number,
 	titleDialogOpen: boolean,
 	filterDialogOpen: boolean,
@@ -166,18 +166,17 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		}
 	}
 	
-	swapRecipe(index: number){
+	swapRecipe(id: string | null){
 		if(this.state.toBeSwapped !== null) {
-			const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
-			const firstRecipeId = newCookbook.recipes[this.state.toBeSwapped].id || "";
-			const secondRecipeId = newCookbook.recipes[index].id || "";
+			const firstRecipeId = this.state.toBeSwapped || "";
+			const secondRecipeId = id || "";
 			this.setState({
 				toBeSwapped: null
 			});
 			this.props.swapRecipes(firstRecipeId, secondRecipeId)
 		} else {
 			this.setState({
-				toBeSwapped: index
+				toBeSwapped: id
 			});
 		}
 	}
@@ -329,8 +328,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									addSpaceBelow={isLast}
 									onOpenClick={() => this.openRecipe(index)}
 									onCopyClick={() => this.copyRecipe(index)}
-									onSwapClick={() => this.swapRecipe(index)}
-									swapping={this.state.toBeSwapped === index}
+									onSwapClick={() => this.swapRecipe(recipe.id || null)}
+									swapping={this.state.toBeSwapped === recipe.id}
 									onDeleteClick={() => this.deleteRecipe(index)}
 								/>;
 					})}

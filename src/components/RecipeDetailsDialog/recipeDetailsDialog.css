@@ -20,6 +20,13 @@
 	font-size: small;
 }
 
+.NewLabel.MuiChip-root {
+	margin-top: 0.3rem;
+	margin-right: 0.3rem;
+	font-size: small;
+}
+
+
 .IngredientsDetails {
 	justify-content: center;
 }

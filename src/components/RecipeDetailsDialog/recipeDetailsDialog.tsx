@@ -104,7 +104,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			if(this.state.inEditMode) {
 				chips.push(
 					<Chip
-						className="Label"
+						className="NewLabel"
 						key={labels.length}
 						label="Neues Label"
 						icon={<AddCircleIcon />}

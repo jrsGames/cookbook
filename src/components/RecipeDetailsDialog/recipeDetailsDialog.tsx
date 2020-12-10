@@ -249,16 +249,14 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 				<DialogTitle className="RecipeTitle">
 					{this.getDialogTitle()}
 					<Chip
-						className="Duration"
-						color="secondary"
+						className="UpperChip"
 						disabled={!this.state.inEditMode}
 						icon={<IconButton size="small"> <ScheduleIcon /> </IconButton>}
 						label={this.getDurationLabel()}
 						onClick={() => this.onClickDuration()}
 					/>
 					<Chip
-						className="Image"
-						color="primary"
+						className="UpperChip"
 						disabled={!this.state.inEditMode}
 						icon={<IconButton size="small"> <PhotoCameraIcon /> </IconButton>}
 						label={this.getImageName()}

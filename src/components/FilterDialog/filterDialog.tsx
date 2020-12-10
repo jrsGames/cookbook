@@ -117,7 +117,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 								renderValue={(selected) => (
 									<div>
 										{(selected as string[]).map((value) => (
-											<Chip className="Label" key={value} label={value} color="primary" />
+											<Chip className="Label" key={value} label={value} />
 										))}
 									</div>
 								)}
@@ -140,7 +140,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 								renderValue={(selected) => (
 									<div>
 										{(selected as string[]).map((value) => (
-											<Chip className="Label" key={value} label={value} color="primary" />
+											<Chip className="Label" key={value} label={value} />
 										))}
 									</div>
 								)}

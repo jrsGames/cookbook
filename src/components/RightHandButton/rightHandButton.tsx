@@ -13,7 +13,7 @@ export class RightHandButton extends React.Component<RightHandButtonProps> {
 	render() {
 		return (
 			<Tooltip title={this.props.title} TransitionComponent={Zoom} placement="bottom">
-				<IconButton color={this.props.active ? "secondary" : "inherit"} onClick={() => this.props.onClick()}>
+				<IconButton color={this.props.active ? "primary" : "inherit"} onClick={() => this.props.onClick()}>
 					{this.props.icon}
 				</IconButton>
 			</Tooltip>

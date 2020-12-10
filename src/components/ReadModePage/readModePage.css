@@ -6,6 +6,10 @@
 	background-size: cover;
 }
 
+.MuiAppBar-colorPrimary.AppBar {
+	background-color: crimson;
+}
+
 .RightHandButtons {
 	float: right;
 	margin: 0 0 0 auto;

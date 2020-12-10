@@ -250,7 +250,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		
 		return (
 			<div className="ReadModePage">
-				<AppBar position="static">
+				<AppBar className="AppBar" position="static">
 					<Toolbar>
 						<Typography variant="h6">
 							{cookbook.title}

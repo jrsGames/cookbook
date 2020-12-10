@@ -1,7 +1,7 @@
 .RecipeDetailsDialog .MuiDialog-paperWidthSm {
 	width: 50%;
 	max-width: unset;
-	background-color: bisque;
+	background-color: lightslategray;
 }
 
 .RecipeDetailsTextField.MuiFormControl-root {
@@ -11,6 +11,7 @@
 .RecipeDetailsTitle {
 	font-style: italic;
 	display: contents;
+	color: aliceblue;
 }
 
 .Label.MuiChip-root {
@@ -42,6 +43,16 @@
 .RecipeDetailsTextField .MuiInputBase-root.Mui-disabled{
 	color: inherit;
 	font-style: italic;
+}
+
+.UpperChip.MuiChip-root {
+	margin: 0 1rem;
+	background-color: aliceblue;
+}
+
+.UpperChip.MuiChip-root:hover {
+	margin: 0 1rem;
+	background-color: lightsteelblue;
 }
 
 .ActionButtons {

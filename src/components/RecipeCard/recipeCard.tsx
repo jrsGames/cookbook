@@ -49,7 +49,7 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 		const image = this.props.recipe.image;
 		if(image) {
 			try {
-				return require('../../resources/' + image.name);
+				return require('../../images/' + image.name);
 			} catch (e) {
 				console.log("Picture \"" + image.name + "\" for recipe \"" + this.props.recipe.name + "\" not found.");
 			}

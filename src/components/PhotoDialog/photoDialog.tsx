@@ -46,7 +46,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 		const imageName = this.props.imageName;
 		if(imageName) {
 			try {
-				return require('../../resources/' + imageName);
+				return require('../../images/' + imageName);
 			} catch (e) {
 				console.log("Picture \"" + imageName + "\" not found.");
 			}

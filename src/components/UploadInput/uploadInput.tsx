@@ -12,6 +12,7 @@ import { START_COOKBOOK } from '../EntryPage/entryPage';
 interface UploadInputProps {
 	enterReadMode: () => void;
 	setCookbook: (cookbook: Cookbook) => void;
+	setCookbookString: (cookbook: Cookbook) => void;
 	getCookbook: () => Cookbook | null;
 }
 
@@ -31,6 +32,7 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 					} else {
 						const parsedCookbook: Cookbook = parseToCookbook(reader.result);
 						this.props.setCookbook(parsedCookbook);
+						this.props.setCookbookString(parsedCookbook);
 					}
 				}
 			}
@@ -119,10 +121,8 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	enterReadMode: () => dispatch(setView(READ_VIEW)),
-	setCookbook: (cookbook: Cookbook) => {
-		dispatch(setCookbookString(JSON.stringify(cookbook)));
-		dispatch(setCookbook(cookbook));
-	}
+	setCookbook: (cookbook: Cookbook) => dispatch(setCookbook(cookbook)),
+	setCookbookString: (cookbook: Cookbook) => dispatch(setCookbookString(JSON.stringify(cookbook)))
 });
 
 export const UploadInput = connect(mapStateToProps, mapDispatchToProps)(UnconnectedUploadInput);

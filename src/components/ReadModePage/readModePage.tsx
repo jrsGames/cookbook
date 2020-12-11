@@ -4,7 +4,7 @@ import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialSt
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
-import { generateId } from '../UploadInput/uploadInput';
+import { generateNewId } from '../UploadInput/uploadInput';
 import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
@@ -30,6 +30,14 @@ import { START_COOKBOOK } from '../EntryPage/entryPage';
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
 	recipes.findIndex((recipe) => recipe.id && recipe.id === id);
+
+const generateNewRecipeName = (existingRecipeNames: string[]) => {
+	let name = "Neuer Titel";
+	while(existingRecipeNames.indexOf(name) > -1) {
+		name += "*";
+	}
+	return name
+}
 
 interface ReadModePageProps {
 	getCookbook: () => Cookbook,
@@ -146,8 +154,12 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		const newCookbook: Cookbook = JSON.parse(JSON.stringify(this.props.getCookbook()));
 		let newRecipes: Recipe[] = JSON.parse(JSON.stringify(this.props.getCookbook().recipes));
 		const defaultRecipe: Recipe = {
-			name: "Neues Rezept",
-			id: generateId(),
+			name: generateNewRecipeName(
+				JSON.parse(JSON.stringify(this.props.getCookbook().recipes)).map((recipe: Recipe) => recipe.name)
+			),
+			id: generateNewId(
+				JSON.parse(JSON.stringify(this.props.getCookbook().recipes)).map((recipe: Recipe) => recipe.id)
+			),
 			ingredients: [],
 			labels: [],
 			preparation: "",

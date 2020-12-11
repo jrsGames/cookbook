@@ -25,7 +25,7 @@ import {
 	ACTION_SET_EXCLUDE,
 	ACTION_RESTORE_COOKBOOK} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
-import { generateId, parseToCookbook } from '../components/UploadInput/uploadInput';
+import { generateNewId, parseToCookbook } from '../components/UploadInput/uploadInput';
 
 
 /* VIEWSTATE */
@@ -69,7 +69,10 @@ export function bookReducer(
 			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));
 			const recipeIndex = getRecipeIndexById(newCookbook.recipes, action.payload.recipeId);
 			const copiedRecipe: Recipe = JSON.parse(JSON.stringify(newCookbook.recipes[recipeIndex]));
-			copiedRecipe.id = generateId();
+			copiedRecipe.name += "*";
+			const existingIds: string [] = JSON.parse(JSON.stringify(state.cookbook?.recipes))
+				.map((recipe: Recipe) => recipe.id);
+			copiedRecipe.id = generateNewId(existingIds);
 			newCookbook.recipes.splice(recipeIndex + 1, 0, copiedRecipe);
 			return {
 				...state,

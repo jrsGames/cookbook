@@ -55,25 +55,40 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 const addNewRecipes = (oldCookbook: Cookbook, newCookbook: Cookbook) => {
 	const oldCookbookCopy: Cookbook = JSON.parse(JSON.stringify(oldCookbook));
 	const presentIds: string[] = [];
+	const presentNames: string [] = [];
 	oldCookbookCopy.recipes.forEach((recipe) => {
+		presentNames.push(recipe.name)
 		if(recipe.id) {
 			presentIds.push(recipe.id);
 		}
 	});
 	newCookbook.recipes.forEach((recipe) => {
 		setId(recipe);
-		if(presentIds.indexOf((recipe.id) as string) === -1) {
-			oldCookbookCopy.recipes.push(recipe);
+		while(presentIds.indexOf((recipe.id) as string) > -1) {
+			setId(recipe, true);
 		}
+		while(presentNames.indexOf(recipe.name) > -1) {
+			recipe.name += "*"
+		}
+		oldCookbookCopy.recipes.push(recipe);
 	})
 	return oldCookbookCopy;
 }
 
-export const generateId = () => Math.floor(Math.random() * 10000000).toString();
+export const generateNewId = (existingIds?: string[]) => {
+	let id: string = Math.floor(Math.random() * 10000000).toString();
+	if(existingIds){
+		while(existingIds?.indexOf(id) > -1) {
+			id = Math.floor(Math.random() * 10000000).toString();
+		}
+	}
+	return id;
+	
+}
 
-export const setId = (recipe: Recipe) => {
-	if(!recipe.id) {
-		recipe.id = generateId();
+export const setId = (recipe: Recipe, overwrite: boolean = false) => {
+	if(overwrite || !recipe.id) {
+		recipe.id = generateNewId();
 	}
 }
 

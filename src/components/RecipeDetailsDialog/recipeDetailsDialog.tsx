@@ -192,7 +192,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	changeIngredientName = (index: number, name: string | null) => {
-		if(this.props.recipe && name) {
+		if(this.props.recipe && name != null) {
 			const newRecipe: Recipe = this.props.recipe;
 			newRecipe.ingredients = this.props.recipe.ingredients;
 			newRecipe.ingredients[index] = JSON.parse(JSON.stringify(this.props.recipe.ingredients[index]));
@@ -202,7 +202,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 
 	changeIngredientAmount = (index: number, amount: string | null) => {
-		if(this.props.recipe && amount) {
+		if(this.props.recipe && amount != null) {
 			const newRecipe: Recipe = this.props.recipe;
 			newRecipe.ingredients = this.props.recipe.ingredients;
 			newRecipe.ingredients[index] = JSON.parse(JSON.stringify(this.props.recipe.ingredients[index]));

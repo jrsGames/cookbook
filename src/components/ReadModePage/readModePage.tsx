@@ -1,31 +1,30 @@
 import React from 'react';
 import './readModePage.css';
-import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialState';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
+import { setView } from '../../redux/action_creators/ViewState';
+import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook, setCookbookString } from '../../redux/action_creators/BookState';
 import { generateNewId } from '../UploadInput/uploadInput';
-import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { RecipeCard } from '../RecipeCard/recipeCard';
 import { RecipeDetails } from '../RecipeDetails/recipeDetails';
-import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook, setCookbookString } from '../../redux/action_creators/BookState';
-import Zoom from '@material-ui/core/Zoom';
+import { RightHandButton } from '../RightHandButton/rightHandButton';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
+import { TitleDialog } from '../TitleDialog/titleDialog';
+import { FilterDialog } from '../FilterDialog/filterDialog';
+import { SimpleDialog } from '../SimpleDialog/simpleDialog';
+import { AppBar, Toolbar, IconButton, Typography, Tooltip, TextField, InputAdornment, Zoom } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import TuneIcon from '@material-ui/icons/Tune';
 import MergeTypeIcon from '@material-ui/icons/MergeType';
 import CasinoIcon from '@material-ui/icons/Casino';
-import { TitleDialog } from '../TitleDialog/titleDialog';
-import { FilterDialog } from '../FilterDialog/filterDialog';
-import { SimpleDialog } from '../SimpleDialog/simpleDialog';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
 import RestoreIcon from '@material-ui/icons/Restore';
 import HomeIcon from '@material-ui/icons/Home';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { RightHandButton } from '../RightHandButton/rightHandButton';
-import { setView } from '../../redux/action_creators/ViewState';
-import { START_COOKBOOK } from '../EntryPage/entryPage';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 

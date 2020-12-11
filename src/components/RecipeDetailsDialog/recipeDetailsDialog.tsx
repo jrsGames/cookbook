@@ -1,5 +1,11 @@
 import React from 'react';
 import './recipeDetailsDialog.css';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Recipe, Ingredient } from '../../redux/initialState';
+import { updateRecipe } from '../../redux/action_creators/BookState';
+import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
+import { parseDuration } from '../DurationDialog/durationDialog';
 import {
 	Dialog,
 	DialogActions,
@@ -11,23 +17,17 @@ import {
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
-	Typography
+	Typography,
+	TextField,
+	Zoom
 } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import DoneIcon from '@material-ui/icons/Done';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { IngredientsTable } from '../IngredientsTable/ingredientsTable';
-import { Recipe, Ingredient } from '../../redux/initialState';
-import { parseDuration } from '../DurationDialog/durationDialog';
-import { connect } from 'react-redux';
-import { updateRecipe } from '../../redux/action_creators/BookState';
-import { Dispatch } from 'redux';
 
 
 const EMPTY_INGREDIENT: Ingredient = {

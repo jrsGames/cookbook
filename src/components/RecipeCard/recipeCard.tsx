@@ -1,15 +1,12 @@
 import React from 'react';
 import './recipeCard.css';
-import { GlobalState, Recipe } from '../../redux/initialState';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { Card, CardContent, CardActions, IconButton, Typography, Chip, Tooltip } from '@material-ui/core';
+import { Recipe } from '../../redux/initialState';
 import { SimpleDialog } from '../SimpleDialog/simpleDialog';
+import { Card, CardContent, CardActions, IconButton, Typography, Chip, Tooltip, Zoom } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Zoom from '@material-ui/core/Zoom';
 
 
 export const DEFAULT_PIC_NAME = "StandardBild.jpg";
@@ -28,7 +25,7 @@ interface RecipeCardState {
 	deleteDialogOpen: boolean
 }
 
-class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardState> {
+export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState> {
 	
 	constructor(props: RecipeCardProps){
 		super(props);
@@ -139,9 +136,3 @@ class UnconnectedRecipeCard extends React.Component<RecipeCardProps, RecipeCardS
 		);
 	}
 }
-
-const mapStateToProps = (state: GlobalState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export const RecipeCard = connect(mapStateToProps, mapDispatchToProps)(UnconnectedRecipeCard);

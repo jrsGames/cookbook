@@ -18,7 +18,8 @@
 
 .SearchField {
 	min-width: 15rem;	
-	margin-left: auto;
+	margin-left: calc((100vW - 18rem) / 2);
+	position: absolute;
 }
 
 .SearchTextField {

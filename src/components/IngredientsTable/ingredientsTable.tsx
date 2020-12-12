@@ -1,6 +1,6 @@
 import React from 'react';
 import './ingredientsTable.css';
-import { GlobalState, Ingredient } from '../../redux/initialState';
+import { GlobalState, Ingredient, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { TextField, IconButton, Chip } from '@material-ui/core';
@@ -8,9 +8,12 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { INGREDIENTS } from '../../ingredients';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { getCookbook } from '../../redux/selectors';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
 
 interface IngredientsTableProps {
 	ingredients: Ingredient[],
+	getUsedIngredients: () => string[]
 	onAdd: () => void,
 	onDelete: (ingredientIndex: number) => void,
 	onChangeIngredientName: (index: number, name: string | null) => void,
@@ -18,10 +21,20 @@ interface IngredientsTableProps {
 	editable: boolean
 }
 
-interface IngredientsTableState {}
+class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps> {
 
-class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps, IngredientsTableState> {
-
+	getIngredientOptions = () => {
+		const options: string[] = INGREDIENTS;
+		this.props.getUsedIngredients().forEach(
+			(usedIngredient) => {
+				if (INGREDIENTS.indexOf(usedIngredient)  === -1) {
+					options.push(usedIngredient);
+				}			
+			},
+		);
+		return options.sort();
+	}
+	
 	render() {
 		const ingredients: Ingredient[] = this.props.ingredients;
 		return (
@@ -41,7 +54,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 									className="IngredientsTextField NameTextField"
 									freeSolo
 									value={ingredient.name}
-									options={INGREDIENTS}
+									options={this.getIngredientOptions()}
 									disabled={!this.props.editable}
 									onChange={(_event, value) => {this.props.onChangeIngredientName(index, value)}}
 									renderInput={(params) => (
@@ -81,7 +94,18 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 	}
 }
 
-const mapStateToProps = (state: GlobalState) => ({});
+const mapStateToProps = (state: GlobalState) => ({
+	getUsedIngredients: () => {
+		const cookbook: Cookbook = getCookbook(state) || START_COOKBOOK;
+		const usedIngredients: string[] = [];
+		cookbook.recipes.forEach((recipe: Recipe) => {
+			recipe.ingredients.forEach((ingredient: Ingredient) => {
+				usedIngredients.push(ingredient.name);
+			});
+		});
+		return usedIngredients;
+	}
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({});
 

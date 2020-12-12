@@ -1,3 +1,5 @@
+import { INGREDIENTS } from "../ingredients";
+
 export const ENTRY_VIEW: string = 'entry';
 export const READ_VIEW: string = 'read';
 
@@ -50,14 +52,24 @@ export const initialFilterState: FilterState = {
 	exclude: []
 }
 
+export interface IngredientState {
+	ingredients: string[]
+}
+
+export const initialIngredientState: IngredientState = {
+	ingredients: INGREDIENTS
+}
+
 export interface GlobalState {
 	viewState: ViewState,
 	bookState: BookState,
-	filterState: FilterState
+	filterState: FilterState,
+	ingredientState: IngredientState
 };
 
 export const initialState: GlobalState = {
 	viewState: initialViewState,
 	bookState: initialBookState,
-	filterState: initialFilterState
+	filterState: initialFilterState,
+	ingredientState: initialIngredientState
 }

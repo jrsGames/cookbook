@@ -32,3 +32,11 @@
 	color: black;
 	font-style: italic;
 }
+
+.AddIngredientName.MuiChip-root {
+	margin-left: 1rem;
+}
+
+.AddIngredientNameForm {
+	overflow-y: hidden;
+}

@@ -54,3 +54,8 @@ export interface ActionSetBookState extends
 export interface ActionSetFilterState {
 	labels: string[]
 };
+/* INGREDIENTSTATE */
+export const ACTION_ADD_INGREDIENT = "addIngredient";
+export interface ActionSetIngredientState {
+	name: string
+}

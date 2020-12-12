@@ -7,7 +7,9 @@ import {
 	initialBookState,
 	initialFilterState,
 	Cookbook,
-	Recipe
+	Recipe,
+	IngredientState,
+	initialIngredientState
 } from './initialState';
 import {
 	Action,
@@ -23,7 +25,9 @@ import {
 	ActionSetFilterState,
 	ACTION_SET_INCLUDE,
 	ACTION_SET_EXCLUDE,
-	ACTION_RESTORE_COOKBOOK} from './actions';
+	ACTION_RESTORE_COOKBOOK,
+    ActionSetIngredientState,
+    ACTION_ADD_INGREDIENT} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 import { generateNewId, parseToCookbook } from '../components/UploadInput/uploadInput';
 
@@ -128,8 +132,23 @@ export function filterReducer(
 	}	
 }
 
+/* INGREDIENTSTATE */
+export function ingredientReducer(
+	state: IngredientState = initialIngredientState,
+	action: Action<ActionSetIngredientState>
+) {
+	switch(action.type) {
+		case ACTION_ADD_INGREDIENT: {
+			state.ingredients.push(action.payload.name);
+			return state;
+		}
+		default: return state;
+	}	
+}
+
 export const reducers = combineReducers({
 	viewState: viewReducer,
 	bookState: bookReducer,
-	filterState: filterReducer
+	filterState: filterReducer,
+	ingredientState: ingredientReducer
 });

@@ -14,3 +14,6 @@ export const getIncludedLabels: (state: GlobalState) => string[] =
 	
 export const getExcludedLabels: (state: GlobalState) => string[] =
 	(state) => state.filterState.exclude;
+	
+export const getIngredientNames: (state: GlobalState) => string[] =
+	(state) => state.ingredientState.ingredients;

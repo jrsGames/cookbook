@@ -3,13 +3,15 @@ import './ingredientsTable.css';
 import { GlobalState, Ingredient, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { TextField, IconButton, Chip } from '@material-ui/core';
+import { TextField, IconButton, Chip, Dialog, DialogTitle, DialogContent, DialogActions, FormControl } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { INGREDIENTS } from '../../ingredients';
 import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { getCookbook } from '../../redux/selectors';
+import { getCookbook, getIngredientNames } from '../../redux/selectors';
 import { START_COOKBOOK } from '../EntryPage/entryPage';
+import { addIngredientName } from '../../redux/action_creators/IngredientState';
 
 interface IngredientsTableProps {
 	ingredients: Ingredient[],
@@ -18,13 +20,42 @@ interface IngredientsTableProps {
 	onDelete: (ingredientIndex: number) => void,
 	onChangeIngredientName: (index: number, name: string | null) => void,
 	onChangeIngredientAmount: (index: number, amount: string | null) => void,
-	editable: boolean
+	editable: boolean,
+	getIngredientNames: () => string[],
+	addIngredientName: (name: string) => void
 }
 
-class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps> {
+interface IngredientsTableState {
+	ingredientNameDialogOpen: boolean,
+	newIngredientName: string
+}
+
+class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps, IngredientsTableState> {
+
+	constructor(props: IngredientsTableProps) {
+		super(props);
+		this.state={
+			ingredientNameDialogOpen: false,
+			newIngredientName: ""
+		}
+	}
+	
+	setNewIngredientName = (name: string | null) => {
+		if(name) {
+			this.setState({newIngredientName: name});
+		}
+	}
+	
+	openIngredientNameDialog = () => {
+		this.setState({ingredientNameDialogOpen: true});
+	}
+	
+	closeIngredientNameDialog = () => {
+		this.setState({ingredientNameDialogOpen: false});
+	}
 
 	getIngredientOptions = () => {
-		const options: string[] = INGREDIENTS;
+		const options: string[] = this.props.getIngredientNames();
 		this.props.getUsedIngredients().forEach(
 			(usedIngredient) => {
 				if (INGREDIENTS.indexOf(usedIngredient)  === -1) {
@@ -33,6 +64,11 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps>
 			},
 		);
 		return options.sort();
+	}
+	
+	addIngredientName = (name: string) => {
+		this.props.addIngredientName(name);
+		this.closeIngredientNameDialog();
 	}
 	
 	render() {
@@ -80,13 +116,39 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps>
 							</div>;
 				})}
 				{this.props.editable ?
-				<Chip
-					className="AddIngredient"
-					key={this.props.ingredients.length}
-					label="Neue Zutat"
-					icon={<AddCircleIcon />}
-					onClick={() => this.props.onAdd()}
-				/> :
+				<div>
+					<Chip
+						className="AddIngredient"
+						key={this.props.ingredients.length}
+						label="Neue Zutat"
+						icon={<AddCircleIcon />}
+						onClick={() => this.props.onAdd()}
+					/>
+					<Chip
+						className="AddIngredientName"
+						key={this.props.ingredients.length+1}
+						label="Neuer Zutatenname"
+						icon={<AddCircleIcon />}
+						onClick={() => this.openIngredientNameDialog()}
+					/>
+					<Dialog open={this.state.ingredientNameDialogOpen} onClose={() => this.closeIngredientNameDialog()}>
+						<DialogTitle> Neuer Zutatenname </DialogTitle>
+						<DialogContent>
+							<FormControl className="AddIngredientNameForm">
+								<TextField
+									variant="outlined"
+									onChange={(event) => this.setNewIngredientName(event.target.value)}
+							/>
+							</FormControl>
+						</DialogContent>
+						<DialogActions>
+							<IconButton onClick={() => this.addIngredientName(this.state.newIngredientName)} color="primary">
+								<CheckIcon/>
+							</IconButton>
+							<IconButton onClick={() => this.closeIngredientNameDialog()} color="primary"> <ClearIcon/> </IconButton>
+						</DialogActions>
+					</Dialog>
+				</div> :
 				null
 				}
 			</div>
@@ -104,9 +166,12 @@ const mapStateToProps = (state: GlobalState) => ({
 			});
 		});
 		return usedIngredients;
-	}
+	},
+	getIngredientNames: () => getIngredientNames(state)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	addIngredientName: (name: string) => dispatch(addIngredientName(name))
+});
 
 export const IngredientsTable = connect(mapStateToProps, mapDispatchToProps)(UnconnectedIngredientsTable);

@@ -1,21 +1,20 @@
 import React from 'react';
-import './ingredientsTable.css';
-import { GlobalState, Ingredient, Cookbook, Recipe } from '../../redux/initialState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { GlobalState, Ingredient, Cookbook, Recipe } from '../../redux/initialState';
+import { getCookbook, getIngredientNames } from '../../redux/selectors';
+import { addIngredientName } from '../../redux/action_creators/IngredientState';
+import './ingredientsTable.css';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
 import { TextField, IconButton, Chip, Dialog, DialogTitle, DialogContent, DialogActions, FormControl } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { INGREDIENTS } from '../../ingredients';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { getCookbook, getIngredientNames } from '../../redux/selectors';
-import { START_COOKBOOK } from '../EntryPage/entryPage';
-import { addIngredientName } from '../../redux/action_creators/IngredientState';
 
 interface IngredientsTableProps {
 	ingredients: Ingredient[],
-	getUsedIngredients: () => string[]
+	getUsedIngredientNames: () => string[]
 	onAdd: () => void,
 	onDelete: (ingredientIndex: number) => void,
 	onChangeIngredientName: (index: number, name: string | null) => void,
@@ -55,15 +54,8 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 	}
 
 	getIngredientOptions = () => {
-		const options: string[] = this.props.getIngredientNames();
-		this.props.getUsedIngredients().forEach(
-			(usedIngredient) => {
-				if (INGREDIENTS.indexOf(usedIngredient)  === -1) {
-					options.push(usedIngredient);
-				}			
-			},
-		);
-		return options.sort();
+		const options: string[] = this.props.getIngredientNames().concat(this.props.getUsedIngredientNames());
+		return options.filter((item, pos) => options.indexOf(item) === pos).sort();
 	}
 	
 	addIngredientName = (name: string) => {
@@ -157,7 +149,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 }
 
 const mapStateToProps = (state: GlobalState) => ({
-	getUsedIngredients: () => {
+	getUsedIngredientNames: () => {
 		const cookbook: Cookbook = getCookbook(state) || START_COOKBOOK;
 		const usedIngredients: string[] = [];
 		cookbook.recipes.forEach((recipe: Recipe) => {
@@ -165,7 +157,7 @@ const mapStateToProps = (state: GlobalState) => ({
 				usedIngredients.push(ingredient.name);
 			});
 		});
-		return usedIngredients;
+		return usedIngredients.filter((item, pos) => usedIngredients.indexOf(item) === pos);
 	},
 	getIngredientNames: () => getIngredientNames(state)
 });

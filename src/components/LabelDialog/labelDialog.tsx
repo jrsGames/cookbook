@@ -1,24 +1,22 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { GlobalState, Cookbook, Recipe } from '../../redux/initialState';
+import { getCookbook } from '../../redux/selectors';
 import './labelDialog.css';
-import {
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	FormControl,
-	IconButton
-} from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
+import { LABELS } from '../../labels';
+import { START_COOKBOOK } from '../EntryPage/entryPage';
+import { Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, TextField} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { LABELS } from '../../labels';
 
 
 interface LabelDialogProps {
 	open: boolean,
 	closeDialog: () => void,
 	addLabel: (label: string) => void,
+	getUsedLabels: () => string[]
 }
 
 interface LabelDialogState {
@@ -27,7 +25,7 @@ interface LabelDialogState {
 }
 
 
-export class LabelDialog extends React.Component<LabelDialogProps, LabelDialogState> {
+class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDialogState> {
 	
 	constructor(props: LabelDialogProps){
 		super(props);
@@ -48,6 +46,11 @@ export class LabelDialog extends React.Component<LabelDialogProps, LabelDialogSt
 			this.setState({ label });
 		}
 	}
+	
+	getLabelOptions = () => {
+		const options: string[] = LABELS.concat(this.props.getUsedLabels());
+		return options.filter((item, pos) => options.indexOf(item) === pos).sort();
+	}
 
 	render() {
 		return (
@@ -57,7 +60,7 @@ export class LabelDialog extends React.Component<LabelDialogProps, LabelDialogSt
 					<FormControl className="AddLabelForm">
 							<Autocomplete
 								freeSolo
-								options={LABELS}
+								options={this.getLabelOptions()}
 								onChange={(_event, value) => this.setNewLabel(value)}
 								renderInput={(params) => (
 									<TextField
@@ -78,3 +81,18 @@ export class LabelDialog extends React.Component<LabelDialogProps, LabelDialogSt
 		);
 	}
 }
+
+const mapStateToProps = (state: GlobalState) => ({
+	getUsedLabels: () => {
+		const cookbook: Cookbook = getCookbook(state) || START_COOKBOOK;
+		let usedLabels: string[] = [];
+		cookbook.recipes.forEach((recipe: Recipe) => {
+			usedLabels = usedLabels.concat(recipe.labels);
+		});
+		return usedLabels.filter((item, pos) => usedLabels.indexOf(item) === pos);
+	}
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
+
+export const LabelDialog = connect(mapStateToProps, mapDispatchToProps)(UnconnectedLabelDialog);

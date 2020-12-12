@@ -70,6 +70,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 				{ingredients.map((ingredient, index) => {
 					return <div className="Ingredient" key={index}>
 								<TextField
+									autoFocus
 									className="IngredientsTextField AmountTextField"
 									id="outlined-multiline-static"
 									rows={4}
@@ -128,6 +129,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps,
 						<DialogContent>
 							<FormControl className="AddIngredientNameForm">
 								<TextField
+									autoFocus
 									variant="outlined"
 									onChange={(event) => this.setNewIngredientName(event.target.value)}
 							/>

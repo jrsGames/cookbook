@@ -65,6 +65,7 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 								renderInput={(params) => (
 									<TextField
 										{...params}
+										autoFocus
 										variant="outlined"
 										onChange={(event) => this.setNewLabel(event.target.value)}
 										InputProps={{ ...params.InputProps, type: 'search' }}

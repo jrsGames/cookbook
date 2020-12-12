@@ -58,6 +58,7 @@ export class TitleDialog extends React.Component<TitleDialogProps, TitleDialogSt
 				<DialogContent className="AddTitleDialogContent">
 					<FormControl>
 						<TextField
+							autoFocus
 							variant="outlined"
 							defaultValue={this.props.oldTitle}
 							onChange={(event) => this.setNewTitle(event.target.value)}

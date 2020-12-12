@@ -85,7 +85,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		if(this.props.recipe && this.props.recipe.preparation) {
 			return this.props.recipe.preparation;
 		}
-		return "Zubereitung hinzufuegen";
+		return "";
 	}
 	
 	getLabelChips = () => {

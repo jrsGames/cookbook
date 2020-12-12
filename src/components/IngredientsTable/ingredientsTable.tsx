@@ -45,7 +45,7 @@ class UnconnectedIngredientsTable extends React.Component<IngredientsTableProps>
 									className="IngredientsTextField AmountTextField"
 									id="outlined-multiline-static"
 									rows={4}
-									defaultValue={ingredient.amount}
+									value={ingredient.amount}
 									variant="outlined"
 									disabled={!this.props.editable}
 									onChange={(event) => {this.props.onChangeIngredientAmount(index, event.target.value)}}

@@ -4,21 +4,11 @@ import { connect } from 'react-redux';
 import './filterDialog.css';
 import { Cookbook, GlobalState } from '../../redux/initialState';
 import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
+import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 import { START_COOKBOOK } from '../EntryPage/entryPage';
-import {
-	Chip,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	IconButton,
-	MenuItem,
-	Select,
-	FormControl
-} from '@material-ui/core';
+import {Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, FormControl} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
-import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 
 
 interface FilterDialogProps {

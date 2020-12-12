@@ -46,7 +46,7 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 		const image = this.props.recipe.image;
 		if(image) {
 			try {
-				return require('../../images/' + image.name);
+				return require('../../../../Bilder/' + image.name);
 			} catch (e) {
 				console.log("Picture \"" + image.name + "\" for recipe \"" + this.props.recipe.name + "\" not found.");
 			}

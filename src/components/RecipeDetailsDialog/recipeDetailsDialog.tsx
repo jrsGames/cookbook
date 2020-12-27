@@ -67,7 +67,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		if(oldProps.recipe !== recipe) {
 			this.setState({ open: recipe !== null && Array.isArray(recipe.labels) });
 		}
-		if(oldProps.openInEditMode !== openInEditMode) {
+		if(this.state.inEditMode !== openInEditMode) {
 			this.setState({ inEditMode: openInEditMode });
 		}
 	}

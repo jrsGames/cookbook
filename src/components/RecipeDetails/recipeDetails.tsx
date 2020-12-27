@@ -109,7 +109,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		return (
 			<div>
 				<RecipeDetailsDialog
-					onClose={this.closeDialog}
+					onClose={() => this.closeDialog()}
 					recipe={this.state.recipe}
 					openInEditMode={this.props.openInEditMode}
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}

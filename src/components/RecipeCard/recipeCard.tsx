@@ -3,7 +3,7 @@ import './recipeCard.css';
 import { Recipe } from '../../redux/initialState';
 import { SimpleDialog } from '../SimpleDialog/simpleDialog';
 import { Card, CardContent, CardActions, IconButton, Typography, Chip, Tooltip, Zoom } from '@material-ui/core';
-import CallMadeIcon from '@material-ui/icons/CallMade';
+import EditIcon from '@material-ui/icons/Edit';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -103,9 +103,9 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 						</div>
 					</CardContent>
 					<CardActions disableSpacing>
-						<Tooltip title="Details" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton DetailsButton" onClick={() => this.props.onOpenClick()}>
-								<CallMadeIcon />
+						<Tooltip title="Bearbeiten" TransitionComponent={Zoom}>
+							<IconButton className="ActionButton EditButton" onClick={() => this.props.onOpenClick()}>
+								<EditIcon />
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="Kopieren" TransitionComponent={Zoom}>

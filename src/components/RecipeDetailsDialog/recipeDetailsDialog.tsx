@@ -225,10 +225,18 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	changeMode = () => {
-		if(this.state.inEditMode && this.props.recipe) {
+		if(this.state.inEditMode) {
+			this.saveAndClose();
+		} else {
+			this.setState({ inEditMode: true });
+		}
+	}
+	
+	saveAndClose = () => {
+		if(this.props.recipe) {
 			this.props.updateGlobalRecipe(this.props.recipe.id || "", this.props.recipe);
 		}
-		this.setState({ inEditMode: !this.state.inEditMode });
+		this.onClose();
 	}
 	
 	onClickDuration = () => {
@@ -246,7 +254,19 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		this.props.onClose();
 	}
 		
-	render() {		
+	render() {
+		
+		const input = document.getElementById("RecipeDetailsDialog");
+		if(input) {
+			input.addEventListener("keyup", (event) => {
+				console.log(event);
+				if (event.keyCode === 13 && this.state.inEditMode) {
+					event.preventDefault();
+					this.saveAndClose();
+				}
+			});
+		}
+		
 		return (
 			<Dialog id="RecipeDetailsDialog" className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
 				<DialogTitle className="RecipeTitle">

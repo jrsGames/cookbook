@@ -67,7 +67,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		if(oldProps.recipe !== recipe) {
 			this.setState({ open: recipe !== null && Array.isArray(recipe.labels) });
 		}
-		if(this.state.inEditMode !== openInEditMode) {
+		if(!this.state.open && this.state.inEditMode !== openInEditMode) {
 			this.setState({ inEditMode: openInEditMode });
 		}
 	}
@@ -245,11 +245,10 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		this.setState({ inEditMode: false });
 		this.props.onClose();
 	}
-	
-	
-	render() {
+		
+	render() {		
 		return (
-			<Dialog className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
+			<Dialog id="RecipeDetailsDialog" className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
 				<DialogTitle className="RecipeTitle">
 					{this.getDialogTitle()}
 					<Chip

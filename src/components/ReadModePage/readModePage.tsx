@@ -262,13 +262,11 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			<div className="ReadModePage">
 				<AppBar className="AppBar" position="static">
 					<Toolbar>
-						<Typography variant="h6">
+						<Typography className="CookbookTitle" variant="h6" onClick={() => this.openTitleDialog()}>
 							{cookbook.title}
 						</Typography>
-						<Tooltip title="Title bearbeiten" TransitionComponent={Zoom} placement="bottom">
-							<IconButton color="inherit" aria-label="menu" onClick={() => this.openTitleDialog()}>
-								<EditIcon />
-							</IconButton>
+						<Tooltip title="Titel bearbeiten" TransitionComponent={Zoom} placement="bottom">
+							<IconButton color="inherit" onClick={() => this.openTitleDialog()}> <EditIcon /> </IconButton>
 						</Tooltip>
 						<TitleDialog
 							open={this.state.titleDialogOpen}

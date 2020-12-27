@@ -6,6 +6,10 @@
 	background-size: cover;
 }
 
+.CookbookTitle:hover {
+	cursor: pointer;
+}
+
 .MuiAppBar-colorPrimary.AppBar {
 	background-color: crimson;
 }

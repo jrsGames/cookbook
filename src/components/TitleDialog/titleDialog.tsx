@@ -50,10 +50,27 @@ export class TitleDialog extends React.Component<TitleDialogProps, TitleDialogSt
 			this.setState({ title });
 		}
 	}
+	
+	setTitleAndClose = () => {
+		if(this.state.open) {
+			this.props.setTitle(this.state.title);
+		}
+		this.props.closeDialog();
+	}
 
 	render() {
+		const dialog = document.getElementById("SetTitleDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					this.setTitleAndClose();
+				}
+			});
+		}
+		
 		return (
-			<Dialog className="SetTitleDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
+			<Dialog id="SetTitleDialog" className="SetTitleDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Neuer Titel </DialogTitle>
 				<DialogContent className="AddTitleDialogContent">
 					<FormControl>
@@ -66,7 +83,7 @@ export class TitleDialog extends React.Component<TitleDialogProps, TitleDialogSt
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.props.setTitle(this.state.title)} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton onClick={() => this.setTitleAndClose()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

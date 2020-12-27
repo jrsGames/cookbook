@@ -173,7 +173,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		newCookbook.recipes = newRecipes;
 		this.props.setCookbook(newCookbook);
 		if(this.state.cookbook.recipes.length > 0) {
-			this.openRecipeInReadMode(0);
+			this.openRecipeInEditMode(0);
 		}
 	}
 	

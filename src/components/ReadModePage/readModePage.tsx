@@ -57,7 +57,8 @@ interface ReadModePageState {
 	titleDialogOpen: boolean,
 	filterDialogOpen: boolean,
 	restoreDialogOpen: boolean,
-	homeDialogOpen: boolean
+	homeDialogOpen: boolean,
+	openInEditMode: boolean
 }
 
 class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadModePageState> {
@@ -71,7 +72,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			titleDialogOpen: false,
 			filterDialogOpen: false,
 			restoreDialogOpen: false,
-			homeDialogOpen: false
+			homeDialogOpen: false,
+			openInEditMode: false
 		}
 	}
 	
@@ -145,8 +147,12 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		this.setState({ restoreDialogOpen: false });
 	}
 	
-	openRecipe = (index: number) => {
-		this.setState({ openRecipeIndex: index });
+	openRecipeInReadMode = (index: number) => {
+		this.setState({ openRecipeIndex: index, openInEditMode: false });
+	}
+	
+	openRecipeInEditMode = (index: number) => {
+		this.setState({ openRecipeIndex: index, openInEditMode: true });
 	}
 	
 	addNewRecipe(){
@@ -167,7 +173,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		newCookbook.recipes = newRecipes;
 		this.props.setCookbook(newCookbook);
 		if(this.state.cookbook.recipes.length > 0) {
-			this.openRecipe(0);
+			this.openRecipeInReadMode(0);
 		}
 	}
 	
@@ -227,7 +233,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		let goOn: boolean = true;
 		this.state.cookbook.recipes.forEach((recipe, index) => {
 			if(goOn && recipe.id === id) {
-				this.openRecipe(index);
+				this.openRecipeInReadMode(index);
 				goOn = false;
 			}
 		})
@@ -237,7 +243,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		let goOn: boolean = true;
 		this.state.cookbook.recipes.forEach((recipe, index) => {
 			if(goOn && recipe.name === name as string) {
-				this.openRecipe(index);
+				this.openRecipeInReadMode(index);
 				goOn = false;
 			}
 		})
@@ -331,7 +337,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									key={index}
 									recipe={recipe}
 									addSpaceBelow={isLast}
-									onOpenClick={() => this.openRecipe(index)}
+									onOpenClick={() => this.openRecipeInEditMode(index)}
 									onCopyClick={() => this.props.copyRecipe(recipe.id || "")}
 									onSwapClick={() => this.swapRecipe(recipe.id || null)}
 									swapping={this.state.toBeSwapped === recipe.id}
@@ -345,6 +351,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						JSON.parse(JSON.stringify(this.state.cookbook.recipes[this.state.openRecipeIndex])) :
 						null
 					}
+					openInEditMode={this.state.openInEditMode}
 					index={this.state.openRecipeIndex}
 					closeDialog={() => this.closeDetailsDialog()}
 					/>

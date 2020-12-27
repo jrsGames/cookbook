@@ -14,7 +14,8 @@ interface RecipeDetailsProps {
 	closeDialog: () => void,
 	recipe: Recipe | null,
 	index: number,
-	getCookbook: () => Cookbook
+	getCookbook: () => Cookbook,
+	openInEditMode: boolean
 }
 
 interface RecipeDetailsState {
@@ -110,6 +111,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 				<RecipeDetailsDialog
 					onClose={this.closeDialog}
 					recipe={this.state.recipe}
+					openInEditMode={this.props.openInEditMode}
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
 					onClickPhoto={() => this.uploadPhoto()}

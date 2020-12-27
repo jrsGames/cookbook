@@ -36,6 +36,7 @@ const EMPTY_INGREDIENT: Ingredient = {
 }
 
 interface RecipeDetailsDialogProps {
+	openInEditMode: boolean
 	onClose: () => void,
 	recipe: Recipe | null,
 	onClickDuration: () => void,
@@ -57,14 +58,17 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		super(props);
 		this.state={
 			open: false,
-			inEditMode: false
+			inEditMode: this.props.openInEditMode
 		}
 	}
 	
 	componentDidUpdate(oldProps: RecipeDetailsDialogProps) {
-		const { recipe } = this.props;
+		const { recipe, openInEditMode } = this.props;
 		if(oldProps.recipe !== recipe) {
 			this.setState({ open: recipe !== null && Array.isArray(recipe.labels) });
+		}
+		if(oldProps.openInEditMode !== openInEditMode) {
+			this.setState({ inEditMode: openInEditMode });
 		}
 	}
 	

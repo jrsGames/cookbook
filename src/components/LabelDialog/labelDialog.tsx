@@ -51,10 +51,27 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 		const options: string[] = LABELS.concat(this.props.getUsedLabels());
 		return options.filter((item, pos) => options.indexOf(item) === pos).sort();
 	}
-
+	
+	addLabelAndClose = () => {
+		if(this.state.open) {
+			this.props.addLabel(this.state.label);
+		}
+		this.props.closeDialog();
+	}
+	
 	render() {
+		const dialog = document.getElementById("AddLabelDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					this.addLabelAndClose();
+				}
+			});
+		}
+		
 		return (
-			<Dialog className="AddLabelDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
+			<Dialog id="AddLabelDialog" className="AddLabelDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Neues Label </DialogTitle>
 				<DialogContent>
 					<FormControl className="AddLabelForm">
@@ -75,7 +92,7 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.props.addLabel(this.state.label)} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton onClick={() => this.addLabelAndClose()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

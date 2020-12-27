@@ -255,11 +255,9 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 		
 	render() {
-		
-		const input = document.getElementById("RecipeDetailsDialog");
-		if(input) {
-			input.addEventListener("keyup", (event) => {
-				console.log(event);
+		const dialog = document.getElementById("RecipeDetailsDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
 				if (event.keyCode === 13 && this.state.inEditMode) {
 					event.preventDefault();
 					this.saveAndClose();

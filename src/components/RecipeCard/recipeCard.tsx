@@ -14,7 +14,8 @@ export const DEFAULT_PIC_NAME = "StandardBild.jpg";
 interface RecipeCardProps {
 	recipe: Recipe,
 	addSpaceBelow: boolean,
-	onOpenClick: () => void
+	onCardClick: () => void,
+	onEditClick: () => void
 	onCopyClick: () => void,
 	onSwapClick: () => void,
 	swapping: boolean,
@@ -86,11 +87,11 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 		const recipe: Recipe = this.props.recipe;
 		return (
 			<div className={this.getRootClassName()}>
-				<Card>
-					<div className="RecipeImageWrapper">
+				<Card className="Card">
+					<div className="RecipeImageWrapper"  onClick={() => this.props.onCardClick()}>
 						<img className="RecipeImage" src={this.getImageSource()} style={this.getImageStyle()} alt="Loading" />
 					</div>
-					<CardContent>
+					<CardContent className="RecipeCardContent" onClick={() => this.props.onCardClick()}>
 						<Tooltip title={recipe.name} TransitionComponent={Zoom} placement="top">
 							<Typography className={this.getTitleClassName(recipe.name)} gutterBottom variant="h5" component="h2">
 								{this.trimTitle(recipe.name)}
@@ -104,7 +105,7 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 					</CardContent>
 					<CardActions disableSpacing>
 						<Tooltip title="Bearbeiten" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton EditButton" onClick={() => this.props.onOpenClick()}>
+							<IconButton className="ActionButton EditButton" onClick={() => this.props.onEditClick()}>
 								<EditIcon />
 							</IconButton>
 						</Tooltip>

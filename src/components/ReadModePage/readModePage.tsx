@@ -337,7 +337,8 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									key={index}
 									recipe={recipe}
 									addSpaceBelow={isLast}
-									onOpenClick={() => this.openRecipeInEditMode(index)}
+									onCardClick={() => this.openRecipeInReadMode(index)}
+									onEditClick={() => this.openRecipeInEditMode(index)}
 									onCopyClick={() => this.props.copyRecipe(recipe.id || "")}
 									onSwapClick={() => this.swapRecipe(recipe.id || null)}
 									swapping={this.state.toBeSwapped === recipe.id}

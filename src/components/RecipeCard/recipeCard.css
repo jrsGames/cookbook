@@ -1,10 +1,17 @@
-.RecipeCard{
+.RecipeCard {
 	width: 17rem;
 	margin: 2rem;
 }
 
 .RecipeCard--last {
 	padding-bottom: 8rem;
+}
+
+.Card:hover {
+	border-style: solid;
+	border-width: 0.3rem;
+	border-color: lightslategray;
+	border-radius: 4px;
 }
 
 .MuiCardContent-root{
@@ -34,6 +41,14 @@
 	width: 17rem;
 	height: 6rem;
 	overflow: hidden;
+}
+
+.RecipeImageWrapper:hover {
+	cursor: pointer
+}
+
+.RecipeCardContent:hover {
+	cursor: pointer
 }
 
 .CardLabel.MuiChip-root {

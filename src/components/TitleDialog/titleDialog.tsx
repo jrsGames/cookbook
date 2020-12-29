@@ -83,7 +83,7 @@ export class TitleDialog extends React.Component<TitleDialogProps, TitleDialogSt
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.setTitleAndClose()} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton className="ChecktTitleButton" onClick={() => this.setTitleAndClose()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

@@ -5,3 +5,7 @@
 .ImagePreview {
 	width: 17rem;
 }
+
+.ChecktPhotoButton.MuiIconButton-root {
+	background-color: lightsteelblue;
+}

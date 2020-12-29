@@ -92,7 +92,7 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.addLabelAndClose()} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton className="ChecktLabelButton" onClick={() => this.addLabelAndClose()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

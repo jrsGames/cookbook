@@ -98,6 +98,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 				</DialogContent>
 				<DialogActions>
 					<IconButton
+						className="ChecktPhotoButton"
 						color="primary"
 						onClick={() => this.setPhoto()}
 					>

@@ -12,7 +12,6 @@
 	margin-left: 2rem;
 }
 
-
 .AddFilterDialogContent.MuiDialogContent-root {
 	margin: 0 2rem;
 }
@@ -31,4 +30,8 @@
 	font-size: small;
 	background-color: burlywood;
 	color: #fff;
+}
+
+.ChecktFilterButton.MuiIconButton-root {
+	background-color: lightsteelblue;
 }

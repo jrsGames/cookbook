@@ -10,3 +10,7 @@
 	margin: 0 1rem;
 	width: 4rem;
 }
+
+.ChecktDurationButton.MuiIconButton-root {
+	background-color: lightsteelblue;
+}

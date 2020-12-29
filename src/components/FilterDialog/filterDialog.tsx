@@ -160,7 +160,9 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 						</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.setFilterAndClose()} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton className="ChecktFilterButton" onClick={() => this.setFilterAndClose()} color="primary">
+						<CheckIcon/>
+					</IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

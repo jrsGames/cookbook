@@ -26,6 +26,9 @@
 	font-size: small;
 }
 
+.DoneButton.MuiIconButton-root {
+	background-color: lightsteelblue;
+}
 
 .IngredientsDetails {
 	justify-content: center;

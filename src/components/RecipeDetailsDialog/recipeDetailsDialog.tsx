@@ -285,12 +285,12 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					/>
 					<div className="ActionButtons">
 						<Tooltip title={this.state.inEditMode ? "Speichern" : "Bearbeiten"} TransitionComponent={Zoom}>
-							<IconButton className="ActionButton EditButton" onClick={() => this.changeMode()}>
-								{this.state.inEditMode ? <DoneIcon /> : <EditIcon />}
+							<IconButton className={this.state.inEditMode ? "DoneButton" : "EditButton"} onClick={() => this.changeMode()}>
+								{this.state.inEditMode ? <DoneIcon/> : <EditIcon />}
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="Schliessen" TransitionComponent={Zoom}>
-							<IconButton className="ActionButton CloseButton" onClick={() => this.onClose()}>
+							<IconButton className="CloseButton" onClick={() => this.onClose()}>
 								<ClearIcon />
 							</IconButton>
 						</Tooltip>

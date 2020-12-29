@@ -128,7 +128,7 @@ export class DurationDialog extends React.Component<DurationDialogProps, Duratio
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.setDuration()} color="primary" > <CheckIcon/> </IconButton>
+					<IconButton className="ChecktDurationButton" onClick={() => this.setDuration()} color="primary" > <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

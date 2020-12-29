@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconButton,	Tooltip, Zoom} from '@material-ui/core';
+import { IconButton, Tooltip, Zoom } from '@material-ui/core';
 import './rightHandButton.css';
 
 interface RightHandButtonProps {
@@ -10,7 +10,7 @@ interface RightHandButtonProps {
 }
 
 export class RightHandButton extends React.Component<RightHandButtonProps> {
-	
+
 	render() {
 		return (
 			<Tooltip title={this.props.title} TransitionComponent={Zoom} placement="bottom">

@@ -1,3 +1,7 @@
 .MuiDialogContent-root.AddTitleDialogContent {
 	overflow: hidden;
 }
+
+.ChecktTitleButton.MuiIconButton-root {
+	background-color: lightsteelblue;
+}

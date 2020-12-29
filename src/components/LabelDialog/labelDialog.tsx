@@ -92,7 +92,7 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+					<Tooltip title="Speichern und schliessen (ENTER)" TransitionComponent={Zoom} placement="bottom">
 						<IconButton className="ChecktLabelButton" onClick={() => this.addLabelAndClose()} color="primary">
 							<CheckIcon/>
 						</IconButton>

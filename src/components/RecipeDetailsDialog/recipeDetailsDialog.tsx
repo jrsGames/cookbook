@@ -284,7 +284,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						onClick={() => this.onClickPhoto()}
 					/>
 					<div className="ActionButtons">
-						<Tooltip title={this.state.inEditMode ? "Speichern (ENTER)" : "Bearbeiten"} TransitionComponent={Zoom}>
+						<Tooltip title={this.state.inEditMode ? "Speichern und schliessen (ENTER)" : "Bearbeiten"} TransitionComponent={Zoom}>
 							<IconButton className={this.state.inEditMode ? "DoneButton" : "EditButton"} onClick={() => this.changeMode()}>
 								{this.state.inEditMode ? <DoneIcon/> : <EditIcon />}
 							</IconButton>

@@ -99,7 +99,7 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 					} 	
 				</DialogContent>
 				<DialogActions>
-					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+					<Tooltip title="Speichern und schliessen (ENTER)" TransitionComponent={Zoom} placement="bottom">
 						<IconButton
 							className="ChecktPhotoButton"
 							color="primary"

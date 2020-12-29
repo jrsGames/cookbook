@@ -130,7 +130,7 @@ export class DurationDialog extends React.Component<DurationDialogProps, Duratio
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+					<Tooltip title="Speichern und schliessen (ENTER)" TransitionComponent={Zoom} placement="bottom">
 						<IconButton className="ChecktDurationButton" onClick={() => this.setDuration()} color="primary" >
 							<CheckIcon/>
 						</IconButton>

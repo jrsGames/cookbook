@@ -162,7 +162,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 						</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+					<Tooltip title="Speichern und schliessen (ENTER)" TransitionComponent={Zoom} placement="bottom">
 						<IconButton className="ChecktFilterButton" onClick={() => this.setFilterAndClose()} color="primary">
 							<CheckIcon/>
 						</IconButton>

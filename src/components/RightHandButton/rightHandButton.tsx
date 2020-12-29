@@ -1,5 +1,6 @@
 import React from 'react';
 import {IconButton,	Tooltip, Zoom} from '@material-ui/core';
+import './rightHandButton.css';
 
 interface RightHandButtonProps {
 	title: string
@@ -13,7 +14,7 @@ export class RightHandButton extends React.Component<RightHandButtonProps> {
 	render() {
 		return (
 			<Tooltip title={this.props.title} TransitionComponent={Zoom} placement="bottom">
-				<IconButton color={this.props.active ? "primary" : "inherit"} onClick={() => this.props.onClick()}>
+				<IconButton className={this.props.active ? "ActiveButton" : "InactiveButton"} color="inherit" onClick={() => this.props.onClick()}>
 					{this.props.icon}
 				</IconButton>
 			</Tooltip>

@@ -14,6 +14,7 @@ With this code you can run a cookbook application that allows you to create a di
 ###	Starting the application
 ####	Rightclick on the „cookbook“ folder and select „Git Bash Here“.
 ####	Type „serve -s build“ and hit Enter.
+####	Open http://localhost:5000 on your favorite browser.
 ### Terminating the application
 ####	Type CTRL + C inside the window where you started the application and confirm with Enter. It is necessary to confirm a second time, that time by „y“ (for „yes“) and Enter.
 ### Applying an update of the application
@@ -37,6 +38,7 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein 
 ###	Zum Starten der Anwendung
 ####	Auf den „cookbook“ Ordner rechtsklicken und „Git Bash Here“ auswaehlen.
 ####	„serve -s build“ eintippen und mit Enter bestaetigen.
+####	http://localhost:5000 im Browser deiner Wahl aufrufen.
 ### Zum Beenden der Anwendung
 ####	STRG + C in das Fenster eintippen, mit dem die Anwendung gestartet wurde und mit Enter bestaetigen. Es wird nach einer weiteren Bestaetigung gefragt, die mit „y“ (für „yes“) und Eingabe beantwortet werden muss.
 ### Um die Anwendung zu updaten

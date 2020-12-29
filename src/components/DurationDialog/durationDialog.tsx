@@ -72,11 +72,26 @@ export class DurationDialog extends React.Component<DurationDialogProps, Duratio
 		duration[timeUnit] = Number(value);
 		this.setState({ currentDuration: duration });
 	}
+	
+	setDuration = () => {
+		this.props.setDuration(parseCurrentDuration(this.state.currentDuration));
+	}
 
 
 	render() {
+		
+		const dialog = document.getElementById("SetDurationDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					this.setDuration();
+				}
+			});
+		}
+		
 		return (
-			<Dialog className="SetDurationDialog" open={this.props.open} onClose={() => this.props.closeDialog()}>
+			<Dialog id="SetDurationDialog" className="SetDurationDialog" open={this.props.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Zubereitungszeit setzen </DialogTitle>
 				<DialogContent>
 					<FormControl className="SetDurationForm">
@@ -96,7 +111,8 @@ export class DurationDialog extends React.Component<DurationDialogProps, Duratio
 							type="number"
 							InputLabelProps={{ shrink: true }}
 							inputProps={{ step: 1, min: 0, max: 23,
-								placeholder: parseDuration(this.props.recipe?.duration || 0).hours.toString() }}
+								placeholder: parseDuration(this.props.recipe?.duration || 0).hours.toString()
+							}}
 							onChange={(event) => this.updateCurrentDuration(DurationEnum.HOURS, event.target.value)}
 						/>
 						<TextField
@@ -105,18 +121,14 @@ export class DurationDialog extends React.Component<DurationDialogProps, Duratio
 							type="number"
 							InputLabelProps={{ shrink: true }}
 							inputProps={{ step: 5, min: 0, max: 55,
-								placeholder: parseDuration(this.props.recipe?.duration || 0).minutes.toString() }}
+								placeholder: parseDuration(this.props.recipe?.duration || 0).minutes.toString()
+							}}
 							onChange={(event) => this.updateCurrentDuration(DurationEnum.MINUTES, event.target.value)}
 						/>
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton
-						onClick={() => this.props.setDuration(parseCurrentDuration(this.state.currentDuration))}
-						color="primary"
-					>
-						<CheckIcon/>
-					</IconButton>
+					<IconButton onClick={() => this.setDuration()} color="primary" > <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>

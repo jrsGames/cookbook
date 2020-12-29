@@ -68,11 +68,13 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		let labels: string[] = [];
 		this.props.getCookbook().recipes.forEach((recipe) => {
 			labels = labels.concat(recipe.labels);
-		})
-		const originalCookbook: Cookbook = parseToCookbook(this.props.getCookbookString());
-		originalCookbook.recipes.forEach((recipe) => {
-			labels = labels.concat(recipe.labels);
-		})
+		});
+		if(this.props.getCookbookString()) {
+			const originalCookbook: Cookbook = parseToCookbook(this.props.getCookbookString());
+			originalCookbook.recipes.forEach((recipe) => {
+				labels = labels.concat(recipe.labels);
+			});
+		}
 		return labels.filter((item, pos) => labels.indexOf(item) === pos).sort();
 	}
 	

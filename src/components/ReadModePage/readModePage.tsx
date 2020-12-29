@@ -255,16 +255,46 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 	}
 	
 	render() {
+		
+		const page = document.getElementById("ReadModePage");
+		const searchField = document.getElementById("SearchField");
+		if(page && this.state.openRecipeIndex === -1) {
+			document.onkeyup = (event) => {
+				if (event.ctrlKey && event.altKey) {
+					switch(event.key) {
+						case "n": {
+							event.preventDefault();
+							this.addNewRecipe();
+							break;
+						}
+						case "f": {
+							event.preventDefault();
+							this.openFilterDialog();
+							break;
+						}
+						case "s": {
+							if(searchField) {
+								searchField.click();
+							}
+						}
+					}
+				}
+				
+			};
+		}
+	
 		let cookbook: Cookbook = JSON.parse(JSON.stringify(this.state.cookbook));
 		cookbook = this.filterCookbook(cookbook);
 		
 		return (
-			<div className="ReadModePage">
+			<div id="ReadModePage" className="ReadModePage">
 				<AppBar className="AppBar" position="static">
 					<Toolbar>
-						<Typography className="CookbookTitle" variant="h6" onClick={() => this.openTitleDialog()}>
-							{cookbook.title}
-						</Typography>
+						<Tooltip title="Titel bearbeiten" TransitionComponent={Zoom} placement="bottom">
+							<Typography className="CookbookTitle" variant="h6" onClick={() => this.openTitleDialog()}>
+								{cookbook.title}
+							</Typography>
+						</Tooltip>
 						<Tooltip title="Titel bearbeiten" TransitionComponent={Zoom} placement="bottom">
 							<IconButton color="inherit" onClick={() => this.openTitleDialog()}> <EditIcon /> </IconButton>
 						</Tooltip>
@@ -274,29 +304,32 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							closeDialog={() => this.closeTitleDialog()}
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
 						/>
-						<Autocomplete
-							className="SearchField"
-							freeSolo
-							options={cookbook.recipes.map((recipe) => recipe.name).sort()}
-							onChange={(_event, value) => this.openRecipeByName(value)}
-							renderInput={(params) => (
-								<TextField
-									className="SearchTextField"
-									{...params}
-									variant="standard"
-									onChange={(event) => this.openRecipeByName(event.target.value)}
-									InputProps={{
-										...params.InputProps,
-										type: 'search',
-										startAdornment: (
-											<InputAdornment className="SearchIcon" position="start">
-												<SearchIcon />
-											</InputAdornment>
-										),
-									}}
-								/>
-							)}
-						/>
+						<Tooltip title="Rezept suchen ( STRG + ALT + S )" TransitionComponent={Zoom} placement="bottom">
+							<Autocomplete
+								id="SearchField"
+								className="SearchField"
+								freeSolo
+								options={cookbook.recipes.map((recipe) => recipe.name).sort()}
+								onChange={(_event, value) => this.openRecipeByName(value)}
+								renderInput={(params) => (
+									<TextField
+										className="SearchTextField"
+										{...params}
+										variant="standard"
+										onChange={(event) => this.openRecipeByName(event.target.value)}
+										InputProps={{
+											...params.InputProps,
+											type: 'search',
+											startAdornment: (
+												<InputAdornment className="SearchIcon" position="start">
+													<SearchIcon />
+												</InputAdornment>
+											),
+										}}
+									/>
+								)}
+							/>
+						</Tooltip>
 						<div className="RightHandButtons">
 							<RightHandButton title="Startseite" onClick={() => this.openHomeDialog()} icon={<HomeIcon/>}/>
 							<SimpleDialog
@@ -306,9 +339,9 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 								subTitle="Deine gesamten Aenderungen gehen dadurch verloren."
 								onConfirm={() => this.props.goToEntryPage()}
 							/>
-							<RightHandButton title="Neues Rezept" onClick={() => this.addNewRecipe()} icon={<AddCircleIcon/>}/>
+							<RightHandButton title="Neues Rezept ( STRG + ALT + N )" onClick={() => this.addNewRecipe()} icon={<AddCircleIcon/>}/>
 							<RightHandButton
-								title="Kochbuch filtern"
+								title="Kochbuch filtern ( STRG + ALT + F )"
 								onClick={() => this.openFilterDialog()}
 								icon={<TuneIcon/>}
 								active={this.props.getIncludedLabels().concat(this.props.getExcludedLabels()).length > 0}

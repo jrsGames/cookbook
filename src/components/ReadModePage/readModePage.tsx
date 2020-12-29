@@ -258,24 +258,23 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		
 		const page = document.getElementById("ReadModePage");
 		const searchField = document.getElementById("SearchField");
-		if(page && this.state.openRecipeIndex === -1) {
+		if(page) {
 			document.onkeyup = (event) => {
-				if (event.ctrlKey && event.altKey) {
+				event.preventDefault();
+				if (this.state.openRecipeIndex === -1 && event.ctrlKey && event.altKey && searchField) {
 					switch(event.key) {
 						case "n": {
-							event.preventDefault();
+							searchField.blur();
 							this.addNewRecipe();
 							break;
 						}
 						case "f": {
-							event.preventDefault();
+							searchField.blur();
 							this.openFilterDialog();
 							break;
 						}
-						case "s": {
-							if(searchField) {
-								searchField.click();
-							}
+						case "t": {
+							searchField.click();
 						}
 					}
 				}
@@ -304,7 +303,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 							closeDialog={() => this.closeTitleDialog()}
 							setTitle={(newTitle: string) => this.setNewTitle(newTitle)}
 						/>
-						<Tooltip title="Rezept suchen ( STRG + ALT + S )" TransitionComponent={Zoom} placement="bottom">
+						<Tooltip title="Rezepttitel suchen ( STRG + ALT + T )" TransitionComponent={Zoom} placement="bottom">
 							<Autocomplete
 								id="SearchField"
 								className="SearchField"

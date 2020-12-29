@@ -255,15 +255,16 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 		
 	render() {
-		const dialog = document.getElementById("RecipeDetailsDialog");
-		if(dialog) {
-			dialog.addEventListener("keyup", (event) => {
-				if (event.keyCode === 13 && this.state.inEditMode) {
-					event.preventDefault();
-					this.saveAndClose();
-				}
-			});
-		}
+		document.addEventListener("keyup", (event) => {
+			if (this.state.inEditMode && event.key === "Enter") {
+				event.preventDefault();
+				this.saveAndClose();
+			}
+			if (!this.state.inEditMode && event.ctrlKey && event.altKey && event.keyCode === 69) {
+				event.preventDefault();
+				this.setState({ inEditMode: true });
+			}
+		});
 		
 		return (
 			<Dialog id="RecipeDetailsDialog" className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
@@ -284,7 +285,10 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						onClick={() => this.onClickPhoto()}
 					/>
 					<div className="ActionButtons">
-						<Tooltip title={this.state.inEditMode ? "Speichern und schliessen (ENTER)" : "Bearbeiten"} TransitionComponent={Zoom}>
+						<Tooltip
+							title={this.state.inEditMode ? "Speichern und schliessen (ENTER)" : "Bearbeiten ( STRG + ALT + E )"}
+							TransitionComponent={Zoom}
+						>
 							<IconButton className={this.state.inEditMode ? "DoneButton" : "EditButton"} onClick={() => this.changeMode()}>
 								{this.state.inEditMode ? <DoneIcon/> : <EditIcon />}
 							</IconButton>

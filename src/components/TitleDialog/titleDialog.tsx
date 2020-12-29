@@ -6,7 +6,9 @@ import {
 	DialogContent,
 	DialogTitle,
 	FormControl,
-	IconButton
+	IconButton,
+	Tooltip,
+	Zoom
 } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/Check';
@@ -83,8 +85,14 @@ export class TitleDialog extends React.Component<TitleDialogProps, TitleDialogSt
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton className="ChecktTitleButton" onClick={() => this.setTitleAndClose()} color="primary"> <CheckIcon/> </IconButton>
-					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton className="ChecktTitleButton" onClick={() => this.setTitleAndClose()} color="primary">
+							<CheckIcon/>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Schliessen (ESC)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</Tooltip>
 				</DialogActions>
 			</Dialog>
 		);

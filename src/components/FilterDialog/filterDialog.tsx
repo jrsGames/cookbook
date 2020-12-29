@@ -6,7 +6,7 @@ import { Cookbook, GlobalState } from '../../redux/initialState';
 import { getCookbook, getIncludedLabels, getExcludedLabels, getCookbookString } from '../../redux/selectors';
 import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 import { START_COOKBOOK } from '../EntryPage/entryPage';
-import {Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, FormControl} from '@material-ui/core';
+import {Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, FormControl, Tooltip, Zoom} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import { parseToCookbook } from '../UploadInput/uploadInput';
@@ -160,10 +160,14 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 						</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton className="ChecktFilterButton" onClick={() => this.setFilterAndClose()} color="primary">
-						<CheckIcon/>
-					</IconButton>
-					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton className="ChecktFilterButton" onClick={() => this.setFilterAndClose()} color="primary">
+							<CheckIcon/>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Schliessen (ESC)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</Tooltip>
 				</DialogActions>
 			</Dialog>
 		);

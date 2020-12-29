@@ -6,7 +6,7 @@ import { getCookbook } from '../../redux/selectors';
 import './labelDialog.css';
 import { LABELS } from '../../labels';
 import { START_COOKBOOK } from '../EntryPage/entryPage';
-import { Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, TextField} from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, TextField, Tooltip, Zoom} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -92,8 +92,14 @@ class UnconnectedLabelDialog extends React.Component<LabelDialogProps, LabelDial
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton className="ChecktLabelButton" onClick={() => this.addLabelAndClose()} color="primary"> <CheckIcon/> </IconButton>
-					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton className="ChecktLabelButton" onClick={() => this.addLabelAndClose()} color="primary">
+							<CheckIcon/>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Schliessen (ESC)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</Tooltip>
 				</DialogActions>
 			</Dialog>
 		);

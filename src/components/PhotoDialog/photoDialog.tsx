@@ -5,7 +5,9 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	IconButton
+	IconButton,
+	Tooltip,
+	Zoom
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -97,14 +99,18 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 					} 	
 				</DialogContent>
 				<DialogActions>
-					<IconButton
-						className="ChecktPhotoButton"
-						color="primary"
-						onClick={() => this.setPhoto()}
-					>
-						<CheckIcon/>
-					</IconButton>
-					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					<Tooltip title="Speichern (ENTER)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton
+							className="ChecktPhotoButton"
+							color="primary"
+							onClick={() => this.setPhoto()}
+						>
+							<CheckIcon/>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Schliessen (ESC)" TransitionComponent={Zoom} placement="bottom">
+						<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
+					</Tooltip>
 				</DialogActions>
 			</Dialog>
 		);

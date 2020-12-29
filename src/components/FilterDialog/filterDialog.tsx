@@ -3,12 +3,13 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import './filterDialog.css';
 import { Cookbook, GlobalState } from '../../redux/initialState';
-import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
+import { getCookbook, getIncludedLabels, getExcludedLabels, getCookbookString } from '../../redux/selectors';
 import { setIncludedLabels, setExcludedLabels } from '../../redux/action_creators/FilterState';
 import { START_COOKBOOK } from '../EntryPage/entryPage';
 import {Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, FormControl} from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { parseToCookbook } from '../UploadInput/uploadInput';
 
 
 interface FilterDialogProps {
@@ -17,7 +18,8 @@ interface FilterDialogProps {
 	getIncludedLabels: () => string[],
 	getExcludedLabels: () => string[],
 	setFilteredLabels: (included: string[], excluded: string[]) => void,
-	getCookbook: () => Cookbook
+	getCookbook: () => Cookbook,
+	getCookbookString: () => string
 }
 
 interface FilterDialogState {
@@ -51,7 +53,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 		}
 	}
 	
-	setFilter = () => {
+	setFilterAndClose = () => {
 		this.props.setFilteredLabels(this.state.included, this.state.excluded);
 		this.props.closeDialog();
 	}
@@ -65,6 +67,10 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 	getLabels: () => string[] = () => {
 		let labels: string[] = [];
 		this.props.getCookbook().recipes.forEach((recipe) => {
+			labels = labels.concat(recipe.labels);
+		})
+		const originalCookbook: Cookbook = parseToCookbook(this.props.getCookbookString());
+		originalCookbook.recipes.forEach((recipe) => {
 			labels = labels.concat(recipe.labels);
 		})
 		return labels.filter((item, pos) => labels.indexOf(item) === pos).sort();
@@ -93,8 +99,19 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 	
 	
 	render() {
+
+		const dialog = document.getElementById("SetFilterDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					this.setFilterAndClose();
+				}
+			});
+		}
+		
 		return (
-			<Dialog className="SetFilterDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
+			<Dialog id="SetFilterDialog" className="SetFilterDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> Nach Labels filtern </DialogTitle>
 				<div className="Include"> Muss enthalten </div>
 				<DialogContent className="AddFilterDialogContent">
@@ -143,7 +160,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 						</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<IconButton onClick={() => this.setFilter()} color="primary"> <CheckIcon/> </IconButton>
+					<IconButton onClick={() => this.setFilterAndClose()} color="primary"> <CheckIcon/> </IconButton>
 					<IconButton onClick={() => this.props.closeDialog()} color="primary"> <ClearIcon/> </IconButton>
 				</DialogActions>
 			</Dialog>
@@ -153,6 +170,7 @@ export class UnconnectedFilterDialog extends React.Component<FilterDialogProps, 
 
 const mapStateToProps = (state: GlobalState) => ({
 	getCookbook: () => getCookbook(state) || START_COOKBOOK,
+	getCookbookString: () => getCookbookString(state),
 	getIncludedLabels: () => getIncludedLabels(state),
 	getExcludedLabels: () => getExcludedLabels(state)
 });

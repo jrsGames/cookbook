@@ -75,11 +75,14 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	getDialogTitle = () => {
 		if(this.props.recipe) {
 			return this.state.inEditMode ?
-					<TextField
-						value={this.props.recipe.name}
-						variant="outlined"
-						onChange={(event) => this.setRecipeName(event.target.value)}
-					/> :
+					<Tooltip title="Titel ( STRG + ALT + T )" TransitionComponent={Zoom}>
+						<TextField
+							id="RecipeTitle"
+							value={this.props.recipe.name}
+							variant="outlined"
+							onChange={(event) => this.setRecipeName(event.target.value)}
+						/>
+					</Tooltip>:
 					<div className="RecipeDetailsTitle"> {this.props.recipe.name} </div>;
 		}
 		return "";
@@ -256,13 +259,49 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		
 	render() {
 		document.addEventListener("keyup", (event) => {
+			event.preventDefault();
 			if (this.state.inEditMode && event.key === "Enter") {
-				event.preventDefault();
 				this.saveAndClose();
 			}
 			if (!this.state.inEditMode && event.ctrlKey && event.altKey && event.keyCode === 69) {
-				event.preventDefault();
 				this.setState({ inEditMode: true });
+			}
+			if (event.ctrlKey && event.altKey) {
+				let expandButton: HTMLElement | null;
+				switch(event.keyCode) {
+					case 49: {
+						expandButton = document.getElementById("ExpandIngredients");
+						break;
+					}
+					case 50: {
+						expandButton = document.getElementById("ExpandPreparation");
+						break;
+					}
+					case 51: {
+						expandButton = document.getElementById("ExpandLabels");
+						break;
+					}
+					case 52: {
+						expandButton = document.getElementById("ExpandNotes");
+						break;
+					}
+					case 84: {
+						expandButton = document.getElementById("RecipeTitle");
+						break;
+					}
+					case 68: {
+						expandButton = document.getElementById("RecipeDuration");
+						break;
+					}
+					case 70: {
+						expandButton = document.getElementById("RecipePhoto");
+						break;
+					}
+					default: expandButton = null;
+				}
+				if(expandButton) {
+					expandButton.click();
+				}
 			}
 		});
 		
@@ -270,20 +309,26 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			<Dialog id="RecipeDetailsDialog" className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
 				<DialogTitle className="RecipeTitle">
 					{this.getDialogTitle()}
-					<Chip
-						className="UpperChip"
-						disabled={!this.state.inEditMode}
-						icon={<IconButton size="small"> <ScheduleIcon /> </IconButton>}
-						label={this.getDurationLabel()}
-						onClick={() => this.onClickDuration()}
-					/>
-					<Chip
-						className="UpperChip"
-						disabled={!this.state.inEditMode}
-						icon={<IconButton size="small"> <PhotoCameraIcon /> </IconButton>}
-						label={this.getImageName()}
-						onClick={() => this.onClickPhoto()}
-					/>
+					<Tooltip title="Dauer ( STRG + ALT + D )" TransitionComponent={Zoom}>
+						<Chip
+							id="RecipeDuration"
+							className="UpperChip"
+							disabled={!this.state.inEditMode}
+							icon={<IconButton size="small"> <ScheduleIcon /> </IconButton>}
+							label={this.getDurationLabel()}
+							onClick={() => this.onClickDuration()}
+						/>
+					</Tooltip>
+					<Tooltip title="Foto ( STRG + ALT + F )" TransitionComponent={Zoom}>
+						<Chip
+							id="RecipePhoto"
+							className="UpperChip"
+							disabled={!this.state.inEditMode}
+							icon={<IconButton size="small"> <PhotoCameraIcon /> </IconButton>}
+							label={this.getImageName()}
+							onClick={() => this.onClickPhoto()}
+						/>
+					</Tooltip>
 					<div className="ActionButtons">
 						<Tooltip
 							title={this.state.inEditMode ? "Speichern und schliessen (ENTER)" : "Bearbeiten ( STRG + ALT + E )"}
@@ -302,9 +347,11 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 				</DialogTitle>
 				<DialogContent>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography> Zutaten </Typography>
-						</AccordionSummary>
+						<Tooltip title="Zutaten ( STRG + ALT + 1 )" TransitionComponent={Zoom}>
+							<AccordionSummary id="ExpandIngredients" expandIcon={<ExpandMoreIcon />}>
+								<Typography> Zutaten </Typography>
+							</AccordionSummary>
+						</Tooltip>
 						<AccordionDetails className="IngredientsDetails">
 							<IngredientsTable
 								ingredients={this.getIngredients()}
@@ -317,9 +364,11 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography> Zubereitung </Typography>
-						</AccordionSummary>
+						<Tooltip title="Zubereitung ( STRG + ALT + 2 )" TransitionComponent={Zoom}>
+							<AccordionSummary id="ExpandPreparation" expandIcon={<ExpandMoreIcon />}>
+								<Typography> Zubereitung </Typography>
+							</AccordionSummary>
+						</Tooltip>
 						<AccordionDetails className="Multiline">
 							<TextField
 								className="RecipeDetailsTextField"
@@ -334,17 +383,21 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography> Labels </Typography>
-						</AccordionSummary>
+						<Tooltip title="Labels ( STRG + ALT + 3 )" TransitionComponent={Zoom}>
+							<AccordionSummary id="ExpandLabels" expandIcon={<ExpandMoreIcon />}>
+								<Typography> Labels </Typography>
+							</AccordionSummary>
+						</Tooltip>
 						<AccordionDetails className="Chips">
 							{this.getLabelChips()}
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography> Notizen </Typography>
-						</AccordionSummary>
+						<Tooltip title="Notizen ( STRG + ALT + 4 )" TransitionComponent={Zoom}>
+							<AccordionSummary id="ExpandNotes" expandIcon={<ExpandMoreIcon />}>
+								<Typography> Notizen </Typography>
+							</AccordionSummary>
+						</Tooltip>
 						<AccordionDetails className="Multiline">
 							<TextField
 								className="RecipeDetailsTextField"

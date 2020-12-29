@@ -14,6 +14,14 @@ With this code you can run a cookbook application that allows you to create a di
 ###	Starting the application
 ####	Rightclick on the „cookbook“ folder and select „Git Bash Here“.
 ####	Type „serve -s build“ and hit Enter.
+### Terminating the application
+####	Type CTRL + C inside the window where you started the application and confirm with Enter. It is necessary to confirm a second time, that time by „y“ (for „yes“) and Enter.
+### Applying an update of the application
+####	Get the updated version on https://drive.google.com/drive/folders/1aus_MuewgVnI1NY6T6xgESdo5RGcye1b?usp=sharing
+####	Replace your local files and folders with their updated versions
+####	Rightclick on the „cookbook“ folder and select „Git Bash Here“.
+####	Type „npm i“ inside the new window and confirm with Enter. It might be necessary to confirm a second time, that time by „y“ (for „yes“) and Enter.
+####	Type "npm run build" and confirm with Enter. It may take a minute and seem to not do anything.
 
 # --GERMAN--
 Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein digitales Kochbuch erstellen, deine Rezepte hinzufuegen, sie ansehen, bearbeiten, ein Kochbuch hochladen und herunterladen!
@@ -29,3 +37,13 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein 
 ###	Zum Starten der Anwendung
 ####	Auf den „cookbook“ Ordner rechtsklicken und „Git Bash Here“ auswaehlen.
 ####	„serve -s build“ eintippen und mit Enter bestaetigen.
+### Zum Beenden der Anwendung
+####	STRG + C in das Fenster eintippen, mit dem die Anwendung gestartet wurde und mit Enter bestaetigen. Es wird nach einer weiteren Bestaetigung gefragt, die mit „y“ (für „yes“) und Eingabe beantwortet werden muss.
+### Um die Anwendung zu updaten
+####	Neue Version von https://drive.google.com/drive/folders/1aus_MuewgVnI1NY6T6xgESdo5RGcye1b?usp=sharing herunterladen
+####	Lokale Dateien und Ordner durch deren neuen Versionen ersetzen
+####	Auf den „cookbook“ Ordner rechtsklicken und „Git Bash Here“ auswaehlen.
+####	In das neue Fenster „npm i“ eintippen und mit Enter bestaetigen. Eventuell wird spaeter nach einer weiteren Bestaetigung gefragt, die mit „y“ (für „yes“) und Eingabe beantwortet werden muss.
+####	"npm run build" eintippen und mit Enter bestaetigen. Das koennte eine Minute dauern und wirken, als ob nichts passiert.
+
+

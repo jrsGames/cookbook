@@ -71,8 +71,19 @@ export class PhotoDialog extends React.Component<PhotoDialogProps, PhotoDialogSt
 	}
 
 	render() {
+		
+		const dialog = document.getElementById("AddPhotoDialog");
+		if(dialog) {
+			dialog.addEventListener("keyup", (event) => {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					this.setPhoto();
+				}
+			});
+		}
+		
 		return (
-			<Dialog className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
+			<Dialog id="AddPhotoDialog" className="AddPhotoDialog" open={this.state.open} onClose={() => this.props.closeDialog()}>
 				<DialogTitle> {this.props.imageName} </DialogTitle>
 				<DialogContent id="ImagePreviewContainer" className="ImagePreviewContainer" onScroll={() => this.setScrollPosition()}>
 					{this.getImageSource() ?

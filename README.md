@@ -8,7 +8,6 @@ With this code you can run a cookbook application that allows you to create a di
 ####	Download and install the latest Node.js LTS version on https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	... and Git on https://gitforwindows.org/.
 ####	Copy the folders "Bilder", "cookbook" and "Kochbuecher" to your PC or to an external device.
-####	As long as you do not want to add images for recipes, it is enough to copy only the build folder inside the cookbook folder.
 ####	Keep "Bilder" and "cookbook" on the same directory level.
 ####	Rightclick on the cookbook folder and select "Git Bash Here".
 ####	Type "npm i serve" and hit Enter.
@@ -23,12 +22,12 @@ With this code you can run a cookbook application that allows you to create a di
 ####	Replace your local files and folders with their updated versions, usually the build folder and Readme.md inside the cookbook folder.
 ### Adding new pictures for recipes
 ####	Add the picture(s) to the Bilder folder.
-####	Add all files and folders from the remote cookbook folder to your local one.
 ####	If no terminal is open, rightclick on the cookbook folder and select "Git Bash Here".
 ####	If the application is running, stop it.
 ####	Type "npm i" and hit Enter.
 ####	Type "npm run build" and hit Enter.
-####	Restart the application
+####	Remove the automatically generated node_modules folder inside the cookbook folder to free space (> 300MB).
+####	Restart the application.
 
 # --DEUTSCH--
 Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein digitales Kochbuch erstellen, deine Rezepte hinzufuegen, sie ansehen, bearbeiten, ein Kochbuch hochladen und herunterladen!
@@ -38,7 +37,6 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein 
 ####	Node.js herunterladen und installieren (neueste LTS-Version): https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	Ebenso Git: https://gitforwindows.org/.
 ####	Die Ordner "Bilder", "cookbook" und "Kochbuecher" auf deinen PC oder auf ein externes Speichermedium kopieren.
-####	Solange keine neuen Rezeptbilder hinzugefügt werden, reicht der build Ordner innerhalb des cookbook Ordner aus.
 ####	Die Ordner "Bilder" und "cookbook" müssen im selben Ordner liegen.
 ####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
 ####	"npm i serve" eintippen und mit Enter bestaetigen.
@@ -53,9 +51,9 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein 
 ####	Lokale Dateien und Ordner durch deren neuen Versionen ersetzen, idR betrifft das die Readme.md und den build Ordner im cookbook Ordner.
 ###	Um neue Bilder für Rezepte hinzuzufügen
 ####	Das Bild / die Bilder in den Bilder Ordner einfügen.
-####	Alle Dateien und Ordner aus dem cookbook Ordner herunterladen und in den lokalen cookbook Ordner kopieren.
 ####	Ist kein Terminal offen, auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
 ####	Die Anwendung beenden, falls sie läuft.
 ####	"npm i" eintippen und mit Enter bestätigen.
 ####	"npm run build" eintippen und mit Enter bestätigen.
+####	Den automatisch erstellen Ordner node_modules innerhalb cookbook löschen, um Platz zu sparen (> 300MB).
 ####	Die Anwendung neu starten.

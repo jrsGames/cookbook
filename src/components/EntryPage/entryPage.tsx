@@ -9,7 +9,7 @@ import { setCookbook, setCookbookString } from '../../redux/action_creators/Book
 
 
 export const START_COOKBOOK: Cookbook = {
-		title: "Titel hinzufuegen",
+		title: "Titel hinzufügen",
 		recipes: []
 };
 

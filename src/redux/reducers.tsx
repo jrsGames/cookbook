@@ -27,7 +27,8 @@ import {
 	ACTION_SET_EXCLUDE,
 	ACTION_RESTORE_COOKBOOK,
     ActionSetIngredientState,
-    ACTION_ADD_INGREDIENT} from './actions';
+    ACTION_ADD_INGREDIENT,
+    ACTION_SET_FILE_NAME} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 import { generateNewId, parseToCookbook } from '../components/UploadInput/uploadInput';
 
@@ -42,6 +43,10 @@ export function viewReducer(
 			...state,
 			view: action.payload.view || state.view
 		};
+		case ACTION_SET_FILE_NAME: return {
+			...state,
+			fileName: action.payload.fileName || state.fileName
+		}
 		default: return state;
 	}	
 }

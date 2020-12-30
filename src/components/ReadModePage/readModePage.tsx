@@ -2,9 +2,9 @@ import React from 'react';
 import './readModePage.css';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { GlobalState, Cookbook, Recipe, ENTRY_VIEW } from '../../redux/initialState';
-import { getCookbook, getIncludedLabels, getExcludedLabels } from '../../redux/selectors';
-import { setView } from '../../redux/action_creators/ViewState';
+import { GlobalState, Cookbook, Recipe, ENTRY_VIEW, DEFAULT_FILE_NAME } from '../../redux/initialState';
+import { getCookbook, getIncludedLabels, getExcludedLabels, getFileName } from '../../redux/selectors';
+import { setView, setFileName } from '../../redux/action_creators/ViewState';
 import { setCookbook, deleteRecipe, copyRecipe, swapRecipes, restoreCookbook, setCookbookString } from '../../redux/action_creators/BookState';
 import { generateNewId } from '../UploadInput/uploadInput';
 import { RecipeCard } from '../RecipeCard/recipeCard';
@@ -47,7 +47,8 @@ interface ReadModePageProps {
 	getIncludedLabels: () => string[],
 	getExcludedLabels: () => string[],
 	restoreCookbook: () => void,
-	goToEntryPage: () => void
+	goToEntryPage: () => void,
+	getFileName: () => string
 }
 
 interface ReadModePageState {
@@ -207,7 +208,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 		let link = document.createElement("a");
 		const dataURI = "data:text/json;base64," + btoa(content);
 		link.setAttribute("href", dataURI);
-		link.setAttribute("download", "kochbuch.json");
+		link.setAttribute("download", this.props.getFileName());
 		document.body.appendChild(link); // Firefox
 		link.click();
 	}
@@ -394,12 +395,14 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 const mapStateToProps = (state: GlobalState) => ({
 	getCookbook: () => getCookbook(state) || START_COOKBOOK,
 	getIncludedLabels: () => getIncludedLabels(state),
-	getExcludedLabels: () => getExcludedLabels(state)
+	getExcludedLabels: () => getExcludedLabels(state),
+	getFileName: () => getFileName(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	goToEntryPage: () => {
 		dispatch(setView(ENTRY_VIEW));
+		dispatch(setFileName(DEFAULT_FILE_NAME));
 		dispatch(setCookbook(null));
 		dispatch(setCookbookString(""));
 	},

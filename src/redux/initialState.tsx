@@ -2,13 +2,16 @@ import { INGREDIENTS } from "../ingredients";
 
 export const ENTRY_VIEW: string = 'entry';
 export const READ_VIEW: string = 'read';
+export const DEFAULT_FILE_NAME: string = 'kochbuch.json';
 
 export interface ViewState {
-	view: string
+	view: string,
+	fileName: string
 }
 
 export const initialViewState: ViewState = {
-	view: ENTRY_VIEW
+	view: ENTRY_VIEW,
+	fileName: DEFAULT_FILE_NAME
 }
 
 export interface Ingredient {

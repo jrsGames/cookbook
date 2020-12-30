@@ -3,6 +3,9 @@ import { GlobalState, Cookbook } from "./initialState"
 export const getView: (state: GlobalState) => string =
 	(state) => state.viewState.view;
 
+export const getFileName: (state: GlobalState) => string =
+	(state) => state.viewState.fileName;
+
 export const getCookbook: (state: GlobalState) => Cookbook | null =
 	(state) => state.bookState.cookbook || null;
 	

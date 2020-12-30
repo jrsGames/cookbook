@@ -10,6 +10,10 @@ export const ACTION_SET_VIEW = "setView";
 export interface ActionSetView {
 	view: string
 }
+export const ACTION_SET_FILE_NAME = "setFileName";
+export interface ActionSetFileName {
+	fileName: string
+}
 
 /* BOOKSTATE */
 export const ACTION_SET_COOKBOOK = "setCookbook";
@@ -43,7 +47,7 @@ export interface ActionUpdateRecipe {
 export const ACTION_SET_INCLUDE = "setIncludedLabels";
 export const ACTION_SET_EXCLUDE = "setExcludedLabels";
 
-export interface ActionSetViewState extends ActionSetView {};
+export interface ActionSetViewState extends ActionSetView, ActionSetFileName {};
 export interface ActionSetBookState extends
 	ActionSetCookbook,
 	ActionSetCookbookString,

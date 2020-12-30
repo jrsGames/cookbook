@@ -4,14 +4,14 @@
 With this code you can run a cookbook application that allows you to create a digital cookbook, add your recipes, view them, edit them, upload and download a cookbook!
 
 ## Instructions
-###	Before starting for the first time
+### Before starting for the first time
 ####	Download and install the latest Node.js LTS version on https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	... and Git on https://gitforwindows.org/.
 ####	Copy the folders "Bilder", "cookbook" and "Kochbuecher" to your PC or to an external device.
 ####	Keep "Bilder" and "cookbook" on the same directory level.
 ####	Rightclick on the cookbook folder and select "Git Bash Here".
 ####	Type "npm i serve" and hit Enter.
-###	Starting the application
+### Starting the application
 ####	Rightclick on the cookbook folder and select "Git Bash Here".
 ####	Type "serve -s build" and hit Enter.
 ####	Open http://localhost:5000 on your favorite browser.
@@ -33,14 +33,14 @@ With this code you can run a cookbook application that allows you to create a di
 Mit diesem Code kannst du ein Kochbuch-Programm ausführen. Damit kannst du ein digitales Kochbuch erstellen, deine Rezepte hinzufuegen, sie ansehen, bearbeiten, ein Kochbuch hochladen und herunterladen!
 
 ## Anleitung
-###	Vor dem ersten Start
+### Vor dem ersten Start
 ####	Node.js herunterladen und installieren (neueste LTS-Version): https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	Ebenso Git: https://gitforwindows.org/.
 ####	Die Ordner "Bilder", "cookbook" und "Kochbuecher" auf deinen PC oder auf ein externes Speichermedium kopieren.
 ####	Die Ordner "Bilder" und "cookbook" müssen im selben Ordner liegen.
 ####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
 ####	"npm i serve" eintippen und mit Enter bestätigen.
-###	Zum Starten der Anwendung
+### Zum Starten der Anwendung
 ####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
 ####	"serve -s build" eintippen und mit Enter bestätigen.
 ####	http://localhost:5000 im Browser deiner Wahl aufrufen.
@@ -49,7 +49,7 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausführen. Damit kannst du ein 
 ### Zum Updaten der Anwendung
 ####	Neue Version von https://drive.google.com/drive/folders/1aus_MuewgVnI1NY6T6xgESdo5RGcye1b?usp=sharing herunterladen.
 ####	Lokale Dateien und Ordner durch deren neuen Versionen ersetzen, idR betrifft das die Readme.md und den build Ordner im cookbook Ordner.
-###	Um neue Bilder für Rezepte hinzuzufügen
+### Um neue Bilder für Rezepte hinzuzufügen
 ####	Das Bild / die Bilder in den Bilder Ordner einfügen.
 ####	Ist kein Terminal offen, auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
 ####	Die Anwendung beenden, falls sie läuft.

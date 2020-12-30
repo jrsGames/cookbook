@@ -7,7 +7,7 @@ With this code you can run a cookbook application that allows you to create a di
 ###	Before starting for the first time
 ####	Download and install the latest Node.js LTS version on https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	... and Git on https://gitforwindows.org/.
-####	Copy this Readme.md and the folders „Bilder“, „cookbook“ and „Kochbuecher“ to your PC or to an external device. Keep „Bilder“ and „cookbook“ on the same directory level. Make sure to have 350MB of available space.
+####	Copy this Readme.md and the folders „Bilder“, „cookbook“ and „Kochbuecher“ to your PC or to an external device. Keep „Bilder“ and „cookbook“ on the same directory level. Make sure to have 10MB of available space.
 ####	Rightclick on the „cookbook“ folder and select „Git Bash Here“.
 ###	Starting the application
 ####	Rightclick on the „cookbook“ folder and select „Git Bash Here“.
@@ -26,7 +26,7 @@ Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein 
 ###	Vor dem ersten Start
 ####	Node.js herunterladen und installieren (neueste LTS-Version): https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	Ebenso Git: https://gitforwindows.org/.
-####	Diese Anleitung und die Ordner „Bilder“, „cookbook“ und „Kochbuecher“ auf deinen PC oder auf ein externes Speichermedium kopieren. Die Ordner „Bilder“ und „cookbook“ muessen im selben Ordner liegen. Es werden 350MB benoetigt.
+####	Diese Anleitung und die Ordner „Bilder“, „cookbook“ und „Kochbuecher“ auf deinen PC oder auf ein externes Speichermedium kopieren. Die Ordner „Bilder“ und „cookbook“ muessen im selben Ordner liegen. Es werden 10MB benoetigt.
 ###	Zum Starten der Anwendung
 ####	Auf den „cookbook“ Ordner rechtsklicken und „Git Bash Here“ auswaehlen.
 ####	„serve -s build“ eintippen und mit Enter bestaetigen.

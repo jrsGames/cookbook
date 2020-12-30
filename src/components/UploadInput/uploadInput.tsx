@@ -38,7 +38,7 @@ class UnconnectedUploadInput extends React.Component<UploadInputProps> {
 					}
 				}
 			}
-			reader.readAsText(importedFile);
+			reader.readAsText(importedFile, 'utf-8');
 		}
 	}
 	

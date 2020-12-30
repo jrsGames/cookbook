@@ -30,30 +30,30 @@ With this code you can run a cookbook application that allows you to create a di
 ####	Restart the application.
 
 # --DEUTSCH--
-Mit diesem Code kannst du ein Kochbuch-Programm ausfuehren. Damit kannst du ein digitales Kochbuch erstellen, deine Rezepte hinzufuegen, sie ansehen, bearbeiten, ein Kochbuch hochladen und herunterladen!
+Mit diesem Code kannst du ein Kochbuch-Programm ausfÃ¼hren. Damit kannst du ein digitales Kochbuch erstellen, deine Rezepte hinzufuegen, sie ansehen, bearbeiten, ein Kochbuch hochladen und herunterladen!
 
 ## Anleitung
 ###	Vor dem ersten Start
 ####	Node.js herunterladen und installieren (neueste LTS-Version): https://nodejs.org/en/ (Windows 7: https://nodejs.org/download/release/v13.14.0/, node-v13.14.0-x64.msi).
 ####	Ebenso Git: https://gitforwindows.org/.
 ####	Die Ordner "Bilder", "cookbook" und "Kochbuecher" auf deinen PC oder auf ein externes Speichermedium kopieren.
-####	Die Ordner "Bilder" und "cookbook" müssen im selben Ordner liegen.
-####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
-####	"npm i serve" eintippen und mit Enter bestaetigen.
+####	Die Ordner "Bilder" und "cookbook" mÃ¼ssen im selben Ordner liegen.
+####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswÃ¤hlen.
+####	"npm i serve" eintippen und mit Enter bestÃ¤tigen.
 ###	Zum Starten der Anwendung
-####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
-####	"serve -s build" eintippen und mit Enter bestaetigen.
+####	Auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswÃ¤hlen.
+####	"serve -s build" eintippen und mit Enter bestÃ¤tigen.
 ####	http://localhost:5000 im Browser deiner Wahl aufrufen.
 ### Zum Beenden der Anwendung
-####	STRG + C in das Fenster eintippen, mit dem die Anwendung gestartet wurde und mit Enter bestätigen. Wird nach einer weiteren Bestätigung gefragt, mit „y“ (für „yes“) oder "j" und Eingabe beantworten.
+####	STRG + C in das Fenster eintippen, mit dem die Anwendung gestartet wurde und mit Enter bestÃ¤tigen. Wird nach einer weiteren BestÃ¤tigung gefragt, mit "y" oder "j" und Eingabe beantworten.
 ### Zum Updaten der Anwendung
 ####	Neue Version von https://drive.google.com/drive/folders/1aus_MuewgVnI1NY6T6xgESdo5RGcye1b?usp=sharing herunterladen.
 ####	Lokale Dateien und Ordner durch deren neuen Versionen ersetzen, idR betrifft das die Readme.md und den build Ordner im cookbook Ordner.
-###	Um neue Bilder für Rezepte hinzuzufügen
-####	Das Bild / die Bilder in den Bilder Ordner einfügen.
-####	Ist kein Terminal offen, auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswählen.
-####	Die Anwendung beenden, falls sie läuft.
-####	"npm i" eintippen und mit Enter bestätigen.
-####	"npm run build" eintippen und mit Enter bestätigen.
-####	Den automatisch erstellen Ordner node_modules innerhalb cookbook löschen, um Platz zu sparen (> 300MB).
+###	Um neue Bilder fÃ¼r Rezepte hinzuzufÃ¼gen
+####	Das Bild / die Bilder in den Bilder Ordner einfÃ¼gen.
+####	Ist kein Terminal offen, auf den cookbook Ordner rechtsklicken und "Git Bash Here" auswÃ¤hlen.
+####	Die Anwendung beenden, falls sie lÃ¤uft.
+####	"npm i" eintippen und mit Enter bestÃ¤tigen.
+####	"npm run build" eintippen und mit Enter bestÃ¤tigen.
+####	Den automatisch erstellen Ordner node_modules innerhalb cookbook lÃ¶schen, um Platz zu sparen (> 300MB).
 ####	Die Anwendung neu starten.

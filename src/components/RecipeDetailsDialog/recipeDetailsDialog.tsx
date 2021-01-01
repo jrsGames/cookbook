@@ -28,6 +28,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import DoneIcon from '@material-ui/icons/Done';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 
 
 const EMPTY_INGREDIENT: Ingredient = {
@@ -145,6 +146,10 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		return "Dauer angeben";
 	}
 	
+	getPortionsLabel = () => {
+		return "1";
+	}
+	
 	getImageName = () => {
 		if(this.props.recipe && this.props.recipe.image){
 			return this.props.recipe.image.name;
@@ -249,6 +254,12 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 		}
 	}
 	
+	onClickPortions = () => {
+		if(this.state.inEditMode) {
+			console.log("clicked portions");
+		}
+	}
+	
 	onClose = () => {
 		this.setState({ inEditMode: false });
 		this.props.onClose();
@@ -303,6 +314,16 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			<Dialog id="RecipeDetailsDialog" className="RecipeDetailsDialog" open={this.state.open} onClose={() => this.onClose()}>
 				<DialogTitle className="RecipeTitle">
 					{this.getDialogTitle()}
+					<Tooltip title="Portionen ( STRG + ALT + P )" TransitionComponent={Zoom}>
+						<Chip
+							id="RecipePortions"
+							className="UpperChip"
+							disabled={!this.state.inEditMode}
+							icon={<IconButton size="small"> <FastfoodIcon /> </IconButton>}
+							label={this.getPortionsLabel()}
+							onClick={() => this.onClickPortions()}
+						/>
+					</Tooltip>
 					<Tooltip title="Dauer ( STRG + ALT + D )" TransitionComponent={Zoom}>
 						<Chip
 							id="RecipeDuration"

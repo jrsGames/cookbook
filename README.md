@@ -1,4 +1,4 @@
-# Version 2.0
+# Version 2.1
 
 # --ENGLISH--
 With this code you can run a cookbook application that allows you to create a digital cookbook, add your recipes, view them, edit them, upload and download a cookbook!

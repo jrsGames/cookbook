@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { getRecipeTitleAndSize } from '../../helpers';
 
 
 export const DEFAULT_PIC_NAME = "StandardBild.jpg";
@@ -78,10 +79,12 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 	}
 	
 	getTitleClassName = (title: string) => {
-		return title.length > 17 ? title.length > 21 ? "RecipeTitle-tiny" : "RecipeTitle-small" : "RecipeTitle";
+		switch(getRecipeTitleAndSize(title).size) {
+			case "small": return "RecipeTitle-small";
+			case "tiny": return "RecipeTitle-tiny";
+			default: return "RecipeTitle";
+		}
 	}
-
-	trimTitle = (title: string) => title.length > 25 ? title.substr(0,24) + "..." : title;
 	
 	render() {
 		const recipe: Recipe = this.props.recipe;
@@ -94,7 +97,7 @@ export class RecipeCard extends React.Component<RecipeCardProps, RecipeCardState
 					<CardContent className="RecipeCardContent" onClick={() => this.props.onCardClick()}>
 						<Tooltip title={recipe.name} TransitionComponent={Zoom} placement="top">
 							<Typography className={this.getTitleClassName(recipe.name)} gutterBottom variant="h5" component="h2">
-								{this.trimTitle(recipe.name)}
+								{getRecipeTitleAndSize(recipe.name).title}
 							</Typography>
 						</Tooltip>
 						<div className="Labels">

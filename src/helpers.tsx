@@ -82,3 +82,123 @@ export const isCookbook: (obj: any) => boolean = (obj) => {
 	}
 	return true;
 }
+
+export const getRecipeTitleAndSize = (fullTitle: string) => {
+	const relLength = getRelativeTitleLength(fullTitle);
+	console.log(fullTitle, relLength);
+	if(relLength < 0.97) {
+		return { size: "medium", title: fullTitle};
+	}
+	if(relLength < 1.15) {
+		return { size: "small", title: fullTitle};
+	}
+	if(relLength < 1.38) {
+		return { size: "tiny", title: fullTitle};
+	}
+	let substr: string = "";
+	for(let i = 0; i < fullTitle.length; i++) {
+		substr = fullTitle.substring(0, i);
+		if(getRelativeTitleLength(substr) > 1.38) break;
+	}
+	return {
+		size: "tiny",
+		title: substr + "..."
+	};
+}
+
+const getRelativeTitleLength = (title: string) => {
+	let length = 0;
+	for(let i = 0; i < title.length; i++) {
+		length += getRelativeCharLength(title.charAt(i));
+	}
+	return length;
+}
+
+const getRelativeCharLength = (char: string) => {
+	switch(char) {
+		case 'A': return 1/15;
+		case 'B': return 1/15;
+		case 'C': return 1/14;
+		case 'D': return 1/14;
+		case 'E': return 1/15;
+		case 'F': return 1/16;
+		case 'G': return 1/13;
+		case 'H': return 1/14;
+		case 'I': return 1/36;
+		case 'J': return 1/20;
+		case 'K': return 1/15;
+		case 'L': return 1/18;
+		case 'M': return 1/12;
+		case 'N': return 1/14;
+		case 'O': return 1/13;
+		case 'P': return 1/15;
+		case 'Q': return 1/13;
+		case 'R': return 1/14;
+		case 'S': return 1/15;
+		case 'T': return 1/16;
+		case 'U': return 1/14;
+		case 'V': return 1/15;
+		case 'W': return 1/10;
+		case 'X': return 1/15;
+		case 'Y': return 1/15;
+		case 'Z': return 1/16;
+		case 'Ä': return 1/15;
+		case 'Ö': return 1/13;
+		case 'Ü': return 1/14;
+		case 'a': return 1/18;
+		case 'b': return 1/18;
+		case 'c': return 1/20;
+		case 'd': return 1/18;
+		case 'e': return 1/18;
+		case 'f': return 1/38;
+		case 'g': return 1/18;
+		case 'h': return 1/18;
+		case 'i': return 1/45;
+		case 'j': return 1/45;
+		case 'k': return 1/20;
+		case 'l': return 1/45;
+		case 'm': return 1/12;
+		case 'n': return 1/18;
+		case 'o': return 1/18;
+		case 'p': return 1/18;
+		case 'q': return 1/18;
+		case 'r': return 1/30;
+		case 's': return 1/20;
+		case 't': return 1/36;
+		case 'u': return 1/18;
+		case 'v': return 1/20;
+		case 'w': return 1/14;
+		case 'x': return 1/20;
+		case 'y': return 1/20;
+		case 'z': return 1/20;
+		case 'ä': return 1/18;
+		case 'ö': return 1/18;
+		case 'ü': return 1/18;
+		case '0': return 1/18;
+		case '1': return 1/21;
+		case '2': return 1/18;
+		case '3': return 1/18;
+		case '4': return 1/18;
+		case '5': return 1/18;
+		case '6': return 1/18;
+		case '7': return 1/18;
+		case '8': return 1/18;
+		case '9': return 1/18;
+		case ' ': return 1/36;
+		case '-': return 1/30;
+		case '&': return 1/15;
+		case '/': return 1/36;
+		case '(': return 1/30;
+		case ')': return 1/30;
+		case '*': return 1/26;
+		case 'ß': return 1/16;
+		case '?': return 1/18;
+		case '+': return 1/17;
+		case '"': return 1/28;
+		case '.': return 1/36;
+		case '%': return 1/11;
+		case '!': return 1/36;
+		case '_': return 1/21;
+		default: return 1/10;
+	}
+}

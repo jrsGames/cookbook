@@ -28,6 +28,7 @@ export interface Recipe {
 	id?: string,
 	name: string,
 	duration?: number,
+	portions?: number,
 	labels: string[],
 	ingredients: Ingredient[],
 	preparation: string,

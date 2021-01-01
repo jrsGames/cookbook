@@ -8,6 +8,7 @@ import { DurationDialog } from '../DurationDialog/durationDialog';
 import { LabelDialog } from '../LabelDialog/labelDialog';
 import { RecipeDetailsDialog } from '../RecipeDetailsDialog/recipeDetailsDialog';
 import { PhotoDialog } from '../PhotoDialog/photoDialog';
+import { PortionsDialog } from '../PortionsDialog/portionsDialog';
 
 
 interface RecipeDetailsProps {
@@ -23,6 +24,7 @@ interface RecipeDetailsState {
 	labelDialogOpen: boolean,
 	durationDialogOpen: boolean,
 	photoDialogOpen: boolean,
+	portionsDialogOpen: boolean,
 	importedFileName: string
 }
 
@@ -35,6 +37,7 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 			labelDialogOpen: false,
 			durationDialogOpen: false,
 			photoDialogOpen: false,
+			portionsDialogOpen: false,
 			importedFileName: ""
 		}
 	}
@@ -53,6 +56,10 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 	
 	closeDurationDialog = () => { this.setState({ durationDialogOpen: false }); }
 	
+	openPortionsDialog = () => { this.setState({ portionsDialogOpen: true }); }
+	
+	closePortionsDialog = () => { this.setState({ portionsDialogOpen: false }); }
+	
 	openPhotoDialog  = () => { this.setState({ photoDialogOpen: true }); }
 	
 	closePhotoDialog = () => { this.setState({ photoDialogOpen: false }); }
@@ -70,6 +77,12 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
 		newRecipe.duration = duration;
 		this.setState({ recipe: newRecipe, durationDialogOpen: false });
+	}
+	
+	setPortionsAndClose = (amount: number) => {
+		const newRecipe: Recipe = JSON.parse(JSON.stringify(this.state.recipe));
+		newRecipe.portions = amount;
+		this.setState({ recipe: newRecipe, portionsDialogOpen: false });
 	}
 	
 	setPhotoAndClose = (image: Image) => {
@@ -115,8 +128,15 @@ class UnconnectedRecipeDetails extends React.Component<RecipeDetailsProps, Recip
 					setRecipe={(recipe: Recipe) => this.setState({recipe})}
 					onClickDuration={() => this.openDurationDialog()}
 					onClickPhoto={() => this.uploadPhoto()}
+					onClickPortions={() => this.openPortionsDialog()}
 					onClickNewLabelChip={() => this.openLabelDialog()}
 				/>
+				<PortionsDialog
+					open={this.state.portionsDialogOpen}
+					closeDialog={() => this.closePortionsDialog()}
+					recipe={this.state.recipe}
+					setPortions={(amount: number) => this.setPortionsAndClose(amount)}
+				 />
 				<DurationDialog
 					open={this.state.durationDialogOpen}
 					closeDialog={() => this.closeDurationDialog()}

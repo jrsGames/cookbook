@@ -42,6 +42,7 @@ interface RecipeDetailsDialogProps {
 	recipe: Recipe | null,
 	onClickDuration: () => void,
 	onClickPhoto: () => void,
+	onClickPortions: () => void,
 	onClickNewLabelChip: () => void,
 	updateGlobalRecipe: (id: string, recipe: Recipe) => void,
 	setRecipe: (recipe: Recipe) => void
@@ -147,7 +148,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	}
 	
 	getPortionsLabel = () => {
-		return "1";
+		return this.props.recipe?.portions || 1;
 	}
 	
 	getImageName = () => {
@@ -256,7 +257,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	
 	onClickPortions = () => {
 		if(this.state.inEditMode) {
-			console.log("clicked portions");
+			this.props.onClickPortions();
 		}
 	}
 	
@@ -276,7 +277,6 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			}
 			if (event.ctrlKey && event.altKey) {
 				let expandButton: HTMLElement | null;
-				console.log(event.keyCode);
 				switch(event.keyCode) {
 					case 49: {
 						expandButton = document.getElementById("ExpandIngredients");
@@ -296,6 +296,10 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					}
 					case 68: {
 						expandButton = document.getElementById("RecipeDuration");
+						break;
+					}
+					case 80: {
+						expandButton = document.getElementById("RecipePortions");
 						break;
 					}
 					case 70: {

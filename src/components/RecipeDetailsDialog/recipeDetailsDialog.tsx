@@ -75,14 +75,11 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 	getDialogTitle = () => {
 		if(this.props.recipe) {
 			return this.state.inEditMode ?
-					<Tooltip title="Titel ( STRG + ALT + T )" TransitionComponent={Zoom}>
-						<TextField
-							id="RecipeTitle"
-							value={this.props.recipe.name}
-							variant="outlined"
-							onChange={(event) => this.setRecipeName(event.target.value)}
-						/>
-					</Tooltip>:
+					<TextField
+						value={this.props.recipe.name}
+						variant="outlined"
+						onChange={(event) => this.setRecipeName(event.target.value)}
+					/>:
 					<div className="RecipeDetailsTitle"> {this.props.recipe.name} </div>;
 		}
 		return "";
@@ -268,6 +265,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			}
 			if (event.ctrlKey && event.altKey) {
 				let expandButton: HTMLElement | null;
+				console.log(event.keyCode);
 				switch(event.keyCode) {
 					case 49: {
 						expandButton = document.getElementById("ExpandIngredients");
@@ -283,10 +281,6 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					}
 					case 52: {
 						expandButton = document.getElementById("ExpandNotes");
-						break;
-					}
-					case 84: {
-						expandButton = document.getElementById("RecipeTitle");
 						break;
 					}
 					case 68: {

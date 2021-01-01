@@ -85,7 +85,6 @@ export const isCookbook: (obj: any) => boolean = (obj) => {
 
 export const getRecipeTitleAndSize = (fullTitle: string) => {
 	const relLength = getRelativeTitleLength(fullTitle);
-	console.log(fullTitle, relLength);
 	if(relLength < 0.97) {
 		return { size: "medium", title: fullTitle};
 	}

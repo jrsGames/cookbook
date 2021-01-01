@@ -263,23 +263,23 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 			document.onkeyup = (event) => {
 				event.preventDefault();
 				if (this.state.openRecipeIndex === -1 && event.ctrlKey && event.altKey && searchField) {
-					switch(event.key) {
-						case "d": {
+					switch(event.keyCode) {
+						case 69: {
 							searchField.blur();
 							this.exportCookbook();
 							break;
 						}
-						case "n": {
+						case 78: {
 							searchField.blur();
 							this.addNewRecipe();
 							break;
 						}
-						case "f": {
+						case 70: {
 							searchField.blur();
 							this.openFilterDialog();
 							break;
 						}
-						case "t": {
+						case 84: {
 							searchField.click();
 						}
 					}
@@ -362,7 +362,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 								subTitle="Deine gesamten Aenderungen gehen dadurch verloren."
 								onConfirm={() => this.restoreCookbook()}
 							/>
-							<RightHandButton title="Kochbuch herunterladen ( STRG + ALT + D )" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
+							<RightHandButton title="Kochbuch herunterladen ( STRG + ALT + E )" onClick={() => this.exportCookbook()} icon={<GetAppIcon/>}/>
 						</div>
 					</Toolbar>
 				</AppBar>

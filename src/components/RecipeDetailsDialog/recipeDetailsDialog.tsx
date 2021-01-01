@@ -272,7 +272,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 			if (this.state.inEditMode && event.ctrlKey && event.altKey && event.key === "Enter") {
 				this.saveAndClose();
 			}
-			if (!this.state.inEditMode && event.ctrlKey && event.altKey && event.keyCode === 69) {
+			if (!this.state.inEditMode && event.ctrlKey && event.altKey && event.key === "b") {
 				this.setState({ inEditMode: true });
 			}
 			if (event.ctrlKey && event.altKey) {
@@ -350,7 +350,7 @@ class UnconnectedRecipeDetailsDialog extends React.Component<RecipeDetailsDialog
 					</Tooltip>
 					<div className="ActionButtons">
 						<Tooltip
-							title={this.state.inEditMode ? "Speichern und schliessen ( STRG + ALT + ENTER )" : "Bearbeiten ( STRG + ALT + E )"}
+							title={this.state.inEditMode ? "Speichern und schliessen ( STRG + ALT + ENTER )" : "Bearbeiten ( STRG + ALT + B )"}
 							TransitionComponent={Zoom}
 						>
 							<IconButton className={this.state.inEditMode ? "DoneButton" : "EditButton"} onClick={() => this.changeMode()}>

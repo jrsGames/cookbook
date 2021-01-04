@@ -367,7 +367,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 						</div>
 					</Toolbar>
 				</AppBar>
-				<div className="RecipeList">
+				<div className="RecipeList Disable-select">
 					<SortableComponent items={cookbook.recipes.map((recipe, index) => {
 						const isLast = index === cookbook.recipes.length - 1;
 						return <RecipeCard

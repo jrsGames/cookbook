@@ -11,10 +11,12 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-redux": "^7.1.7",
     "@types/redux": "^3.6.0",
+    "array-move": "^3.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
+    "react-sortable-hoc": "^1.11.0",
     "redux": "^4.0.5",
     "typescript": "^3.7.5"
   },

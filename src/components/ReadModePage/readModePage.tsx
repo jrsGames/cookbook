@@ -25,6 +25,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RestoreIcon from '@material-ui/icons/Restore';
 import HomeIcon from '@material-ui/icons/Home';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { SortableComponent } from '../SortableComponent/sortableComponent';
 
 
 export const getRecipeIndexById = (recipes: Recipe[], id: string) => 
@@ -367,7 +368,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 					</Toolbar>
 				</AppBar>
 				<div className="RecipeList">
-					{cookbook.recipes.map((recipe, index) => {
+					<SortableComponent items={cookbook.recipes.map((recipe, index) => {
 						const isLast = index === cookbook.recipes.length - 1;
 						return <RecipeCard
 									key={index}
@@ -380,7 +381,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 									swapping={this.state.toBeSwapped === recipe.id}
 									onDeleteClick={() => this.deleteRecipe(index)}
 								/>;
-					})}
+					})}/>
 				</div>
 				<RecipeDetails
 					recipe={
@@ -391,7 +392,7 @@ class UnconnectedReadModePage extends React.Component<ReadModePageProps, ReadMod
 					openInEditMode={this.state.openInEditMode}
 					index={this.state.openRecipeIndex}
 					closeDialog={() => this.closeDetailsDialog()}
-					/>
+				/>
 			</div>
 		);
 	}

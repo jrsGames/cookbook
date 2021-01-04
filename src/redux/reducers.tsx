@@ -26,11 +26,13 @@ import {
 	ACTION_SET_INCLUDE,
 	ACTION_SET_EXCLUDE,
 	ACTION_RESTORE_COOKBOOK,
-    ActionSetIngredientState,
-    ACTION_ADD_INGREDIENT,
-    ACTION_SET_FILE_NAME} from './actions';
+	ActionSetIngredientState,
+	ACTION_ADD_INGREDIENT,
+	ACTION_SET_FILE_NAME,
+	ACTION_MOVE_RECIPE} from './actions';
 import { getRecipeIndexById } from '../components/ReadModePage/readModePage';
 import { generateNewId, parseToCookbook } from '../components/UploadInput/uploadInput';
+import arrayMove from 'array-move';
 
 
 /* VIEWSTATE */
@@ -101,6 +103,14 @@ export function bookReducer(
 			const temp = newCookbook.recipes[firstRecipeIndex];
 			newCookbook.recipes[firstRecipeIndex] = newCookbook.recipes[secondRecipeIndex];
 			newCookbook.recipes[secondRecipeIndex] = temp;
+			return {
+				...state,
+				cookbook: newCookbook
+			};
+		}
+		case ACTION_MOVE_RECIPE: {
+			const newCookbook: Cookbook = JSON.parse(JSON.stringify(state.cookbook));
+			newCookbook.recipes = arrayMove(newCookbook.recipes, action.payload.oldIndex, action.payload.newIndex)
 			return {
 				...state,
 				cookbook: newCookbook

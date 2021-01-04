@@ -39,6 +39,11 @@ export interface ActionSwapRecipes {
 	firstRecipeId: string,
 	secondRecipeId: string
 }
+export const ACTION_MOVE_RECIPE = "moveRecipe";
+export interface ActionMoveRecipe {
+	oldIndex: number,
+	newIndex: number
+}
 export const ACTION_UPDATE_RECIPE = "updateRecipe";
 export interface ActionUpdateRecipe {
 	id: string,
@@ -54,6 +59,7 @@ export interface ActionSetBookState extends
 	ActionDeleteRecipe,
 	ActionCopyRecipe,
 	ActionSwapRecipes,
+	ActionMoveRecipe,
 	ActionUpdateRecipe {};
 export interface ActionSetFilterState {
 	labels: string[]

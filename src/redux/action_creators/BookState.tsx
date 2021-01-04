@@ -5,7 +5,8 @@ import {
 	ACTION_COPY_RECIPE,
 	ACTION_SWAP_RECIPES,
 	ACTION_UPDATE_RECIPE,
-	ACTION_RESTORE_COOKBOOK
+	ACTION_RESTORE_COOKBOOK,
+	ACTION_MOVE_RECIPE
 } from "../actions";
 import { Cookbook, Recipe } from "../initialState";
 
@@ -31,6 +32,10 @@ export const copyRecipe = (recipeId: string) => ({
 
 export const swapRecipes = (firstRecipeId: string, secondRecipeId: string) => ({
 	type: ACTION_SWAP_RECIPES, payload: {firstRecipeId, secondRecipeId}
+});
+
+export const moveRecipe = (oldIndex: number, newIndex: number) => ({
+	type: ACTION_MOVE_RECIPE, payload: {oldIndex, newIndex}
 });
 
 export const updateRecipe = (id: string, newRecipe: Recipe) => ({
